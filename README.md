@@ -2,7 +2,7 @@
 
 A simple network framework based on packet events. Example: 
 
-```
+```java
 package de.d3adspace.example;
 
 import de.d3adspace.skylla.commons.buffer.SkyllaBuffer;
