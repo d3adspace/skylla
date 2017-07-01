@@ -36,11 +36,31 @@ import io.netty.channel.ServerChannel;
  */
 public class SimpleSkyllaServer implements SkyllaServer {
 	
+	/**
+	 * The config for the server containing the address and the protocol
+	 */
 	private final SkyllaConfig config;
+	
+	/**
+	 * Netty boss group
+	 */
 	private EventLoopGroup bossGroup;
+	
+	/**
+	 * Netty worker group
+	 */
 	private EventLoopGroup workerGroup;
+	
+	/**
+	 * Server channel
+	 */
 	private Channel channel;
 	
+	/**
+	 * Create a new server based on the given config.
+	 *
+	 * @param config The config.
+	 */
 	SimpleSkyllaServer(SkyllaConfig config) {
 		this.config = config;
 	}
