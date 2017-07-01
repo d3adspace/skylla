@@ -52,11 +52,26 @@ public class SkyllaConfig {
 	 * @param serverPort The port.
 	 * @param protocol The protocol.
 	 */
-	protected SkyllaConfig(String serverHost, int serverPort,
-		Protocol protocol) {
+	SkyllaConfig(String serverHost, int serverPort, Protocol protocol) {
+		if (serverHost == null || serverHost.isEmpty()) {
+			throw new IllegalArgumentException("host cannot be null or empty");
+		}
+		
+		if (serverPort < 0) {
+			throw new IllegalArgumentException("severport cannot be under zero.");
+		}
+		
+		if (protocol == null) {
+			throw new IllegalArgumentException("protocol cannot be null");
+		}
+		
 		this.serverHost = serverHost;
 		this.serverPort = serverPort;
 		this.protocol = protocol;
+	}
+	
+	public static SkyllaConfigBuilder newBuilder() {
+		return new SkyllaConfigBuilder();
 	}
 	
 	/**
