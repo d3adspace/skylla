@@ -111,8 +111,10 @@ public class SkyllaSeverExample {
 	public static class ServerPacketHandlerExample implements PacketHandler {
 		
 		@PacketHandlerMethod
-		public void onPacketChat(ChatPacket chatPacket) {
+		public void onPacketChat(SkyllaConnection skyllaConnection, ChatPacket chatPacket) {
 			System.out.println("[Server] received: " + chatPacket);
+			
+			skyllaConnection.sendPackets(chatPacket);
 		}
 	}
 }
@@ -153,7 +155,7 @@ public class SkyllyClientExample {
 	public static class ClientPacketHandlerExample implements PacketHandler {
 		
 		@PacketHandlerMethod
-		public void onPacketChat(ChatPacket chatPacket) {
+		public void onPacketChat(SkyllaConnection skyllaConnection, ChatPacket chatPacket) {
 			System.out.println("[Client] received: " + chatPacket);
 		}
 	}
