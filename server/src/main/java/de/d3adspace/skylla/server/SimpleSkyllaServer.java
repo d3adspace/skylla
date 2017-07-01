@@ -108,6 +108,8 @@ public class SimpleSkyllaServer implements SkyllaServer {
 		this.channel.close();
 		this.bossGroup.shutdownGracefully();
 		this.workerGroup.shutdownGracefully();
+		
+		this.logger.info("Server stopped.");
 	}
 	
 	@Override
