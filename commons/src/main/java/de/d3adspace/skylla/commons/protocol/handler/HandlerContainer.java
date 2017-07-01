@@ -31,16 +31,30 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Container for Handlers.
+ *
  * @author Nathalie0hneHerz
  */
 public class HandlerContainer {
 	
+	/**
+	 * Registery for all methods to handle.
+	 */
 	private final Map<PacketHandler, List<Method>> registeredListeners;
 	
+	/**
+	 * Create a new container.
+	 */
 	public HandlerContainer() {
 		this.registeredListeners = new HashMap<>();
 	}
 	
+	/**
+	 * register a new method of a given handler.
+	 *
+	 * @param packetHandler The handler.
+	 * @param method The method.
+	 */
 	public void registerListenerMethod(PacketHandler packetHandler, Method method) {
 		if (!this.registeredListeners.containsKey(packetHandler)) {
 			this.registeredListeners.put(packetHandler, new ArrayList<>());
@@ -49,10 +63,21 @@ public class HandlerContainer {
 		this.registeredListeners.get(packetHandler).add(method);
 	}
 	
+	/**
+	 * Unregister all methods of a given handler.
+	 *
+	 * @param packetHandler The handler.
+	 */
 	public void unregisterHandler(PacketHandler packetHandler) {
 		this.registeredListeners.remove(packetHandler);
 	}
 	
+	/**
+	 * Handle an incoming packet.
+	 *
+	 * @param skyllaConnection The connection source.
+	 * @param packet The packet.
+	 */
 	public void handlePacket(SkyllaConnection skyllaConnection, SkyllaPacket packet) {
 		this.registeredListeners.forEach((handler, methods) -> methods.forEach(method -> {
 			try {

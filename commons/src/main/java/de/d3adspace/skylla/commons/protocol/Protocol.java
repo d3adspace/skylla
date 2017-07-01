@@ -32,30 +32,58 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Structuring network communication.
+ *
  * @author Nathalie0hneHerz
  */
 public class Protocol {
 	
+	/**
+	 * Registry for all known packets.
+	 */
 	private final Map<Byte, Class<? extends SkyllaPacket>> registeredPackets;
+	
+	/**
+	 * Registry for all known Handlers.
+	 */
 	private final Map<Class<? extends SkyllaPacket>, HandlerContainer> packetHandlers;
 	
+	/**
+	 * Create a new Protocol.
+	 */
 	public Protocol() {
 		this.registeredPackets = new HashMap<>();
 		this.packetHandlers = new HashMap<>();
 	}
 	
+	/**
+	 * Register a new packet.
+	 *
+	 * @param packetClazz The packet clazz.
+	 */
 	public void registerPacket(Class<? extends SkyllaPacket> packetClazz) {
 		SkyllaPacketMeta meta = packetClazz.getAnnotation(SkyllaPacketMeta.class);
 		
 		registeredPackets.put(meta.id(), packetClazz);
 	}
 	
+	/**
+	 * Unregister a new packet.
+	 *
+	 * @param packetClazz The packet clazz.
+	 */
 	public void unregisterPacket(Class<? extends SkyllaPacket> packetClazz) {
 		SkyllaPacketMeta meta = packetClazz.getAnnotation(SkyllaPacketMeta.class);
 		
 		registeredPackets.remove(meta.id());
 	}
 	
+	/**
+	 * Create a new packet by id.
+	 *
+	 * @param packetId The id.
+	 * @return The packet.
+	 */
 	public SkyllaPacket createPacket(byte packetId) {
 		Class<? extends SkyllaPacket> packetClazz = registeredPackets.get(packetId);
 		
@@ -68,6 +96,11 @@ public class Protocol {
 		return null;
 	}
 	
+	/**
+	 * Register a listener.
+	 *
+	 * @param packetHandler The handler.
+	 */
 	public void registerListener(PacketHandler packetHandler) {
 		Method[] declaredMethods = packetHandler.getClass().getDeclaredMethods();
 		
@@ -89,6 +122,11 @@ public class Protocol {
 		}
 	}
 	
+	/**
+	 * Unregister a listener.
+	 *
+	 * @param packetHandler The handler.
+	 */
 	public void unregisterListener(PacketHandler packetHandler) {
 		Method[] declaredMethods = packetHandler.getClass().getDeclaredMethods();
 		
@@ -103,11 +141,23 @@ public class Protocol {
 		}
 	}
 	
+	/**
+	 * Handle an incoming packet.
+	 *
+	 * @param skyllaConnection The connection.
+	 * @param packet The packet.
+	 */
 	public void handlePacket(SkyllaConnection skyllaConnection, SkyllaPacket packet) {
 		HandlerContainer handlerContainer = this.packetHandlers.get(packet.getClass());
 		handlerContainer.handlePacket(skyllaConnection, packet);
 	}
 	
+	/**
+	 * Get id by packet.
+	 *
+	 * @param packet The packet.
+	 * @return The id.
+	 */
 	public byte getPacketId(SkyllaPacket packet) {
 		return packet.getClass().getAnnotation(SkyllaPacketMeta.class).id();
 	}

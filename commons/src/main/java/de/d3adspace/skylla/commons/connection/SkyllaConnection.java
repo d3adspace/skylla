@@ -30,13 +30,28 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import java.io.IOException;
 
 /**
+ * Handling Netty connections.
+ *
  * @author Nathalie0hneHerz
  */
 public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> {
 	
+	/**
+	 * The underlying netty channel.
+	 */
 	private final Channel channel;
+	
+	/**
+	 * The protocol for communication.
+	 */
 	private final Protocol protocol;
 	
+	/**
+	 * Create a new connection wrapper.
+	 *
+	 * @param channel The channel.
+	 * @param protocol The protocol.
+	 */
 	public SkyllaConnection(Channel channel, Protocol protocol) {
 		this.channel = channel;
 		this.protocol = protocol;
@@ -59,6 +74,11 @@ public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> 
 		cause.printStackTrace();
 	}
 	
+	/**
+	 * Send one or more packets to the server.
+	 *
+	 * @param packets The packets.
+	 */
 	public void sendPackets(SkyllaPacket... packets) {
 		if (packets.length == 1) {
 			this.channel.writeAndFlush(packets[0]);
