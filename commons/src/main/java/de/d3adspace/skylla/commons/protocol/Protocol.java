@@ -64,6 +64,11 @@ public class Protocol {
 	public void registerPacket(Class<? extends SkyllaPacket> packetClazz) {
 		SkyllaPacketMeta meta = packetClazz.getAnnotation(SkyllaPacketMeta.class);
 		
+		if (meta == null) {
+			throw new IllegalArgumentException(
+				packetClazz + " does not have @SkyllaPacketMeta Annotation.");
+		}
+		
 		registeredPackets.put(meta.id(), packetClazz);
 	}
 	
@@ -74,6 +79,11 @@ public class Protocol {
 	 */
 	public void unregisterPacket(Class<? extends SkyllaPacket> packetClazz) {
 		SkyllaPacketMeta meta = packetClazz.getAnnotation(SkyllaPacketMeta.class);
+		
+		if (meta == null) {
+			throw new IllegalArgumentException(
+				packetClazz + " does not have @SkyllaPacketMeta Annotation.");
+		}
 		
 		registeredPackets.remove(meta.id());
 	}
