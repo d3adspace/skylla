@@ -95,5 +95,9 @@ public class SimpleSkyllaServer implements SkyllaServer {
 		this.workerGroup.shutdownGracefully();
 	}
 	
-	
+	@Override
+	public boolean isActive() {
+		return this.channel != null && this.channel.isActive();
+		
+	}
 }

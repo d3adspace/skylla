@@ -37,4 +37,6 @@ public interface SkyllaServer {
 	 * Stop the server.
 	 */
 	void stop();
+	
+	boolean isActive();
 }
