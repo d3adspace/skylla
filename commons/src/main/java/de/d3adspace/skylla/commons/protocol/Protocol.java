@@ -62,6 +62,10 @@ public class Protocol {
 	 * @param packetClazz The packet clazz.
 	 */
 	public void registerPacket(Class<? extends SkyllaPacket> packetClazz) {
+		if (packetClazz == null) {
+			throw new IllegalArgumentException("packetClazz cannot be null");
+		}
+		
 		SkyllaPacketMeta meta = packetClazz.getAnnotation(SkyllaPacketMeta.class);
 		
 		if (meta == null) {
@@ -78,6 +82,10 @@ public class Protocol {
 	 * @param packetClazz The packet clazz.
 	 */
 	public void unregisterPacket(Class<? extends SkyllaPacket> packetClazz) {
+		if (packetClazz == null) {
+			throw new IllegalArgumentException("packetClazz cannot be null");
+		}
+		
 		SkyllaPacketMeta meta = packetClazz.getAnnotation(SkyllaPacketMeta.class);
 		
 		if (meta == null) {
@@ -112,6 +120,10 @@ public class Protocol {
 	 * @param packetHandler The handler.
 	 */
 	public void registerListener(PacketHandler packetHandler) {
+		if (packetHandler == null) {
+			throw new IllegalArgumentException("packetHandler cannot be null");
+		}
+		
 		Method[] declaredMethods = packetHandler.getClass().getDeclaredMethods();
 		
 		for (Method method : declaredMethods) {
@@ -138,6 +150,10 @@ public class Protocol {
 	 * @param packetHandler The handler.
 	 */
 	public void unregisterListener(PacketHandler packetHandler) {
+		if (packetHandler == null) {
+			throw new IllegalArgumentException("packetHandler cannot be null");
+		}
+		
 		Method[] declaredMethods = packetHandler.getClass().getDeclaredMethods();
 		
 		for (Method method : declaredMethods) {
@@ -158,6 +174,14 @@ public class Protocol {
 	 * @param packet The packet.
 	 */
 	public void handlePacket(SkyllaConnection skyllaConnection, SkyllaPacket packet) {
+		if (skyllaConnection == null) {
+			throw new IllegalArgumentException("skyllaConnection cannot be null");
+		}
+		
+		if (packet == null) {
+			throw new IllegalArgumentException("packet cannot be null");
+		}
+		
 		HandlerContainer handlerContainer = this.packetHandlers.get(packet.getClass());
 		handlerContainer.handlePacket(skyllaConnection, packet);
 	}
@@ -169,6 +193,10 @@ public class Protocol {
 	 * @return The id.
 	 */
 	public byte getPacketId(SkyllaPacket packet) {
+		if (packet == null) {
+			throw new IllegalArgumentException("packet cannot be null");
+		}
+		
 		return packet.getClass().getAnnotation(SkyllaPacketMeta.class).id();
 	}
 }
