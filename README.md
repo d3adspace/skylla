@@ -2,6 +2,43 @@
 
 A simple network framework based on packet events. Example: 
 
+# Installation / Usage
+
+- Install [Maven](http://maven.apache.org/download.cgi)
+- Clone this repo
+- Installh: ```mvn clean install```
+
+**Maven dependencies**
+
+_Client:_
+```xml
+<dependency>
+    <groupId>de.d3adspace</groupId>
+    <artifactId>skylla-client</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+_Server:_
+```xml
+<dependency>
+    <groupId>de.d3adspace</groupId>
+    <artifactId>skylla-server</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+_Commons:_
+```xml
+<dependency>
+    <groupId>de.d3adspace</groupId>
+    <artifactId>skylla-commons</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+# Example
+
 ```java
 package de.d3adspace.example;
 
