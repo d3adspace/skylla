@@ -21,6 +21,8 @@
 
 package de.d3adspace.skylla.server;
 
+import org.slf4j.Logger;
+
 /**
  * Basic interface for all skylla servers.
  *
@@ -44,4 +46,11 @@ public interface SkyllaServer {
 	 * @return Server state.
 	 */
 	boolean isActive();
+	
+	/**
+	 * Get the Logger of the server.
+	 *
+	 * @return The logger.
+	 */
+	Logger getLogger();
 }

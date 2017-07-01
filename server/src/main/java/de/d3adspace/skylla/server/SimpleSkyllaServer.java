@@ -30,11 +30,18 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.ServerChannel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Nathalie0hneHerz
  */
 public class SimpleSkyllaServer implements SkyllaServer {
+	
+	/**
+	 * Basic Server logger
+	 */
+	private final Logger logger;
 	
 	/**
 	 * The config for the server containing the address and the protocol
@@ -63,10 +70,13 @@ public class SimpleSkyllaServer implements SkyllaServer {
 	 */
 	SimpleSkyllaServer(SkyllaConfig config) {
 		this.config = config;
+		this.logger = LoggerFactory.getLogger(SkyllaServer.class);
 	}
 	
 	@Override
 	public void start() {
+		this.logger.info("Starting Server.");
+		
 		this.bossGroup = NettyUtils.createEventLoopGroup(1);
 		this.workerGroup = NettyUtils.createEventLoopGroup(4);
 		
@@ -83,13 +93,18 @@ public class SimpleSkyllaServer implements SkyllaServer {
 				.option(ChannelOption.SO_BACKLOG, 4)
 				.bind(this.config.getServerHost(), this.config.getServerPort())
 				.sync().channel();
+			
+			this.logger.info("Server started on {}:{}", this.config.getServerHost(),
+				this.config.getServerPort());
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			this.logger.error("Server couldnt start, e");
 		}
 	}
 	
 	@Override
 	public void stop() {
+		this.logger.info("Stopping Server.");
+		
 		this.channel.close();
 		this.bossGroup.shutdownGracefully();
 		this.workerGroup.shutdownGracefully();
@@ -98,6 +113,10 @@ public class SimpleSkyllaServer implements SkyllaServer {
 	@Override
 	public boolean isActive() {
 		return this.channel != null && this.channel.isActive();
-		
+	}
+	
+	@Override
+	public Logger getLogger() {
+		return logger;
 	}
 }
