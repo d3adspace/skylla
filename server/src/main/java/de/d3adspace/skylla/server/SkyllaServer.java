@@ -38,5 +38,10 @@ public interface SkyllaServer {
 	 */
 	void stop();
 	
+	/**
+	 * Check if the server is running
+	 *
+	 * @return Server state.
+	 */
 	boolean isActive();
 }
