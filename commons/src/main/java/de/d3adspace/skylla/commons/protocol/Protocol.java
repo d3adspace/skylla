@@ -27,6 +27,7 @@ import de.d3adspace.skylla.commons.protocol.handler.PacketHandler;
 import de.d3adspace.skylla.commons.protocol.handler.PacketHandlerMethod;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacketMeta;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +35,7 @@ import java.util.Map;
 /**
  * Structuring network communication.
  *
- * @author Nathalie0hneHerz
+ * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
  */
 public class Protocol {
 	
@@ -64,6 +65,18 @@ public class Protocol {
 	public void registerPacket(Class<? extends SkyllaPacket> packetClazz) {
 		if (packetClazz == null) {
 			throw new IllegalArgumentException("packetClazz cannot be null");
+		}
+		
+		boolean noArgsConstructor = false;
+		for (Constructor<?> constructor : packetClazz.getConstructors()) {
+			if (constructor.getParameterCount() == 0) {
+				noArgsConstructor = true;
+			}
+		}
+		
+		if (!noArgsConstructor) {
+			throw new IllegalArgumentException(
+				packetClazz + " does not have a no args constructor.");
 		}
 		
 		SkyllaPacketMeta meta = packetClazz.getAnnotation(SkyllaPacketMeta.class);
@@ -104,6 +117,10 @@ public class Protocol {
 	 */
 	public SkyllaPacket createPacket(byte packetId) {
 		Class<? extends SkyllaPacket> packetClazz = registeredPackets.get(packetId);
+		
+		if (packetClazz == null) {
+			throw new IllegalStateException("No packet with id " + packetId);
+		}
 		
 		try {
 			return packetClazz.newInstance();
