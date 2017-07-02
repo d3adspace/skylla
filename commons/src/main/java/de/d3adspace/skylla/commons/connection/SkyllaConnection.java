@@ -66,7 +66,7 @@ public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> 
 	
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		if (cause.hashCode() == IOException.class.hashCode()) {
+		if (cause instanceof IOException) {
 			NettyUtils.closeWhenFlushed(this.channel);
 			return;
 		}
