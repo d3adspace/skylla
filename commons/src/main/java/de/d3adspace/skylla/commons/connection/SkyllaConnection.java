@@ -32,7 +32,7 @@ import java.io.IOException;
 /**
  * Handling Netty connections.
  *
- * @author Nathalie0hneHerz
+ * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
  */
 public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> {
 	
@@ -66,11 +66,18 @@ public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> 
 	
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		
+		/*
+		 * Handle IO Exception on disconnect.
+		 */
 		if (cause instanceof IOException) {
 			NettyUtils.closeWhenFlushed(this.channel);
 			return;
 		}
 		
+		/*
+		 * Print stacktrace if it isnt an IO Exception
+		 */
 		cause.printStackTrace();
 	}
 	
