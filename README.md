@@ -1,6 +1,6 @@
 # skylla
 
-A simple network framework based on packet events. Example: 
+A simple network framework based on packet events. First taken as a PROC we decided to publish this and develop some more features in the future in order to provider a lightweight but powerful framework for little network applications that want to outsource their network handling parts. 
 
 # Installation / Usage
 
