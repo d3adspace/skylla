@@ -31,9 +31,9 @@ import de.d3adspace.skylla.commons.protocol.handler.PacketHandler;
 import de.d3adspace.skylla.commons.protocol.handler.PacketHandlerMethod;
 
 /**
- * @author Nathalie0hneHerz
+ * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
  */
-public class SkyllyClientExample {
+public class SkyllaClientExample {
 	
 	public static void main(String[] args) {
 		Protocol protocol = new Protocol();
