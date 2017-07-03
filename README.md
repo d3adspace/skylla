@@ -6,7 +6,7 @@ A simple network framework based on packet events. First taken as a PROC we deci
 
 - Install [Maven](http://maven.apache.org/download.cgi)
 - Clone this repo
-- Installh: ```mvn clean install```
+- Instal: ```mvn clean install```
 
 **Maven dependencies**
 

@@ -24,8 +24,12 @@ package de.d3adspace.skylla.commons.buffer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.util.ByteProcessor;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -983,5 +987,35 @@ public class SkyllaBuffer extends ByteBuf {
 		
 		handle.writeInt(bytes.length);
 		handle.writeBytes(bytes);
+	}
+	
+	public Object readObject() {
+		int length = this.readInt();
+		byte[] bytes = new byte[length];
+		this.readBytes(bytes);
+		
+		try {
+			ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+			ObjectInputStream is = new ObjectInputStream(in);
+			return is.readObject();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public void writeObject(Object object) {
+		try {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			ObjectOutputStream os = new ObjectOutputStream(out);
+			os.writeObject(object);
+			byte[] bytes = out.toByteArray();
+			
+			this.writeInt(bytes.length);
+			this.writeBytes(bytes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
