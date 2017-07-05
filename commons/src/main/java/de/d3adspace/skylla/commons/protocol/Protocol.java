@@ -27,7 +27,7 @@ import de.d3adspace.skylla.commons.protocol.handler.PacketHandler;
 import de.d3adspace.skylla.commons.protocol.handler.PacketHandlerMethod;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacketMeta;
-import java.lang.reflect.Constructor;
+import de.d3adspace.skylla.commons.utils.ClassUtils;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,14 +70,7 @@ public class Protocol {
 			throw new IllegalArgumentException("packetClazz cannot be null");
 		}
 		
-		boolean noArgsConstructor = false;
-		for (Constructor<?> constructor : packetClazz.getConstructors()) {
-			if (constructor.getParameterCount() == 0) {
-				noArgsConstructor = true;
-			}
-		}
-		
-		if (!noArgsConstructor) {
+		if (!ClassUtils.hasNoArgsConstructor(packetClazz)) {
 			throw new IllegalArgumentException(
 				packetClazz + " does not have a no args constructor.");
 		}
