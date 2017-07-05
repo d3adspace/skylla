@@ -49,6 +49,9 @@ public class Protocol {
 	 */
 	private final Map<Class<? extends SkyllaPacket>, HandlerContainer> packetHandlers;
 	
+	/**
+	 * The container for all the packet meta
+	 */
 	private final PacketMetaContainer metaContainer;
 	
 	/**
