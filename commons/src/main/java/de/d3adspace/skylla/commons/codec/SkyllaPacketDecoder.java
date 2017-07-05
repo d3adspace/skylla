@@ -26,7 +26,7 @@ import de.d3adspace.skylla.commons.protocol.Protocol;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToMessageDecoder;
+import io.netty.handler.codec.ByteToMessageDecoder;
 import java.util.List;
 
 /**
@@ -34,7 +34,7 @@ import java.util.List;
  *
  * @author Nathalie0hneHerz
  */
-public class SkyllaPacketDecoder extends MessageToMessageDecoder<ByteBuf> {
+public class SkyllaPacketDecoder extends ByteToMessageDecoder {
 	
 	/**
 	 * The protocol to handle packets for.
