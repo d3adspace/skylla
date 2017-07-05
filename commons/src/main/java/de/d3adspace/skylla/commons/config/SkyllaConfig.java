@@ -58,7 +58,7 @@ public class SkyllaConfig {
 		}
 		
 		if (serverPort < 0) {
-			throw new IllegalArgumentException("severport cannot be under zero.");
+			throw new IllegalArgumentException("sever port cannot be under zero.");
 		}
 		
 		if (protocol == null) {
