@@ -49,12 +49,15 @@ public class Protocol {
 	 */
 	private final Map<Class<? extends SkyllaPacket>, HandlerContainer> packetHandlers;
 	
+	private final PacketMetaContainer metaContainer;
+	
 	/**
 	 * Create a new Protocol.
 	 */
 	public Protocol() {
 		this.registeredPackets = new HashMap<>();
 		this.packetHandlers = new HashMap<>();
+		this.metaContainer = new PacketMetaContainer();
 	}
 	
 	/**
@@ -80,6 +83,7 @@ public class Protocol {
 		}
 		
 		SkyllaPacketMeta meta = packetClazz.getAnnotation(SkyllaPacketMeta.class);
+		this.metaContainer.registerPacketMeta(packetClazz, meta);
 		
 		if (meta == null) {
 			throw new IllegalArgumentException(
@@ -99,7 +103,7 @@ public class Protocol {
 			throw new IllegalArgumentException("packetClazz cannot be null");
 		}
 		
-		SkyllaPacketMeta meta = packetClazz.getAnnotation(SkyllaPacketMeta.class);
+		SkyllaPacketMeta meta = this.metaContainer.getPacketMeta(packetClazz);
 		
 		if (meta == null) {
 			throw new IllegalArgumentException(
@@ -214,6 +218,6 @@ public class Protocol {
 			throw new IllegalArgumentException("packet cannot be null");
 		}
 		
-		return packet.getClass().getAnnotation(SkyllaPacketMeta.class).id();
+		return this.metaContainer.getPacketMeta(packet).id();
 	}
 }
