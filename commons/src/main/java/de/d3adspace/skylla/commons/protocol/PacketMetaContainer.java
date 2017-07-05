@@ -27,30 +27,61 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Container for meta to prevent lazy loading of meta.
+ *
  * @author Felix 'SasukeKawaii' Klauke
  */
 class PacketMetaContainer {
 	
+	/**
+	 * The underlying Map
+	 */
 	private final Map<Class<?>, SkyllaPacketMeta> metadata;
 	
+	/**
+	 * Create a new container by a map of known meta data.
+	 *
+	 * @param metadata The metadata.
+	 */
 	private PacketMetaContainer(
 		Map<Class<?>, SkyllaPacketMeta> metadata) {
 		this.metadata = metadata;
 	}
 	
+	/**
+	 * Create an empty container
+	 */
 	PacketMetaContainer() {
 		this(new HashMap<>());
 	}
 	
+	/**
+	 * Retrieve packet meta by a packet instance.
+	 *
+	 * @param skyllaPacket The packet.
+	 * @return The meta.
+	 */
 	SkyllaPacketMeta getPacketMeta(SkyllaPacket skyllaPacket) {
 		return this.getPacketMeta(skyllaPacket.getClass());
 	}
 	
+	/**
+	 * Get meta by a packet class.
+	 *
+	 * @param packetClazz The packet class.
+	 * @return The meta.
+	 */
 	SkyllaPacketMeta getPacketMeta(Class<?> packetClazz) {
 		return this.metadata
 			.computeIfAbsent(packetClazz, k -> packetClazz.getAnnotation(SkyllaPacketMeta.class));
 	}
 	
+	/**
+	 * Presave a meta to prevent lazy loading.
+	 *
+	 * @param packetClazz The packet class.
+	 * @param meta The meta.
+	 */
 	void registerPacketMeta(Class<?> packetClazz, SkyllaPacketMeta meta) {
 		this.metadata.put(packetClazz, meta);
 	}
