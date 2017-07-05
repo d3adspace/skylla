@@ -22,7 +22,6 @@
 package de.d3adspace.example;
 
 import de.d3adspace.skylla.commons.config.SkyllaConfig;
-import de.d3adspace.skylla.commons.config.SkyllaConfigBuilder;
 import de.d3adspace.skylla.commons.connection.SkyllaConnection;
 import de.d3adspace.skylla.commons.protocol.Protocol;
 import de.d3adspace.skylla.commons.protocol.handler.PacketHandler;
@@ -40,7 +39,7 @@ public class SkyllaSeverExample {
 		protocol.registerPacket(ChatPacket.class);
 		protocol.registerListener(new ServerPacketHandlerExample());
 		
-		SkyllaConfig config = new SkyllaConfigBuilder()
+		SkyllaConfig config = SkyllaConfig.newBuilder()
 			.setServerHost("localhost")
 			.setServerPort(1337)
 			.setProtocol(protocol)

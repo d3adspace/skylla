@@ -46,6 +46,13 @@ public class SkyllaConfigBuilder {
 	private Protocol protocol;
 	
 	/**
+	 * Prevent creation from outside package.
+	 */
+	SkyllaConfigBuilder() {
+	
+	}
+	
+	/**
 	 * Set the server host of skylla.
 	 *
 	 * @param serverHost The host.
