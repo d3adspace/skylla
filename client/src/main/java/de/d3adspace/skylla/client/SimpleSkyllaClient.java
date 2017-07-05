@@ -28,6 +28,7 @@ import de.d3adspace.skylla.commons.utils.NettyUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 
 /**
@@ -74,6 +75,8 @@ public class SimpleSkyllaClient implements SkyllaClient {
 			channel = bootstrap
 				.channel(channelClazz)
 				.group(this.workerGroup)
+				.option(ChannelOption.TCP_NODELAY, true)
+				//.option(ChannelOption.SO_BACKLOG, 4)
 				.handler(channelInitializer)
 				.connect(this.config.getServerHost(), this.config.getServerPort())
 				.sync().channel();
