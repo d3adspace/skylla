@@ -135,7 +135,7 @@ public class SkyllaSeverExample {
 		protocol.registerPacket(ChatPacket.class);
 		protocol.registerListener(new ServerPacketHandlerExample());
 		
-		SkyllaConfig config = new SkyllaConfigBuilder()
+		SkyllaConfig config = SkyllaConfig.newBuilder()
 			.setServerHost("localhost")
 			.setServerPort(1337)
 			.setProtocol(protocol)
@@ -177,7 +177,7 @@ public class SkyllyClientExample {
 		protocol.registerPacket(ChatPacket.class);
 		protocol.registerListener(new ClientPacketHandlerExample());
 		
-		SkyllaConfig config = new SkyllaConfigBuilder()
+		SkyllaConfig config = SkyllaConfig.newBuilder()
 			.setServerHost("localhost")
 			.setServerPort(1337)
 			.setProtocol(protocol)
