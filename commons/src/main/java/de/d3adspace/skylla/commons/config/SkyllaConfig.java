@@ -70,6 +70,11 @@ public class SkyllaConfig {
 		this.protocol = protocol;
 	}
 	
+	/**
+	 * Create a new builder for a config.
+	 *
+	 * @return The builder.
+	 */
 	public static SkyllaConfigBuilder newBuilder() {
 		return new SkyllaConfigBuilder();
 	}
