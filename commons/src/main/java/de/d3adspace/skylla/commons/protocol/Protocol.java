@@ -31,6 +31,8 @@ import de.d3adspace.skylla.commons.utils.ClassUtils;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Structuring network communication.
@@ -55,12 +57,18 @@ public class Protocol {
 	private final PacketMetaContainer metaContainer;
 	
 	/**
+	 * Logger for all protocol actions.
+	 */
+	private final Logger logger;
+	
+	/**
 	 * Create a new Protocol.
 	 */
 	public Protocol() {
 		this.registeredPackets = new HashMap<>();
 		this.packetHandlers = new HashMap<>();
 		this.metaContainer = new PacketMetaContainer();
+		this.logger = LoggerFactory.getLogger(Protocol.class);
 	}
 	
 	/**
@@ -79,14 +87,22 @@ public class Protocol {
 		}
 		
 		SkyllaPacketMeta meta = packetClazz.getAnnotation(SkyllaPacketMeta.class);
-		this.metaContainer.registerPacketMeta(packetClazz, meta);
 		
 		if (meta == null) {
 			throw new IllegalArgumentException(
 				packetClazz + " does not have @SkyllaPacketMeta Annotation.");
 		}
 		
-		registeredPackets.put(meta.id(), packetClazz);
+		if (this.registeredPackets.containsKey(meta.id())) {
+			throw new IllegalArgumentException("I already know a packet with the id " + meta.id());
+		}
+		
+		this.metaContainer.registerPacketMeta(packetClazz, meta);
+		
+		this.logger.info(
+			"Registering new Packet: " + packetClazz.getSimpleName() + " with id " + meta.id());
+		
+		this.registeredPackets.put(meta.id(), packetClazz);
 	}
 	
 	/**
@@ -122,13 +138,15 @@ public class Protocol {
 			throw new IllegalStateException("No packet with id " + packetId);
 		}
 		
+		SkyllaPacket packet = null;
+		
 		try {
-			return packetClazz.newInstance();
+			packet = packetClazz.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
+			this.logger.error("Unable to create packet with id " + packetId, e);
 		}
 		
-		return null;
+		return packet;
 	}
 	
 	/**
@@ -174,11 +192,14 @@ public class Protocol {
 		Method[] declaredMethods = packetHandler.getClass().getDeclaredMethods();
 		
 		for (Method method : declaredMethods) {
+			int parameterCount = method.getParameterCount();
+			Class<?> parameterClazz = method.getParameterTypes()[1];
+			
 			if (method.isAnnotationPresent(PacketHandlerMethod.class)
-				&& method.getParameterCount() == 1
-				&& method.getParameterTypes()[1].isAssignableFrom(SkyllaPacket.class)) {
+				&& parameterCount == 1
+				&& parameterClazz.isAssignableFrom(SkyllaPacket.class)) {
 				
-				this.packetHandlers.get(method.getParameterTypes()[1])
+				this.packetHandlers.get(parameterClazz)
 					.unregisterHandler(packetHandler);
 			}
 		}

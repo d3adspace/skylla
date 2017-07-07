@@ -59,12 +59,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>1.1.7</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
       <groupId>de.d3adspace</groupId>
       <artifactId>skylla-commons</artifactId>
       <version>1.0-SNAPSHOT</version>
