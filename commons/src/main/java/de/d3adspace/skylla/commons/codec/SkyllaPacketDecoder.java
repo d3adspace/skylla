@@ -30,9 +30,11 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import java.util.List;
 
 /**
- * Decoder for all Skyllapackets.
+ * Decoder for all Skyllapackets. The Decoder will try to read the packet id in order to create
+ * a new one by that id and send the created packet through the Pipeline. If the packet id is equal
+ * or under zero no actions will be triggered.
  *
- * @author Nathalie0hneHerz
+ * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
  */
 public class SkyllaPacketDecoder extends ByteToMessageDecoder {
 	
