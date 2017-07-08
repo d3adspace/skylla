@@ -91,7 +91,7 @@ public class SimpleSkyllaServer implements SkyllaServer {
 				.channel(serverChannelClazz)
 				.childHandler(channelInitializer)
 				.option(ChannelOption.TCP_NODELAY, true)
-				.option(ChannelOption.SO_BACKLOG, 4)
+				.option(ChannelOption.SO_BACKLOG, 50)
 				.bind(this.config.getServerHost(), this.config.getServerPort())
 				.sync().channel();
 			
