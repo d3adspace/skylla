@@ -27,6 +27,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Indicates that the annotated class is the packet skylla should handle.
+ *
  * @author Nathalie0hneHerz
  */
 @Retention(RetentionPolicy.RUNTIME)
