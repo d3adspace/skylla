@@ -76,7 +76,7 @@ public class SimpleSkyllaClient implements SkyllaClient {
 				.channel(channelClazz)
 				.group(this.workerGroup)
 				.option(ChannelOption.TCP_NODELAY, true)
-				.option(ChannelOption.SO_BACKLOG, 4)
+				.option(ChannelOption.SO_BACKLOG, 50)
 				.handler(channelInitializer)
 				.connect(this.config.getServerHost(), this.config.getServerPort())
 				.sync().channel();
