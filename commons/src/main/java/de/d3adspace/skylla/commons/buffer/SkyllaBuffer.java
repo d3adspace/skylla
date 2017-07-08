@@ -23,6 +23,7 @@ package de.d3adspace.skylla.commons.buffer;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.Unpooled;
 import io.netty.util.ByteProcessor;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -37,11 +38,13 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.GatheringByteChannel;
 import java.nio.channels.ScatteringByteChannel;
 import java.nio.charset.Charset;
+import java.util.UUID;
 
 /**
- * Wrapper for the netty bytebuf.
+ * Wrapper for the netty bytebuf. We want to be able to write custom data to a bytebuf without
+ * endless lines of encoding. To achieve this we wrap around nettys bytebuf.
  *
- * @author Nathalie0hneHerz
+ * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
  */
 public class SkyllaBuffer extends ByteBuf {
 	
@@ -50,8 +53,20 @@ public class SkyllaBuffer extends ByteBuf {
 	 */
 	private final ByteBuf handle;
 	
+	/**
+	 * Create a new buffer based on its bytebuf.
+	 *
+	 * @param handle The bytebuf.
+	 */
 	public SkyllaBuffer(ByteBuf handle) {
 		this.handle = handle;
+	}
+	
+	/**
+	 * Create an empty buffer.
+	 */
+	public SkyllaBuffer() {
+		this(Unpooled.buffer());
 	}
 	
 	@Override
@@ -1017,5 +1032,20 @@ public class SkyllaBuffer extends ByteBuf {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public UUID readUniqueId() {
+		long most = this.readLong();
+		long least = this.readLong();
+		
+		return new UUID(most, least);
+	}
+	
+	public void writeUniqueId(UUID uniqueId) {
+		long most = uniqueId.getMostSignificantBits();
+		long least = uniqueId.getLeastSignificantBits();
+		
+		this.writeLong(most);
+		this.writeLong(least);
 	}
 }
