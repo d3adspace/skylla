@@ -33,29 +33,29 @@ import de.d3adspace.skylla.commons.protocol.handler.PacketHandlerMethod;
  * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
  */
 public class SkyllaClientExample {
-	
-	public static void main(String[] args) {
-		Protocol protocol = new Protocol();
-		protocol.registerPacket(ChatPacket.class);
-		protocol.registerListener(new ClientPacketHandlerExample());
-		
-		SkyllaConfig config = SkyllaConfig.newBuilder()
-			.setServerHost("localhost")
-			.setServerPort(1337)
-			.setProtocol(protocol)
-			.createSkyllaConfig();
-		
-		SkyllaClient skyllaClient = SkyllaClientFactory.createSkyllaClient(config);
-		skyllaClient.connect();
-		
-		skyllaClient.sendPacket(new ChatPacket("[Sender #1]", "Hallo Welt!"));
-	}
-	
-	public static class ClientPacketHandlerExample implements PacketHandler {
-		
-		@PacketHandlerMethod
-		public void onPacketChat(SkyllaConnection skyllaConnection, ChatPacket chatPacket) {
-			System.out.println("[Client] received: " + chatPacket);
-		}
-	}
+
+    public static void main(String[] args) {
+        Protocol protocol = new Protocol();
+        protocol.registerPacket(ChatPacket.class);
+        protocol.registerListener(new ClientPacketHandlerExample());
+
+        SkyllaConfig config = SkyllaConfig.newBuilder()
+                .setServerHost("localhost")
+                .setServerPort(1337)
+                .setProtocol(protocol)
+                .createSkyllaConfig();
+
+        SkyllaClient skyllaClient = SkyllaClientFactory.createSkyllaClient(config);
+        skyllaClient.connect();
+
+        skyllaClient.sendPacket(new ChatPacket("[Sender #1]", "Hallo Welt!"));
+    }
+
+    public static class ClientPacketHandlerExample implements PacketHandler {
+
+        @PacketHandlerMethod
+        public void onPacketChat(SkyllaConnection skyllaConnection, ChatPacket chatPacket) {
+            System.out.println("[Client] received: " + chatPacket);
+        }
+    }
 }

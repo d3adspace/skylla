@@ -25,11 +25,7 @@ import de.d3adspace.skylla.commons.config.SkyllaConfig;
 import de.d3adspace.skylla.commons.initializer.SkyllaChannelInitializer;
 import de.d3adspace.skylla.commons.utils.NettyUtils;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.ServerChannel;
+import io.netty.channel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,89 +33,89 @@ import org.slf4j.LoggerFactory;
  * @author Nathalie0hneHerz
  */
 public class SimpleSkyllaServer implements SkyllaServer {
-	
-	/**
-	 * Basic Server logger
-	 */
-	private final Logger logger;
-	
-	/**
-	 * The config for the server containing the address and the protocol
-	 */
-	private final SkyllaConfig config;
-	
-	/**
-	 * Netty boss group
-	 */
-	private EventLoopGroup bossGroup;
-	
-	/**
-	 * Netty worker group
-	 */
-	private EventLoopGroup workerGroup;
-	
-	/**
-	 * Server channel
-	 */
-	private Channel channel;
-	
-	/**
-	 * Create a new server based on the given config.
-	 *
-	 * @param config The config.
-	 */
-	SimpleSkyllaServer(SkyllaConfig config) {
-		this.config = config;
-		this.logger = LoggerFactory.getLogger(SkyllaServer.class);
-	}
-	
-	@Override
-	public void start() {
-		this.logger.info("Starting Server.");
-		
-		this.bossGroup = NettyUtils.createEventLoopGroup(1);
-		this.workerGroup = NettyUtils.createEventLoopGroup(4);
-		
-		Class<? extends ServerChannel> serverChannelClazz = NettyUtils.getServerChannelClass();
-		ChannelHandler channelInitializer = new SkyllaChannelInitializer(config.getProtocol());
-		
-		ServerBootstrap serverBootstrap = new ServerBootstrap();
-		
-		try {
-			channel = serverBootstrap
-				.group(this.bossGroup, this.workerGroup)
-				.channel(serverChannelClazz)
-				.childHandler(channelInitializer)
-				.option(ChannelOption.TCP_NODELAY, true)
-				.option(ChannelOption.SO_BACKLOG, 50)
-				.bind(this.config.getServerHost(), this.config.getServerPort())
-				.sync().channel();
-			
-			this.logger.info("Server started on {}:{}", this.config.getServerHost(),
-				this.config.getServerPort());
-		} catch (InterruptedException e) {
-			this.logger.error("Server couldnt start, e");
-		}
-	}
-	
-	@Override
-	public void stop() {
-		this.logger.info("Stopping Server.");
-		
-		this.channel.close();
-		this.bossGroup.shutdownGracefully();
-		this.workerGroup.shutdownGracefully();
-		
-		this.logger.info("Server stopped.");
-	}
-	
-	@Override
-	public boolean isActive() {
-		return this.channel != null && this.channel.isActive();
-	}
-	
-	@Override
-	public Logger getLogger() {
-		return logger;
-	}
+
+    /**
+     * Basic Server logger
+     */
+    private final Logger logger;
+
+    /**
+     * The config for the server containing the address and the protocol
+     */
+    private final SkyllaConfig config;
+
+    /**
+     * Netty boss group
+     */
+    private EventLoopGroup bossGroup;
+
+    /**
+     * Netty worker group
+     */
+    private EventLoopGroup workerGroup;
+
+    /**
+     * Server channel
+     */
+    private Channel channel;
+
+    /**
+     * Create a new server based on the given config.
+     *
+     * @param config The config.
+     */
+    SimpleSkyllaServer(SkyllaConfig config) {
+        this.config = config;
+        this.logger = LoggerFactory.getLogger(SkyllaServer.class);
+    }
+
+    @Override
+    public void start() {
+        this.logger.info("Starting Server.");
+
+        this.bossGroup = NettyUtils.createEventLoopGroup(1);
+        this.workerGroup = NettyUtils.createEventLoopGroup(4);
+
+        Class<? extends ServerChannel> serverChannelClazz = NettyUtils.getServerChannelClass();
+        ChannelHandler channelInitializer = new SkyllaChannelInitializer(config.getProtocol());
+
+        ServerBootstrap serverBootstrap = new ServerBootstrap();
+
+        try {
+            channel = serverBootstrap
+                    .group(this.bossGroup, this.workerGroup)
+                    .channel(serverChannelClazz)
+                    .childHandler(channelInitializer)
+                    .option(ChannelOption.TCP_NODELAY, true)
+                    .option(ChannelOption.SO_BACKLOG, 50)
+                    .bind(this.config.getServerHost(), this.config.getServerPort())
+                    .sync().channel();
+
+            this.logger.info("Server started on {}:{}", this.config.getServerHost(),
+                    this.config.getServerPort());
+        } catch (InterruptedException e) {
+            this.logger.error("Server couldnt start, e");
+        }
+    }
+
+    @Override
+    public void stop() {
+        this.logger.info("Stopping Server.");
+
+        this.channel.close();
+        this.bossGroup.shutdownGracefully();
+        this.workerGroup.shutdownGracefully();
+
+        this.logger.info("Server stopped.");
+    }
+
+    @Override
+    public boolean isActive() {
+        return this.channel != null && this.channel.isActive();
+    }
+
+    @Override
+    public Logger getLogger() {
+        return logger;
+    }
 }

@@ -27,6 +27,7 @@ import de.d3adspace.skylla.commons.utils.NettyUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+
 import java.io.IOException;
 
 /**
@@ -35,67 +36,67 @@ import java.io.IOException;
  * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
  */
 public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> {
-	
-	/**
-	 * The underlying netty channel.
-	 */
-	private final Channel channel;
-	
-	/**
-	 * The protocol for communication.
-	 */
-	private final Protocol protocol;
-	
-	/**
-	 * Create a new connection wrapper.
-	 *
-	 * @param channel The channel.
-	 * @param protocol The protocol.
-	 */
-	public SkyllaConnection(Channel channel, Protocol protocol) {
-		this.channel = channel;
-		this.protocol = protocol;
-	}
-	
-	@Override
-	protected void channelRead0(ChannelHandlerContext channelHandlerContext, SkyllaPacket packet)
-		throws Exception {
-		
-		this.protocol.handlePacket(this, packet);
-	}
-	
-	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		
+
+    /**
+     * The underlying netty channel.
+     */
+    private final Channel channel;
+
+    /**
+     * The protocol for communication.
+     */
+    private final Protocol protocol;
+
+    /**
+     * Create a new connection wrapper.
+     *
+     * @param channel  The channel.
+     * @param protocol The protocol.
+     */
+    public SkyllaConnection(Channel channel, Protocol protocol) {
+        this.channel = channel;
+        this.protocol = protocol;
+    }
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, SkyllaPacket packet)
+            throws Exception {
+
+        this.protocol.handlePacket(this, packet);
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+
 		/*
 		 * Handle IO Exception on disconnect.
 		 */
-		if (cause instanceof IOException) {
-			NettyUtils.closeWhenFlushed(this.channel);
-			return;
-		}
-		
+        if (cause instanceof IOException) {
+            NettyUtils.closeWhenFlushed(this.channel);
+            return;
+        }
+
 		/*
 		 * Print stacktrace if it isnt an IO Exception
 		 */
-		cause.printStackTrace();
-	}
-	
-	/**
-	 * Send one or more packets to the server.
-	 *
-	 * @param packets The packets.
-	 */
-	public void sendPackets(SkyllaPacket... packets) {
-		if (packets.length == 1) {
-			this.channel.writeAndFlush(packets[0]);
-			return;
-		}
-		
-		for (SkyllaPacket packet : packets) {
-			this.channel.write(packet);
-		}
-		
-		this.channel.flush();
-	}
+        cause.printStackTrace();
+    }
+
+    /**
+     * Send one or more packets to the server.
+     *
+     * @param packets The packets.
+     */
+    public void sendPackets(SkyllaPacket... packets) {
+        if (packets.length == 1) {
+            this.channel.writeAndFlush(packets[0]);
+            return;
+        }
+
+        for (SkyllaPacket packet : packets) {
+            this.channel.write(packet);
+        }
+
+        this.channel.flush();
+    }
 }

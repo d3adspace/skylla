@@ -29,116 +29,116 @@ import de.d3adspace.skylla.commons.protocol.Protocol;
  * @author Nathalie0hneHerz
  */
 public class SkyllaConfig {
-	
-	/**
-	 * The host of the skylla server.
-	 */
-	private String serverHost;
-	
-	/**
-	 * The port of the skylla server.
-	 */
-	private int serverPort;
-	
-	/**
-	 * The protocol for the communication.
-	 */
-	private Protocol protocol;
-	
-	/**
-	 * Create a new config.
-	 *
-	 * @param serverHost The host.
-	 * @param serverPort The port.
-	 * @param protocol The protocol.
-	 */
-	SkyllaConfig(String serverHost, int serverPort, Protocol protocol) {
-		if (serverHost == null || serverHost.isEmpty()) {
-			throw new IllegalArgumentException("host cannot be null or empty");
-		}
-		
-		if (serverPort < 0) {
-			throw new IllegalArgumentException("sever port cannot be under zero.");
-		}
-		
-		if (protocol == null) {
-			throw new IllegalArgumentException("protocol cannot be null");
-		}
-		
-		this.serverHost = serverHost;
-		this.serverPort = serverPort;
-		this.protocol = protocol;
-	}
-	
-	/**
-	 * Create a new builder for a config.
-	 *
-	 * @return The builder.
-	 */
-	public static SkyllaConfigBuilder newBuilder() {
-		return new SkyllaConfigBuilder();
-	}
-	
-	/**
-	 * Get the host of the skylla server.
-	 *
-	 * @return The host.
-	 */
-	public String getServerHost() {
-		return serverHost;
-	}
-	
-	/**
-	 * Set the host of the server.
-	 *
-	 * @param serverHost The host.
-	 */
-	public void setServerHost(String serverHost) {
-		this.serverHost = serverHost;
-	}
-	
-	/**
-	 * Get the port of the server.
-	 *
-	 * @return The port.
-	 */
-	public int getServerPort() {
-		return serverPort;
-	}
-	
-	/**
-	 * Set the port of the server.
-	 *
-	 * @param serverPort The port.
-	 */
-	public void setServerPort(int serverPort) {
-		this.serverPort = serverPort;
-	}
-	
-	/**
-	 * Get the protocol for communication.
-	 *
-	 * @return The protocol.
-	 */
-	public Protocol getProtocol() {
-		return protocol;
-	}
-	
-	/**
-	 * Set the protocol
-	 *
-	 * @param protocol The protocol.
-	 */
-	public void setProtocol(Protocol protocol) {
-		this.protocol = protocol;
-	}
-	
-	@Override
-	public String toString() {
-		return "SkyllaConfig{" +
-			"serverHost='" + serverHost + '\'' +
-			", serverPort=" + serverPort +
-			", protocol=" + protocol +
-			'}';
-	}
+
+    /**
+     * The host of the skylla server.
+     */
+    private String serverHost;
+
+    /**
+     * The port of the skylla server.
+     */
+    private int serverPort;
+
+    /**
+     * The protocol for the communication.
+     */
+    private Protocol protocol;
+
+    /**
+     * Create a new config.
+     *
+     * @param serverHost The host.
+     * @param serverPort The port.
+     * @param protocol   The protocol.
+     */
+    SkyllaConfig(String serverHost, int serverPort, Protocol protocol) {
+        if (serverHost == null || serverHost.isEmpty()) {
+            throw new IllegalArgumentException("host cannot be null or empty");
+        }
+
+        if (serverPort < 0) {
+            throw new IllegalArgumentException("sever port cannot be under zero.");
+        }
+
+        if (protocol == null) {
+            throw new IllegalArgumentException("protocol cannot be null");
+        }
+
+        this.serverHost = serverHost;
+        this.serverPort = serverPort;
+        this.protocol = protocol;
+    }
+
+    /**
+     * Create a new builder for a config.
+     *
+     * @return The builder.
+     */
+    public static SkyllaConfigBuilder newBuilder() {
+        return new SkyllaConfigBuilder();
+    }
+
+    /**
+     * Get the host of the skylla server.
+     *
+     * @return The host.
+     */
+    public String getServerHost() {
+        return serverHost;
+    }
+
+    /**
+     * Set the host of the server.
+     *
+     * @param serverHost The host.
+     */
+    public void setServerHost(String serverHost) {
+        this.serverHost = serverHost;
+    }
+
+    /**
+     * Get the port of the server.
+     *
+     * @return The port.
+     */
+    public int getServerPort() {
+        return serverPort;
+    }
+
+    /**
+     * Set the port of the server.
+     *
+     * @param serverPort The port.
+     */
+    public void setServerPort(int serverPort) {
+        this.serverPort = serverPort;
+    }
+
+    /**
+     * Get the protocol for communication.
+     *
+     * @return The protocol.
+     */
+    public Protocol getProtocol() {
+        return protocol;
+    }
+
+    /**
+     * Set the protocol
+     *
+     * @param protocol The protocol.
+     */
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
+    }
+
+    @Override
+    public String toString() {
+        return "SkyllaConfig{" +
+                "serverHost='" + serverHost + '\'' +
+                ", serverPort=" + serverPort +
+                ", protocol=" + protocol +
+                '}';
+    }
 }

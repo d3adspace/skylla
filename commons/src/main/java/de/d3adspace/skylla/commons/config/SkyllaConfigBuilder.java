@@ -29,68 +29,68 @@ import de.d3adspace.skylla.commons.protocol.Protocol;
  * @author Nathalie0hneHerz
  */
 public class SkyllaConfigBuilder {
-	
-	/**
-	 * The host of the skylla server.
-	 */
-	private String serverHost;
-	
-	/**
-	 * The port of the skylla server.
-	 */
-	private int serverPort;
-	
-	/**
-	 * The protocol for the communication.
-	 */
-	private Protocol protocol;
-	
-	/**
-	 * Prevent creation from outside package.
-	 */
-	SkyllaConfigBuilder() {
-	
-	}
-	
-	/**
-	 * Set the server host of skylla.
-	 *
-	 * @param serverHost The host.
-	 * @return The builder.
-	 */
-	public SkyllaConfigBuilder setServerHost(String serverHost) {
-		this.serverHost = serverHost;
-		return this;
-	}
-	
-	/**
-	 * Set the server port of skylla.
-	 *
-	 * @param serverPort The port.
-	 * @return The builder.
-	 */
-	public SkyllaConfigBuilder setServerPort(int serverPort) {
-		this.serverPort = serverPort;
-		return this;
-	}
-	
-	/**
-	 * Set the protocol for communication.
-	 *
-	 * @param protocol The protocol.
-	 * @return The builder.
-	 */
-	public SkyllaConfigBuilder setProtocol(Protocol protocol) {
-		this.protocol = protocol;
-		return this;
-	}
-	
-	/**
-	 * Build the resulting skylla config.
-	 *
-	 * @return The config.
-	 */
-	public SkyllaConfig createSkyllaConfig() {
-		return new SkyllaConfig(serverHost, serverPort, protocol);
-	}
+
+    /**
+     * The host of the skylla server.
+     */
+    private String serverHost;
+
+    /**
+     * The port of the skylla server.
+     */
+    private int serverPort;
+
+    /**
+     * The protocol for the communication.
+     */
+    private Protocol protocol;
+
+    /**
+     * Prevent creation from outside package.
+     */
+    SkyllaConfigBuilder() {
+
+    }
+
+    /**
+     * Set the server host of skylla.
+     *
+     * @param serverHost The host.
+     * @return The builder.
+     */
+    public SkyllaConfigBuilder setServerHost(String serverHost) {
+        this.serverHost = serverHost;
+        return this;
+    }
+
+    /**
+     * Set the server port of skylla.
+     *
+     * @param serverPort The port.
+     * @return The builder.
+     */
+    public SkyllaConfigBuilder setServerPort(int serverPort) {
+        this.serverPort = serverPort;
+        return this;
+    }
+
+    /**
+     * Set the protocol for communication.
+     *
+     * @param protocol The protocol.
+     * @return The builder.
+     */
+    public SkyllaConfigBuilder setProtocol(Protocol protocol) {
+        this.protocol = protocol;
+        return this;
+    }
+
+    /**
+     * Build the resulting skylla config.
+     *
+     * @return The config.
+     */
+    public SkyllaConfig createSkyllaConfig() {
+        return new SkyllaConfig(serverHost, serverPort, protocol);
+    }
 }

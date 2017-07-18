@@ -29,21 +29,21 @@ import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
  * @author Nathalie0hneHerz
  */
 public interface SkyllaClient {
-	
-	/**
-	 * Connect to the server.
-	 */
-	void connect();
-	
-	/**
-	 * Disconnect from the server.
-	 */
-	void disconnect();
-	
-	/**
-	 * Send a packet to the server.
-	 *
-	 * @param packet The packet.
-	 */
-	void sendPacket(SkyllaPacket packet);
+
+    /**
+     * Connect to the server.
+     */
+    void connect();
+
+    /**
+     * Disconnect from the server.
+     */
+    void disconnect();
+
+    /**
+     * Send a packet to the server.
+     *
+     * @param packet The packet.
+     */
+    void sendPacket(SkyllaPacket packet);
 }

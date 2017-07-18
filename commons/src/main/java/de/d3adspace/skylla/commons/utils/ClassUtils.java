@@ -27,15 +27,15 @@ import java.lang.reflect.Constructor;
  * @author Felix 'SasukeKawaii' Klauke
  */
 public class ClassUtils {
-	
-	public static boolean hasNoArgsConstructor(Class clazz) {
-		boolean noArgsConstructor = false;
-		for (Constructor<?> constructor : clazz.getConstructors()) {
-			if (constructor.getParameterCount() == 0) {
-				noArgsConstructor = true;
-			}
-		}
-		
-		return noArgsConstructor;
-	}
+
+    public static boolean hasNoArgsConstructor(Class clazz) {
+        boolean noArgsConstructor = false;
+        for (Constructor<?> constructor : clazz.getConstructors()) {
+            if (constructor.getParameterCount() == 0) {
+                noArgsConstructor = true;
+            }
+        }
+
+        return noArgsConstructor;
+    }
 }

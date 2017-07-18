@@ -37,62 +37,62 @@ import io.netty.channel.EventLoopGroup;
  * @author Nathalie0hneHerz
  */
 public class SimpleSkyllaClient implements SkyllaClient {
-	
-	/**
-	 * Config providing server adress
-	 */
-	private final SkyllaConfig config;
-	
-	/**
-	 * Worker group for netty.
-	 */
-	private EventLoopGroup workerGroup;
-	
-	/**
-	 * Channel to communicate with the server
-	 */
-	private Channel channel;
-	
-	/**
-	 * Create a new client
-	 *
-	 * @param config The config.
-	 */
-	SimpleSkyllaClient(SkyllaConfig config) {
-		this.config = config;
-	}
-	
-	@Override
-	public void connect() {
-		this.workerGroup = NettyUtils.createEventLoopGroup(4);
-		
-		Class<? extends Channel> channelClazz = NettyUtils.getChannel();
-		ChannelHandler channelInitializer = new SkyllaChannelInitializer(this.config.getProtocol());
-		
-		Bootstrap bootstrap = new Bootstrap();
-		
-		try {
-			channel = bootstrap
-				.channel(channelClazz)
-				.group(this.workerGroup)
-				.option(ChannelOption.TCP_NODELAY, true)
-				.option(ChannelOption.SO_BACKLOG, 50)
-				.handler(channelInitializer)
-				.connect(this.config.getServerHost(), this.config.getServerPort())
-				.sync().channel();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void disconnect() {
-		this.channel.close();
-		this.workerGroup.shutdownGracefully();
-	}
-	
-	@Override
-	public void sendPacket(SkyllaPacket packet) {
-		this.channel.writeAndFlush(packet);
-	}
+
+    /**
+     * Config providing server adress
+     */
+    private final SkyllaConfig config;
+
+    /**
+     * Worker group for netty.
+     */
+    private EventLoopGroup workerGroup;
+
+    /**
+     * Channel to communicate with the server
+     */
+    private Channel channel;
+
+    /**
+     * Create a new client
+     *
+     * @param config The config.
+     */
+    SimpleSkyllaClient(SkyllaConfig config) {
+        this.config = config;
+    }
+
+    @Override
+    public void connect() {
+        this.workerGroup = NettyUtils.createEventLoopGroup(4);
+
+        Class<? extends Channel> channelClazz = NettyUtils.getChannel();
+        ChannelHandler channelInitializer = new SkyllaChannelInitializer(this.config.getProtocol());
+
+        Bootstrap bootstrap = new Bootstrap();
+
+        try {
+            channel = bootstrap
+                    .channel(channelClazz)
+                    .group(this.workerGroup)
+                    .option(ChannelOption.TCP_NODELAY, true)
+                    .option(ChannelOption.SO_BACKLOG, 50)
+                    .handler(channelInitializer)
+                    .connect(this.config.getServerHost(), this.config.getServerPort())
+                    .sync().channel();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void disconnect() {
+        this.channel.close();
+        this.workerGroup.shutdownGracefully();
+    }
+
+    @Override
+    public void sendPacket(SkyllaPacket packet) {
+        this.channel.writeAndFlush(packet);
+    }
 }

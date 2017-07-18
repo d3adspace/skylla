@@ -29,28 +29,28 @@ import org.slf4j.Logger;
  * @author Nathalie0hneHerz
  */
 public interface SkyllaServer {
-	
-	/**
-	 * Start the server.
-	 */
-	void start();
-	
-	/**
-	 * Stop the server.
-	 */
-	void stop();
-	
-	/**
-	 * Check if the server is running
-	 *
-	 * @return Server state.
-	 */
-	boolean isActive();
-	
-	/**
-	 * Get the Logger of the server.
-	 *
-	 * @return The logger.
-	 */
-	Logger getLogger();
+
+    /**
+     * Start the server.
+     */
+    void start();
+
+    /**
+     * Stop the server.
+     */
+    void stop();
+
+    /**
+     * Check if the server is running
+     *
+     * @return Server state.
+     */
+    boolean isActive();
+
+    /**
+     * Get the Logger of the server.
+     *
+     * @return The logger.
+     */
+    Logger getLogger();
 }

@@ -34,31 +34,31 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * @author Nathalie0hneHerz
  */
 public class SkyllaPacketEncoder extends MessageToByteEncoder<SkyllaPacket> {
-	
-	/**
-	 * The protocol to handle packets for.
-	 */
-	private final Protocol protocol;
-	
-	/**
-	 * Create a new encoder.
-	 *
-	 * @param protocol The protocol.
-	 */
-	public SkyllaPacketEncoder(Protocol protocol) {
-		this.protocol = protocol;
-	}
-	
-	@Override
-	protected void encode(ChannelHandlerContext channelHandlerContext, SkyllaPacket packet,
-		ByteBuf byteBuf) throws Exception {
-		
-		byte packetId = this.protocol.getPacketId(packet);
-		
-		// write packet id
-		byteBuf.writeByte(packetId);
-		
-		// Encode Packet
-		packet.write(new SkyllaBuffer(byteBuf));
-	}
+
+    /**
+     * The protocol to handle packets for.
+     */
+    private final Protocol protocol;
+
+    /**
+     * Create a new encoder.
+     *
+     * @param protocol The protocol.
+     */
+    public SkyllaPacketEncoder(Protocol protocol) {
+        this.protocol = protocol;
+    }
+
+    @Override
+    protected void encode(ChannelHandlerContext channelHandlerContext, SkyllaPacket packet,
+                          ByteBuf byteBuf) throws Exception {
+
+        byte packetId = this.protocol.getPacketId(packet);
+
+        // write packet id
+        byteBuf.writeByte(packetId);
+
+        // Encode Packet
+        packet.write(new SkyllaBuffer(byteBuf));
+    }
 }

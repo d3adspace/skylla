@@ -34,11 +34,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface SkyllaPacketMeta {
-	
-	/**
-	 * Id of a packet.
-	 *
-	 * @return The id.
-	 */
-	byte id() default -1;
+
+    /**
+     * Id of a packet.
+     *
+     * @return The id.
+     */
+    byte id() default -1;
 }

@@ -27,6 +27,7 @@ import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+
 import java.util.List;
 
 /**
@@ -36,32 +37,32 @@ import java.util.List;
  * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
  */
 public class SkyllaPacketDecoder extends ByteToMessageDecoder {
-	
-	/**
-	 * The protocol to handle packets for.
-	 */
-	private final Protocol protocol;
-	
-	/**
-	 * Create a new decoder.
-	 *
-	 * @param protocol The protocol.
-	 */
-	public SkyllaPacketDecoder(Protocol protocol) {
-		this.protocol = protocol;
-	}
-	
-	@Override
-	protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf,
-		List<Object> list) throws Exception {
-		
-		if (byteBuf.readInt() > 0) {
-			byte packetId = byteBuf.readByte();
-			
-			SkyllaPacket packet = this.protocol.createPacket(packetId);
-			packet.read(new SkyllaBuffer(byteBuf));
-			
-			list.add(packet);
-		}
-	}
+
+    /**
+     * The protocol to handle packets for.
+     */
+    private final Protocol protocol;
+
+    /**
+     * Create a new decoder.
+     *
+     * @param protocol The protocol.
+     */
+    public SkyllaPacketDecoder(Protocol protocol) {
+        this.protocol = protocol;
+    }
+
+    @Override
+    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf,
+                          List<Object> list) throws Exception {
+
+        if (byteBuf.readInt() > 0) {
+            byte packetId = byteBuf.readByte();
+
+            SkyllaPacket packet = this.protocol.createPacket(packetId);
+            packet.read(new SkyllaBuffer(byteBuf));
+
+            list.add(packet);
+        }
+    }
 }

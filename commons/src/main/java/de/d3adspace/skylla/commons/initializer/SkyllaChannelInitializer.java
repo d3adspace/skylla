@@ -35,38 +35,38 @@ import io.netty.channel.socket.SocketChannel;
  * @author Nathalie0hneHerz
  */
 public class SkyllaChannelInitializer extends ChannelInitializer<SocketChannel> {
-	
-	/**
-	 * The protocol for communication.
-	 */
-	private final Protocol protocol;
-	
-	/**
-	 * Create a new initializer.
-	 *
-	 * @param protocol The protocol.
-	 */
-	public SkyllaChannelInitializer(Protocol protocol) {
-		this.protocol = protocol;
-	}
-	
-	@Override
-	protected void initChannel(SocketChannel socketChannel) throws Exception {
-		ChannelPipeline pipeline = socketChannel.pipeline();
-		
-		ChannelHandler lengthFieldBasedFrameDecoder = NettyUtils.createLengthFieldBasedFrameDecoder(32768, 0, 4);
-		pipeline.addLast(lengthFieldBasedFrameDecoder);
-		
-		ChannelHandler packetDecoder = new SkyllaPacketDecoder(this.protocol);
-		pipeline.addLast(packetDecoder);
-		
-		ChannelHandler lengthFieldPrepender = NettyUtils.createLengthFieldPrepender(4);
-		pipeline.addLast(lengthFieldPrepender);
-		
-		ChannelHandler packetEncoder = new SkyllaPacketEncoder(this.protocol);
-		pipeline.addLast(packetEncoder);
-		
-		ChannelHandler packetHandler = new SkyllaConnection(socketChannel, this.protocol);
-		pipeline.addLast(packetHandler);
-	}
+
+    /**
+     * The protocol for communication.
+     */
+    private final Protocol protocol;
+
+    /**
+     * Create a new initializer.
+     *
+     * @param protocol The protocol.
+     */
+    public SkyllaChannelInitializer(Protocol protocol) {
+        this.protocol = protocol;
+    }
+
+    @Override
+    protected void initChannel(SocketChannel socketChannel) throws Exception {
+        ChannelPipeline pipeline = socketChannel.pipeline();
+
+        ChannelHandler lengthFieldBasedFrameDecoder = NettyUtils.createLengthFieldBasedFrameDecoder(32768, 0, 4);
+        pipeline.addLast(lengthFieldBasedFrameDecoder);
+
+        ChannelHandler packetDecoder = new SkyllaPacketDecoder(this.protocol);
+        pipeline.addLast(packetDecoder);
+
+        ChannelHandler lengthFieldPrepender = NettyUtils.createLengthFieldPrepender(4);
+        pipeline.addLast(lengthFieldPrepender);
+
+        ChannelHandler packetEncoder = new SkyllaPacketEncoder(this.protocol);
+        pipeline.addLast(packetEncoder);
+
+        ChannelHandler packetHandler = new SkyllaConnection(socketChannel, this.protocol);
+        pipeline.addLast(packetHandler);
+    }
 }

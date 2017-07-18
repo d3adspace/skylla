@@ -27,18 +27,18 @@ import de.d3adspace.skylla.commons.buffer.SkyllaBuffer;
  * @author Nathalie0hneHerz
  */
 public abstract class SkyllaPacket {
-	
-	/**
-	 * Write a packet to the given buffer.
-	 *
-	 * @param buffer The buffer.
-	 */
-	public abstract void write(SkyllaBuffer buffer);
-	
-	/**
-	 * Read a packet from a buffer.
-	 *
-	 * @param buffer The buffer.
-	 */
-	public abstract void read(SkyllaBuffer buffer);
+
+    /**
+     * Write a packet to the given buffer.
+     *
+     * @param buffer The buffer.
+     */
+    public abstract void write(SkyllaBuffer buffer);
+
+    /**
+     * Read a packet from a buffer.
+     *
+     * @param buffer The buffer.
+     */
+    public abstract void read(SkyllaBuffer buffer);
 }
