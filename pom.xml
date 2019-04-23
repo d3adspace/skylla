@@ -28,13 +28,29 @@
     <groupId>de.d3adspace</groupId>
     <artifactId>skylla-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <modules>
         <module>client</module>
         <module>commons</module>
         <module>server</module>
         <module>example</module>
     </modules>
+
+    <repositories>
+
+        <repository>
+            <id>klauke-enterprises-maven-releases</id>
+            <name>Klauke Enterprises Maven Releases</name>
+            <url>https://repository.klauke-enterprises.com/repository/maven-releases/</url>
+        </repository>
+
+        <repository>
+            <id>klauke-enterprises-maven-snapshots</id>
+            <name>Klauke Enterprises Maven Snapshots</name>
+            <url>https://repository.klauke-enterprises.com/repository/maven-snapshots/</url>
+        </repository>
+
+    </repositories>
 
     <distributionManagement>
         <repository>
