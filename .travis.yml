@@ -28,7 +28,7 @@ deploy:
   provider: script
   script: mvn deploy --settings deploy/maven-settings.xml
   on:
-    tags: true
+    branch: master
 
 ###################
 ### Environment ###
