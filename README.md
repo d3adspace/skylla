@@ -15,7 +15,7 @@ _Client:_
 <dependency>
     <groupId>de.d3adspace</groupId>
     <artifactId>skylla-client</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -24,7 +24,7 @@ _Server:_
 <dependency>
     <groupId>de.d3adspace</groupId>
     <artifactId>skylla-server</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -33,7 +33,7 @@ _Commons:_
 <dependency>
     <groupId>de.d3adspace</groupId>
     <artifactId>skylla-commons</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 

@@ -26,7 +26,7 @@
     <parent>
         <artifactId>skylla-parent</artifactId>
         <groupId>de.d3adspace</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -68,14 +68,14 @@
         <dependency>
             <groupId>de.d3adspace</groupId>
             <artifactId>skylla-client</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
 
         <!-- Skylla Server -->
         <dependency>
             <groupId>de.d3adspace</groupId>
             <artifactId>skylla-server</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 
