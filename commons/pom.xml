@@ -63,17 +63,20 @@
     </build>
 
     <dependencies>
+
+        <!-- Logback -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.1.7</version>
             <scope>compile</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+
+        <!-- Netty -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.12.Final</version>
+            <version>4.1.35.Final</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
