@@ -10,6 +10,26 @@ A simple network framework based on packet events. First taken as a PROC we deci
 
 **Maven dependencies**
 
+_Repositories_:
+```xml
+<repositories>
+
+    <!-- Klauke Enterprises Releases -->
+    <repository>
+        <id>klauke-enterprises-maven-releases</id>
+        <name>Klauke Enterprises Maven Releases</name>
+        <url>https://repository.klauke-enterprises.com/repository/maven-releases/</url>
+    </repository>
+	
+    <!-- Klauke Enterprises Snapshots -->
+    <repository>
+        <id>klauke-enterprises-maven-snapshots</id>
+        <name>Klauke Enterprises Maven Snapshots</name>
+        <url>https://repository.klauke-enterprises.com/repository/maven-snapshots/</url>
+    </repository>
+</repositories>
+```
+
 _Client:_
 ```xml
 <dependency>
