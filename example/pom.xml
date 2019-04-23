@@ -67,14 +67,14 @@
 
         <!-- Skylla Client -->
         <dependency>
-            <groupId>de.d3adspace</groupId>
+            <groupId>de.d3adspace.skylla</groupId>
             <artifactId>skylla-client</artifactId>
             <version>1.0.0</version>
         </dependency>
 
         <!-- Skylla Server -->
         <dependency>
-            <groupId>de.d3adspace</groupId>
+            <groupId>de.d3adspace.skylla</groupId>
             <artifactId>skylla-server</artifactId>
             <version>1.0.0</version>
         </dependency>
