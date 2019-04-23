@@ -26,7 +26,7 @@
     <parent>
         <artifactId>skylla-parent</artifactId>
         <groupId>de.d3adspace.skylla</groupId>
-        <version>2.0.0</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -67,7 +67,7 @@
 
         <!-- Skylla Commons -->
         <dependency>
-            <groupId>de.d3adspace</groupId>
+            <groupId>de.d3adspace.skylla</groupId>
             <artifactId>skylla-commons</artifactId>
             <version>1.0.0</version>
             <scope>compile</scope>
