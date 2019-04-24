@@ -26,7 +26,7 @@ import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
 /**
  * Basic Client interface
  *
- * @author Nathalie0hneHerz
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
  */
 public interface SkyllaClient {
 

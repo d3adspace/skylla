@@ -35,7 +35,7 @@ import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.util.internal.PlatformDependent;
 
 /**
- * @author Nathalie0hneHerz
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
  */
 public class NettyUtils {
 

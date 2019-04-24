@@ -31,7 +31,8 @@ import de.d3adspace.skylla.commons.protocol.handler.PacketHandler;
 import de.d3adspace.skylla.commons.protocol.handler.PacketHandlerMethod;
 
 /**
- * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Felix Klauke <info@felix-klauke.de>
  */
 public class SkyllaClientExample {
 

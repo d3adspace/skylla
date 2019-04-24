@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * Container for meta to prevent lazy loading of meta.
  *
- * @author Felix 'SasukeKawaii' Klauke
+ * @author Felix Klauke <info@felix-klauke.de>
  */
 class PacketMetaContainer {
 

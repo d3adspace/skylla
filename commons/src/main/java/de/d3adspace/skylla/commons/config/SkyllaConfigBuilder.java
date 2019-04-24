@@ -26,7 +26,7 @@ import de.d3adspace.skylla.commons.protocol.Protocol;
 /**
  * Basic Builder class for {@link SkyllaConfig}
  *
- * @author Nathalie0hneHerz
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
  */
 public class SkyllaConfigBuilder {
 

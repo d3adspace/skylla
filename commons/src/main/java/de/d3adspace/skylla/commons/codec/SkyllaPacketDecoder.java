@@ -34,7 +34,8 @@ import java.util.List;
  * Decoder for all Skyllapackets. The Decoder will try to read the packet id in order to create
  * a new one by that id and send the created packet through the Pipeline.
  *
- * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Felix Klauke <info@felix-klauke.de>
  */
 public class SkyllaPacketDecoder extends ByteToMessageDecoder {
 

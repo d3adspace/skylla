@@ -39,7 +39,8 @@ import java.util.UUID;
  * Wrapper for the netty bytebuf. We want to be able to write custom data to a bytebuf without
  * endless lines of encoding. To achieve this we wrap around nettys bytebuf.
  *
- * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Felix Klauke <info@felix-klauke.de>
  */
 public class SkyllaBuffer extends ByteBuf {
 

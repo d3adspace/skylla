@@ -32,7 +32,7 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 
 /**
- * @author Nathalie0hneHerz
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
  */
 public class SkyllaChannelInitializer extends ChannelInitializer<SocketChannel> {
 

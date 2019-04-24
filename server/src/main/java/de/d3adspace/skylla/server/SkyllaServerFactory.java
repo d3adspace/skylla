@@ -24,7 +24,7 @@ package de.d3adspace.skylla.server;
 import de.d3adspace.skylla.commons.config.SkyllaConfig;
 
 /**
- * @author Nathalie0hneHerz
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
  */
 public class SkyllaServerFactory {
 

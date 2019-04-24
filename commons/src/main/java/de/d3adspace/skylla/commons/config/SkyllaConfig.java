@@ -26,7 +26,8 @@ import de.d3adspace.skylla.commons.protocol.Protocol;
 /**
  * Basic config for all skylla connections.
  *
- * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Felix Klauke <info@felix-klauke.de>
  */
 public class SkyllaConfig {
 

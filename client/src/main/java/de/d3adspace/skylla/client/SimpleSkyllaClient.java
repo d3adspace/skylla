@@ -34,7 +34,7 @@ import io.netty.channel.EventLoopGroup;
 /**
  * Basic client.
  *
- * @author Nathalie0hneHerz
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
  */
 public class SimpleSkyllaClient implements SkyllaClient {
 

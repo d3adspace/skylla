@@ -28,7 +28,7 @@ import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacketMeta;
 /**
  * Representing a chat message.
  *
- * @author Nathalie0hneHerz
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
  */
 @SkyllaPacketMeta(id = 0)
 public class ChatPacket implements SkyllaPacket {

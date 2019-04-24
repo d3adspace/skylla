@@ -3,6 +3,9 @@ package de.d3adspace.skylla.commons.protocol.context;
 import de.d3adspace.skylla.commons.connection.SkyllaConnection;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
 
+/**
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ */
 public class SkyllaPacketContext {
 
     private final SkyllaConnection connection;

@@ -39,7 +39,8 @@ import java.util.Map;
 /**
  * Structuring network communication.
  *
- * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Felix Klauke <info@felix-klauke.de>
  */
 public class Protocol {
 
