@@ -30,6 +30,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Handling Netty connections.
@@ -94,9 +95,7 @@ public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> 
             return;
         }
 
-        for (SkyllaPacket packet : packets) {
-            channel.write(packet);
-        }
+        Arrays.stream(packets).forEach(channel::write);
 
         channel.flush();
     }
