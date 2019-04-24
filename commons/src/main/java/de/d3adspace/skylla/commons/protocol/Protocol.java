@@ -21,7 +21,6 @@
 
 package de.d3adspace.skylla.commons.protocol;
 
-import de.d3adspace.skylla.commons.connection.SkyllaConnection;
 import de.d3adspace.skylla.commons.protocol.context.SkyllaPacketContext;
 import de.d3adspace.skylla.commons.protocol.handler.HandlerContainer;
 import de.d3adspace.skylla.commons.protocol.handler.PacketHandler;
@@ -33,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,16 +95,16 @@ public class Protocol {
                     packetClazz + " does not have @SkyllaPacketMeta Annotation.");
         }
 
-        if (this.registeredPackets.containsKey(meta.id())) {
+        if (registeredPackets.containsKey(meta.id())) {
             throw new IllegalArgumentException("I already know a packet with the id " + meta.id());
         }
 
-        this.metaContainer.registerPacketMeta(packetClazz, meta);
+        metaContainer.registerPacketMeta(packetClazz, meta);
 
-        this.logger.info(
+        logger.info(
                 "Registering new Packet: " + packetClazz.getSimpleName() + " with id " + meta.id());
 
-        this.registeredPackets.put(meta.id(), packetClazz);
+        registeredPackets.put(meta.id(), packetClazz);
     }
 
     /**
@@ -117,7 +117,7 @@ public class Protocol {
             throw new IllegalArgumentException("packetClazz cannot be null");
         }
 
-        SkyllaPacketMeta meta = this.metaContainer.getPacketMeta(packetClazz);
+        SkyllaPacketMeta meta = metaContainer.getPacketMeta(packetClazz);
 
         if (meta == null) {
             throw new IllegalArgumentException(
@@ -131,6 +131,7 @@ public class Protocol {
      * Create a new packet by id.
      *
      * @param packetId The id.
+     *
      * @return The packet.
      */
     public SkyllaPacket createPacket(byte packetId) {
@@ -163,22 +164,19 @@ public class Protocol {
 
         Method[] declaredMethods = packetHandler.getClass().getDeclaredMethods();
 
-        for (Method method : declaredMethods) {
+        Arrays.stream(declaredMethods)
+                .filter(method -> method.isAnnotationPresent(PacketHandlerMethod.class)
+                        && method.getParameterCount() == 2
+                        && SkyllaPacket.class.isAssignableFrom(method.getParameterTypes()[1]))
+                .forEach(method -> {
+                    Class<? extends SkyllaPacket> packetClazz = (Class<? extends SkyllaPacket>) method.getParameterTypes()[1];
 
-            if (method.isAnnotationPresent(PacketHandlerMethod.class)
-                    && method.getParameterCount() == 2
-                    && SkyllaPacket.class.isAssignableFrom(method.getParameterTypes()[1])) {
+                    if (!packetHandlers.containsKey(packetClazz)) {
+                        packetHandlers.put(packetClazz, new HandlerContainer());
+                    }
 
-                Class<? extends SkyllaPacket> packetClazz = (Class<? extends SkyllaPacket>) method
-                        .getParameterTypes()[1];
-
-                if (!packetHandlers.containsKey(packetClazz)) {
-                    packetHandlers.put(packetClazz, new HandlerContainer());
-                }
-
-                packetHandlers.get(packetClazz).registerListenerMethod(packetHandler, method);
-            }
-        }
+                    packetHandlers.get(packetClazz).registerListenerMethod(packetHandler, method);
+                });
     }
 
     /**
@@ -193,10 +191,10 @@ public class Protocol {
 
         Method[] declaredMethods = packetHandler.getClass().getDeclaredMethods();
 
-        for (Method method : declaredMethods) {
+        Arrays.stream(declaredMethods).forEach(method -> {
+
             int parameterCount = method.getParameterCount();
             Class<?> parameterClazz = method.getParameterTypes()[1];
-
             if (method.isAnnotationPresent(PacketHandlerMethod.class)
                     && parameterCount == 1
                     && parameterClazz.isAssignableFrom(SkyllaPacket.class)) {
@@ -204,14 +202,14 @@ public class Protocol {
                 packetHandlers.get(parameterClazz)
                         .unregisterHandler(packetHandler);
             }
-        }
+        });
     }
 
     /**
      * Handle an incoming packet.
      *
-     * @param packetContext    The packets context.
-     * @param packet           The packet.
+     * @param packetContext The packets context.
+     * @param packet        The packet.
      */
     public void handlePacket(SkyllaPacketContext packetContext, SkyllaPacket packet) {
         if (packet == null) {
@@ -226,6 +224,7 @@ public class Protocol {
      * Get id by packet.
      *
      * @param packet The packet.
+     *
      * @return The id.
      */
     public byte getPacketId(SkyllaPacket packet) {

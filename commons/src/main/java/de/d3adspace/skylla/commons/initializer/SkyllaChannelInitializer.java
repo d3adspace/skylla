@@ -51,7 +51,7 @@ public class SkyllaChannelInitializer extends ChannelInitializer<SocketChannel> 
     }
 
     @Override
-    protected void initChannel(SocketChannel socketChannel) throws Exception {
+    protected void initChannel(SocketChannel socketChannel) {
         ChannelPipeline pipeline = socketChannel.pipeline();
 
         ChannelHandler lengthFieldBasedFrameDecoder = NettyUtils.createLengthFieldBasedFrameDecoder(32768, 0, 4);
