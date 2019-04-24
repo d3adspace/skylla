@@ -26,6 +26,7 @@ import de.d3adspace.skylla.client.SkyllaClientFactory;
 import de.d3adspace.skylla.commons.config.SkyllaConfig;
 import de.d3adspace.skylla.commons.connection.SkyllaConnection;
 import de.d3adspace.skylla.commons.protocol.Protocol;
+import de.d3adspace.skylla.commons.protocol.context.SkyllaPacketContext;
 import de.d3adspace.skylla.commons.protocol.handler.PacketHandler;
 import de.d3adspace.skylla.commons.protocol.handler.PacketHandlerMethod;
 
@@ -54,7 +55,7 @@ public class SkyllaClientExample {
     public static class ClientPacketHandlerExample implements PacketHandler {
 
         @PacketHandlerMethod
-        public void onPacketChat(SkyllaConnection skyllaConnection, ChatPacket chatPacket) {
+        public void onPacketChat(SkyllaPacketContext packetContext, ChatPacket chatPacket) {
             System.out.println("[Client] received: " + chatPacket);
         }
     }
