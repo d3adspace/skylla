@@ -22,6 +22,7 @@
 package de.d3adspace.skylla.commons.protocol;
 
 import de.d3adspace.skylla.commons.connection.SkyllaConnection;
+import de.d3adspace.skylla.commons.protocol.context.SkyllaPacketContext;
 import de.d3adspace.skylla.commons.protocol.handler.HandlerContainer;
 import de.d3adspace.skylla.commons.protocol.handler.PacketHandler;
 import de.d3adspace.skylla.commons.protocol.handler.PacketHandlerMethod;
@@ -144,7 +145,7 @@ public class Protocol {
         try {
             packet = packetClazz.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            this.logger.error("Unable to create packet with id " + packetId, e);
+            logger.error("Unable to create packet with id " + packetId, e);
         }
 
         return packet;
@@ -171,11 +172,11 @@ public class Protocol {
                 Class<? extends SkyllaPacket> packetClazz = (Class<? extends SkyllaPacket>) method
                         .getParameterTypes()[1];
 
-                if (!this.packetHandlers.containsKey(packetClazz)) {
-                    this.packetHandlers.put(packetClazz, new HandlerContainer());
+                if (!packetHandlers.containsKey(packetClazz)) {
+                    packetHandlers.put(packetClazz, new HandlerContainer());
                 }
 
-                this.packetHandlers.get(packetClazz).registerListenerMethod(packetHandler, method);
+                packetHandlers.get(packetClazz).registerListenerMethod(packetHandler, method);
             }
         }
     }
@@ -200,7 +201,7 @@ public class Protocol {
                     && parameterCount == 1
                     && parameterClazz.isAssignableFrom(SkyllaPacket.class)) {
 
-                this.packetHandlers.get(parameterClazz)
+                packetHandlers.get(parameterClazz)
                         .unregisterHandler(packetHandler);
             }
         }
@@ -209,20 +210,16 @@ public class Protocol {
     /**
      * Handle an incoming packet.
      *
-     * @param skyllaConnection The connection.
+     * @param packetContext    The packets context.
      * @param packet           The packet.
      */
-    public void handlePacket(SkyllaConnection skyllaConnection, SkyllaPacket packet) {
-        if (skyllaConnection == null) {
-            throw new IllegalArgumentException("skyllaConnection cannot be null");
-        }
-
+    public void handlePacket(SkyllaPacketContext packetContext, SkyllaPacket packet) {
         if (packet == null) {
             throw new IllegalArgumentException("packet cannot be null");
         }
 
-        HandlerContainer handlerContainer = this.packetHandlers.get(packet.getClass());
-        handlerContainer.handlePacket(skyllaConnection, packet);
+        HandlerContainer handlerContainer = packetHandlers.get(packet.getClass());
+        handlerContainer.handlePacket(packetContext, packet);
     }
 
     /**
@@ -236,6 +233,6 @@ public class Protocol {
             throw new IllegalArgumentException("packet cannot be null");
         }
 
-        return this.metaContainer.getPacketMeta(packet).id();
+        return metaContainer.getPacketMeta(packet).id();
     }
 }

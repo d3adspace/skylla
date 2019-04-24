@@ -59,7 +59,7 @@ public class SkyllaPacketDecoder extends ByteToMessageDecoder {
         if (byteBuf.readInt() > 0) {
             byte packetId = byteBuf.readByte();
 
-            SkyllaPacket packet = this.protocol.createPacket(packetId);
+            SkyllaPacket packet = protocol.createPacket(packetId);
             packet.read(new SkyllaBuffer(byteBuf));
 
             list.add(packet);

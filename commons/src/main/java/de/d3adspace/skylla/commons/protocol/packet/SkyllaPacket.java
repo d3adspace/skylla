@@ -24,21 +24,21 @@ package de.d3adspace.skylla.commons.protocol.packet;
 import de.d3adspace.skylla.commons.buffer.SkyllaBuffer;
 
 /**
- * @author Nathalie0hneHerz
+ * @author Nathalie O'Neill <nathalie@d3adspace.de>
  */
-public abstract class SkyllaPacket {
+public interface SkyllaPacket {
 
     /**
      * Write a packet to the given buffer.
      *
      * @param buffer The buffer.
      */
-    public abstract void write(SkyllaBuffer buffer);
+    void write(SkyllaBuffer buffer);
 
     /**
      * Read a packet from a buffer.
      *
      * @param buffer The buffer.
      */
-    public abstract void read(SkyllaBuffer buffer);
+    void read(SkyllaBuffer buffer);
 }

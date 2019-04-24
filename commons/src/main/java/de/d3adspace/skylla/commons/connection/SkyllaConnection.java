@@ -22,6 +22,7 @@
 package de.d3adspace.skylla.commons.connection;
 
 import de.d3adspace.skylla.commons.protocol.Protocol;
+import de.d3adspace.skylla.commons.protocol.context.SkyllaPacketContext;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
 import de.d3adspace.skylla.commons.utils.NettyUtils;
 import io.netty.channel.Channel;
@@ -62,7 +63,8 @@ public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> 
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, SkyllaPacket packet)
             throws Exception {
 
-        this.protocol.handlePacket(this, packet);
+        SkyllaPacketContext packetContext = new SkyllaPacketContext(this);
+        protocol.handlePacket(packetContext, packet);
     }
 
     @Override
@@ -72,7 +74,7 @@ public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> 
 		 * Handle IO Exception on disconnect.
 		 */
         if (cause instanceof IOException) {
-            NettyUtils.closeWhenFlushed(this.channel);
+            NettyUtils.closeWhenFlushed(channel);
             return;
         }
 
@@ -89,14 +91,14 @@ public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> 
      */
     public void sendPackets(SkyllaPacket... packets) {
         if (packets.length == 1) {
-            this.channel.writeAndFlush(packets[0]);
+            channel.writeAndFlush(packets[0]);
             return;
         }
 
         for (SkyllaPacket packet : packets) {
-            this.channel.write(packet);
+            channel.write(packet);
         }
 
-        this.channel.flush();
+        channel.flush();
     }
 }

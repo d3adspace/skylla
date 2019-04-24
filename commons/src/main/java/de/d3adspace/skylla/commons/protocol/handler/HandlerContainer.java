@@ -22,6 +22,7 @@
 package de.d3adspace.skylla.commons.protocol.handler;
 
 import de.d3adspace.skylla.commons.connection.SkyllaConnection;
+import de.d3adspace.skylla.commons.protocol.context.SkyllaPacketContext;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
 
 import java.lang.reflect.InvocationTargetException;
@@ -57,11 +58,11 @@ public class HandlerContainer {
      * @param method        The method.
      */
     public void registerListenerMethod(PacketHandler packetHandler, Method method) {
-        if (!this.registeredListeners.containsKey(packetHandler)) {
-            this.registeredListeners.put(packetHandler, new ArrayList<>());
+        if (!registeredListeners.containsKey(packetHandler)) {
+            registeredListeners.put(packetHandler, new ArrayList<>());
         }
 
-        this.registeredListeners.get(packetHandler).add(method);
+        registeredListeners.get(packetHandler).add(method);
     }
 
     /**
@@ -70,19 +71,19 @@ public class HandlerContainer {
      * @param packetHandler The handler.
      */
     public void unregisterHandler(PacketHandler packetHandler) {
-        this.registeredListeners.remove(packetHandler);
+        registeredListeners.remove(packetHandler);
     }
 
     /**
      * Handle an incoming packet.
      *
-     * @param skyllaConnection The connection source.
+     * @param packetContext The packets context.
      * @param packet           The packet.
      */
-    public void handlePacket(SkyllaConnection skyllaConnection, SkyllaPacket packet) {
+    public void handlePacket(SkyllaPacketContext packetContext, SkyllaPacket packet) {
         this.registeredListeners.forEach((handler, methods) -> methods.forEach(method -> {
             try {
-                method.invoke(handler, skyllaConnection, packet);
+                method.invoke(handler, packetContext, packet);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
