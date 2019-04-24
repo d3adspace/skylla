@@ -56,6 +56,7 @@ public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> 
      * @param protocol The protocol.
      */
     public SkyllaConnection(Channel channel, Protocol protocol) {
+
         this.channel = channel;
         this.protocol = protocol;
     }
@@ -90,6 +91,7 @@ public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> 
      * @param packets The packets.
      */
     public void sendPackets(SkyllaPacket... packets) {
+
         if (packets.length == 1) {
             channel.writeAndFlush(packets[0]);
             return;

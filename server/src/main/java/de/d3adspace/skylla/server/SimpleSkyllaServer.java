@@ -65,12 +65,14 @@ public class SimpleSkyllaServer implements SkyllaServer {
      * @param config The config.
      */
     SimpleSkyllaServer(SkyllaConfig config) {
+
         this.config = config;
         this.logger = LoggerFactory.getLogger(SkyllaServer.class);
     }
 
     @Override
     public void start() {
+
         logger.info("Starting Server.");
 
         bossGroup = NettyUtils.createEventLoopGroup(1);
@@ -100,6 +102,7 @@ public class SimpleSkyllaServer implements SkyllaServer {
 
     @Override
     public void stop() {
+
         this.logger.info("Stopping Server.");
 
         this.channel.close();
@@ -111,11 +114,13 @@ public class SimpleSkyllaServer implements SkyllaServer {
 
     @Override
     public boolean isActive() {
+
         return this.channel != null && this.channel.isActive();
     }
 
     @Override
     public Logger getLogger() {
+
         return logger;
     }
 }

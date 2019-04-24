@@ -48,6 +48,7 @@ public class HandlerContainer {
      * Create a new container.
      */
     public HandlerContainer() {
+
         this.registeredListeners = new HashMap<>();
     }
 
@@ -58,11 +59,13 @@ public class HandlerContainer {
      * @param method        The method.
      */
     public void registerListenerMethod(PacketHandler packetHandler, Method method) {
+
         if (!registeredListeners.containsKey(packetHandler)) {
             registeredListeners.put(packetHandler, new ArrayList<>());
         }
 
-        registeredListeners.get(packetHandler).add(method);
+        List<Method> methods = registeredListeners.get(packetHandler);
+        methods.add(method);
     }
 
     /**
@@ -71,6 +74,7 @@ public class HandlerContainer {
      * @param packetHandler The handler.
      */
     public void unregisterHandler(PacketHandler packetHandler) {
+
         registeredListeners.remove(packetHandler);
     }
 
@@ -81,6 +85,7 @@ public class HandlerContainer {
      * @param packet           The packet.
      */
     public void handlePacket(SkyllaPacketContext packetContext, SkyllaPacket packet) {
+
         this.registeredListeners.forEach((handler, methods) -> methods.forEach(method -> {
             try {
                 method.invoke(handler, packetContext, packet);

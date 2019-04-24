@@ -44,8 +44,8 @@ class PacketMetaContainer {
      *
      * @param metadata The metadata.
      */
-    private PacketMetaContainer(
-            Map<Class<?>, SkyllaPacketMeta> metadata) {
+    private PacketMetaContainer(Map<Class<?>, SkyllaPacketMeta> metadata) {
+
         this.metadata = metadata;
     }
 
@@ -53,6 +53,7 @@ class PacketMetaContainer {
      * Create an empty container
      */
     PacketMetaContainer() {
+
         this(new HashMap<>());
     }
 
@@ -63,6 +64,7 @@ class PacketMetaContainer {
      * @return The meta.
      */
     SkyllaPacketMeta getPacketMeta(SkyllaPacket skyllaPacket) {
+
         return getPacketMeta(skyllaPacket.getClass());
     }
 
@@ -73,8 +75,8 @@ class PacketMetaContainer {
      * @return The meta.
      */
     SkyllaPacketMeta getPacketMeta(Class<?> packetClazz) {
-        return metadata
-                .computeIfAbsent(packetClazz, k -> packetClazz.getAnnotation(SkyllaPacketMeta.class));
+
+        return metadata.computeIfAbsent(packetClazz, k -> packetClazz.getAnnotation(SkyllaPacketMeta.class));
     }
 
     /**
@@ -84,6 +86,7 @@ class PacketMetaContainer {
      * @param meta        The meta.
      */
     void registerPacketMeta(Class<?> packetClazz, SkyllaPacketMeta meta) {
+
         metadata.put(packetClazz, meta);
     }
 }

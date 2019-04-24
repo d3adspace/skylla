@@ -26,7 +26,7 @@ import de.d3adspace.skylla.commons.protocol.Protocol;
 /**
  * Basic config for all skylla connections.
  *
- * @author Nathalie0hneHerz
+ * @author Nathalie0hneHerz, Felix 'SasukeKawaii' Klauke
  */
 public class SkyllaConfig {
 
@@ -76,6 +76,7 @@ public class SkyllaConfig {
      * @return The builder.
      */
     public static SkyllaConfigBuilder newBuilder() {
+
         return new SkyllaConfigBuilder();
     }
 
@@ -85,6 +86,7 @@ public class SkyllaConfig {
      * @return The host.
      */
     public String getServerHost() {
+
         return serverHost;
     }
 
@@ -94,6 +96,7 @@ public class SkyllaConfig {
      * @param serverHost The host.
      */
     public void setServerHost(String serverHost) {
+
         this.serverHost = serverHost;
     }
 
@@ -103,6 +106,7 @@ public class SkyllaConfig {
      * @return The port.
      */
     public int getServerPort() {
+
         return serverPort;
     }
 
@@ -112,6 +116,7 @@ public class SkyllaConfig {
      * @param serverPort The port.
      */
     public void setServerPort(int serverPort) {
+
         this.serverPort = serverPort;
     }
 
@@ -121,6 +126,7 @@ public class SkyllaConfig {
      * @return The protocol.
      */
     public Protocol getProtocol() {
+
         return protocol;
     }
 
@@ -130,6 +136,7 @@ public class SkyllaConfig {
      * @param protocol The protocol.
      */
     public void setProtocol(Protocol protocol) {
+
         this.protocol = protocol;
     }
 

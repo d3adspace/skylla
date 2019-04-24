@@ -47,11 +47,13 @@ public class SkyllaChannelInitializer extends ChannelInitializer<SocketChannel> 
      * @param protocol The protocol.
      */
     public SkyllaChannelInitializer(Protocol protocol) {
+
         this.protocol = protocol;
     }
 
     @Override
     protected void initChannel(SocketChannel socketChannel) {
+
         ChannelPipeline pipeline = socketChannel.pipeline();
 
         ChannelHandler lengthFieldBasedFrameDecoder = NettyUtils.createLengthFieldBasedFrameDecoder(32768, 0, 4);

@@ -67,6 +67,7 @@ public class Protocol {
      * Create a new Protocol.
      */
     public Protocol() {
+
         this.registeredPackets = new HashMap<>();
         this.packetHandlers = new HashMap<>();
         this.metaContainer = new PacketMetaContainer();
@@ -79,6 +80,7 @@ public class Protocol {
      * @param packetClazz The packet clazz.
      */
     public void registerPacket(Class<? extends SkyllaPacket> packetClazz) {
+
         if (packetClazz == null) {
             throw new IllegalArgumentException("packetClazz cannot be null");
         }
@@ -113,6 +115,7 @@ public class Protocol {
      * @param packetClazz The packet clazz.
      */
     public void unregisterPacket(Class<? extends SkyllaPacket> packetClazz) {
+
         if (packetClazz == null) {
             throw new IllegalArgumentException("packetClazz cannot be null");
         }
@@ -135,6 +138,7 @@ public class Protocol {
      * @return The packet.
      */
     public SkyllaPacket createPacket(byte packetId) {
+
         Class<? extends SkyllaPacket> packetClazz = registeredPackets.get(packetId);
 
         if (packetClazz == null) {
@@ -158,6 +162,7 @@ public class Protocol {
      * @param packetHandler The handler.
      */
     public void registerListener(PacketHandler packetHandler) {
+
         if (packetHandler == null) {
             throw new IllegalArgumentException("packetHandler cannot be null");
         }
@@ -185,6 +190,7 @@ public class Protocol {
      * @param packetHandler The handler.
      */
     public void unregisterListener(PacketHandler packetHandler) {
+
         if (packetHandler == null) {
             throw new IllegalArgumentException("packetHandler cannot be null");
         }
@@ -212,6 +218,7 @@ public class Protocol {
      * @param packet        The packet.
      */
     public void handlePacket(SkyllaPacketContext packetContext, SkyllaPacket packet) {
+
         if (packet == null) {
             throw new IllegalArgumentException("packet cannot be null");
         }
@@ -228,6 +235,7 @@ public class Protocol {
      * @return The id.
      */
     public byte getPacketId(SkyllaPacket packet) {
+
         if (packet == null) {
             throw new IllegalArgumentException("packet cannot be null");
         }

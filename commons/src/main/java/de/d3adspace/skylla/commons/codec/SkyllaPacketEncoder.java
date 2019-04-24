@@ -46,6 +46,7 @@ public class SkyllaPacketEncoder extends MessageToByteEncoder<SkyllaPacket> {
      * @param protocol The protocol.
      */
     public SkyllaPacketEncoder(Protocol protocol) {
+
         this.protocol = protocol;
     }
 

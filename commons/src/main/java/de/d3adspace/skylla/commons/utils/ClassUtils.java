@@ -29,6 +29,7 @@ import java.lang.reflect.Constructor;
 public class ClassUtils {
 
     public static boolean hasNoArgsConstructor(Class clazz) {
+
         boolean noArgsConstructor = false;
         for (Constructor<?> constructor : clazz.getConstructors()) {
             if (constructor.getParameterCount() == 0) {

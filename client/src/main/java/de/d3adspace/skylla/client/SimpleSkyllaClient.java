@@ -59,11 +59,13 @@ public class SimpleSkyllaClient implements SkyllaClient {
      * @param config The config.
      */
     SimpleSkyllaClient(SkyllaConfig config) {
+
         this.config = config;
     }
 
     @Override
     public void connect() {
+
         workerGroup = NettyUtils.createEventLoopGroup(4);
 
         Class<? extends Channel> channelClazz = NettyUtils.getChannel();
@@ -87,12 +89,14 @@ public class SimpleSkyllaClient implements SkyllaClient {
 
     @Override
     public void disconnect() {
+
         this.channel.close();
         this.workerGroup.shutdownGracefully();
     }
 
     @Override
     public void sendPacket(SkyllaPacket packet) {
+
         channel.writeAndFlush(packet);
     }
 }

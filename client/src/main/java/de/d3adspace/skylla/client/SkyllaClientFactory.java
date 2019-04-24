@@ -37,6 +37,7 @@ public class SkyllaClientFactory {
      * @return The server.
      */
     public static SkyllaClient createSkyllaClient(SkyllaConfig config) {
+
         if (config == null) {
             throw new IllegalArgumentException("config cannot be null");
         }

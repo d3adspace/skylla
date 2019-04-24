@@ -8,6 +8,7 @@ public class SkyllaPacketContext {
     private final SkyllaConnection connection;
 
     public SkyllaPacketContext(SkyllaConnection connection) {
+
         this.connection = connection;
     }
 
@@ -17,6 +18,7 @@ public class SkyllaPacketContext {
      * @param skyllaPacket The packet.
      */
     public void answer(SkyllaPacket skyllaPacket) {
+
         connection.sendPackets(skyllaPacket);
     }
 }

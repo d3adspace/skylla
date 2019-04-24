@@ -50,6 +50,7 @@ public class ChatPacket implements SkyllaPacket {
      * @param message The message.
      */
     public ChatPacket(String sender, String message) {
+
         this.sender = sender;
         this.message = message;
     }
@@ -62,12 +63,14 @@ public class ChatPacket implements SkyllaPacket {
 
     @Override
     public void write(SkyllaBuffer buffer) {
+
         buffer.writeString(sender);
         buffer.writeString(message);
     }
 
     @Override
     public void read(SkyllaBuffer buffer) {
+
         sender = buffer.readString();
         message = buffer.readString();
     }
@@ -78,6 +81,7 @@ public class ChatPacket implements SkyllaPacket {
      * @return The message.
      */
     public String getMessage() {
+
         return message;
     }
 
@@ -87,6 +91,7 @@ public class ChatPacket implements SkyllaPacket {
      * @param message The message.
      */
     public void setMessage(String message) {
+
         this.message = message;
     }
 
@@ -96,6 +101,7 @@ public class ChatPacket implements SkyllaPacket {
      * @return The sender.
      */
     public String getSender() {
+
         return sender;
     }
 
@@ -105,6 +111,7 @@ public class ChatPacket implements SkyllaPacket {
      * @param sender The sender.
      */
     public void setSender(String sender) {
+
         this.sender = sender;
     }
 
