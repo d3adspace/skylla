@@ -54,15 +54,17 @@ public class SkyllaPacketDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf,
-                          List<Object> list) throws Exception {
+                          List<Object> list) {
 
-        if (byteBuf.readInt() > 0) {
-            byte packetId = byteBuf.readByte();
-
-            SkyllaPacket packet = protocol.createPacket(packetId);
-            packet.read(new SkyllaBuffer(byteBuf));
-
-            list.add(packet);
+        if (byteBuf.readInt() <= 0) {
+            return;
         }
+
+        byte packetId = byteBuf.readByte();
+
+        SkyllaPacket packet = protocol.createPacket(packetId);
+        packet.read(new SkyllaBuffer(byteBuf));
+
+        list.add(packet);
     }
 }
