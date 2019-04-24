@@ -51,7 +51,7 @@ public class SkyllaPacketEncoder extends MessageToByteEncoder<SkyllaPacket> {
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, SkyllaPacket packet,
-                          ByteBuf byteBuf) throws Exception {
+                          ByteBuf byteBuf) {
 
         byte packetId = protocol.getPacketId(packet);
 

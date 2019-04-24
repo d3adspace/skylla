@@ -60,15 +60,14 @@ public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> 
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, SkyllaPacket packet)
-            throws Exception {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, SkyllaPacket packet) {
 
         SkyllaPacketContext packetContext = new SkyllaPacketContext(this);
         protocol.handlePacket(packetContext, packet);
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
 
 		/*
 		 * Handle IO Exception on disconnect.
