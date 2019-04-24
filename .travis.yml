@@ -29,6 +29,7 @@ deploy:
   script: mvn deploy --settings deploy/maven-settings.xml
   on:
     branch: master
+    tags: true
 
 ###################
 ### Environment ###
