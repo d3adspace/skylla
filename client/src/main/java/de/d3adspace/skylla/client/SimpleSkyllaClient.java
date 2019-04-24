@@ -90,8 +90,8 @@ public class SimpleSkyllaClient implements SkyllaClient {
     @Override
     public void disconnect() {
 
-        this.channel.close();
-        this.workerGroup.shutdownGracefully();
+        channel.close();
+        workerGroup.shutdownGracefully();
     }
 
     @Override

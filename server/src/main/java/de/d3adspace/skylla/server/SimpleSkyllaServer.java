@@ -103,19 +103,19 @@ public class SimpleSkyllaServer implements SkyllaServer {
     @Override
     public void stop() {
 
-        this.logger.info("Stopping Server.");
+        logger.info("Stopping Server.");
 
-        this.channel.close();
-        this.bossGroup.shutdownGracefully();
-        this.workerGroup.shutdownGracefully();
+        channel.close();
+        bossGroup.shutdownGracefully();
+        workerGroup.shutdownGracefully();
 
-        this.logger.info("Server stopped.");
+        logger.info("Server stopped.");
     }
 
     @Override
     public boolean isActive() {
 
-        return this.channel != null && this.channel.isActive();
+        return channel != null && channel.isActive();
     }
 
     @Override
