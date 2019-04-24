@@ -57,16 +57,16 @@ public class SkyllaChannelInitializer extends ChannelInitializer<SocketChannel> 
         ChannelHandler lengthFieldBasedFrameDecoder = NettyUtils.createLengthFieldBasedFrameDecoder(32768, 0, 4);
         pipeline.addLast(lengthFieldBasedFrameDecoder);
 
-        ChannelHandler packetDecoder = new SkyllaPacketDecoder(this.protocol);
+        ChannelHandler packetDecoder = new SkyllaPacketDecoder(protocol);
         pipeline.addLast(packetDecoder);
 
         ChannelHandler lengthFieldPrepender = NettyUtils.createLengthFieldPrepender(4);
         pipeline.addLast(lengthFieldPrepender);
 
-        ChannelHandler packetEncoder = new SkyllaPacketEncoder(this.protocol);
+        ChannelHandler packetEncoder = new SkyllaPacketEncoder(protocol);
         pipeline.addLast(packetEncoder);
 
-        ChannelHandler packetHandler = new SkyllaConnection(socketChannel, this.protocol);
+        ChannelHandler packetHandler = new SkyllaConnection(socketChannel, protocol);
         pipeline.addLast(packetHandler);
     }
 }

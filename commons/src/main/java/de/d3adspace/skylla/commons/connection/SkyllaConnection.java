@@ -72,7 +72,7 @@ public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> 
 		 * Handle IO Exception on disconnect.
 		 */
         if (cause instanceof IOException) {
-            NettyUtils.closeWhenFlushed(this.channel);
+            NettyUtils.closeWhenFlushed(channel);
             return;
         }
 
@@ -89,14 +89,14 @@ public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> 
      */
     public void sendPackets(SkyllaPacket... packets) {
         if (packets.length == 1) {
-            this.channel.writeAndFlush(packets[0]);
+            channel.writeAndFlush(packets[0]);
             return;
         }
 
         for (SkyllaPacket packet : packets) {
-            this.channel.write(packet);
+            channel.write(packet);
         }
 
-        this.channel.flush();
+        channel.flush();
     }
 }

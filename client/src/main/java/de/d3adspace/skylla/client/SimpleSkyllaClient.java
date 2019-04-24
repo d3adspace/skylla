@@ -64,21 +64,21 @@ public class SimpleSkyllaClient implements SkyllaClient {
 
     @Override
     public void connect() {
-        this.workerGroup = NettyUtils.createEventLoopGroup(4);
+        workerGroup = NettyUtils.createEventLoopGroup(4);
 
         Class<? extends Channel> channelClazz = NettyUtils.getChannel();
-        ChannelHandler channelInitializer = new SkyllaChannelInitializer(this.config.getProtocol());
+        ChannelHandler channelInitializer = new SkyllaChannelInitializer(config.getProtocol());
 
         Bootstrap bootstrap = new Bootstrap();
 
         try {
             channel = bootstrap
                     .channel(channelClazz)
-                    .group(this.workerGroup)
+                    .group(workerGroup)
                     .option(ChannelOption.TCP_NODELAY, true)
                     .option(ChannelOption.SO_BACKLOG, 50)
                     .handler(channelInitializer)
-                    .connect(this.config.getServerHost(), this.config.getServerPort())
+                    .connect(config.getServerHost(), config.getServerPort())
                     .sync().channel();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -93,6 +93,6 @@ public class SimpleSkyllaClient implements SkyllaClient {
 
     @Override
     public void sendPacket(SkyllaPacket packet) {
-        this.channel.writeAndFlush(packet);
+        channel.writeAndFlush(packet);
     }
 }

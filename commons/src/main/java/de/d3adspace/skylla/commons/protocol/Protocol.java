@@ -144,7 +144,7 @@ public class Protocol {
         try {
             packet = packetClazz.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            this.logger.error("Unable to create packet with id " + packetId, e);
+            logger.error("Unable to create packet with id " + packetId, e);
         }
 
         return packet;
@@ -171,11 +171,11 @@ public class Protocol {
                 Class<? extends SkyllaPacket> packetClazz = (Class<? extends SkyllaPacket>) method
                         .getParameterTypes()[1];
 
-                if (!this.packetHandlers.containsKey(packetClazz)) {
-                    this.packetHandlers.put(packetClazz, new HandlerContainer());
+                if (!packetHandlers.containsKey(packetClazz)) {
+                    packetHandlers.put(packetClazz, new HandlerContainer());
                 }
 
-                this.packetHandlers.get(packetClazz).registerListenerMethod(packetHandler, method);
+                packetHandlers.get(packetClazz).registerListenerMethod(packetHandler, method);
             }
         }
     }
@@ -200,7 +200,7 @@ public class Protocol {
                     && parameterCount == 1
                     && parameterClazz.isAssignableFrom(SkyllaPacket.class)) {
 
-                this.packetHandlers.get(parameterClazz)
+                packetHandlers.get(parameterClazz)
                         .unregisterHandler(packetHandler);
             }
         }
@@ -221,7 +221,7 @@ public class Protocol {
             throw new IllegalArgumentException("packet cannot be null");
         }
 
-        HandlerContainer handlerContainer = this.packetHandlers.get(packet.getClass());
+        HandlerContainer handlerContainer = packetHandlers.get(packet.getClass());
         handlerContainer.handlePacket(skyllaConnection, packet);
     }
 
@@ -236,6 +236,6 @@ public class Protocol {
             throw new IllegalArgumentException("packet cannot be null");
         }
 
-        return this.metaContainer.getPacketMeta(packet).id();
+        return metaContainer.getPacketMeta(packet).id();
     }
 }

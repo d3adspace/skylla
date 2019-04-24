@@ -71,10 +71,10 @@ public class SimpleSkyllaServer implements SkyllaServer {
 
     @Override
     public void start() {
-        this.logger.info("Starting Server.");
+        logger.info("Starting Server.");
 
-        this.bossGroup = NettyUtils.createEventLoopGroup(1);
-        this.workerGroup = NettyUtils.createEventLoopGroup(4);
+        bossGroup = NettyUtils.createEventLoopGroup(1);
+        workerGroup = NettyUtils.createEventLoopGroup(4);
 
         Class<? extends ServerChannel> serverChannelClazz = NettyUtils.getServerChannelClass();
         ChannelHandler channelInitializer = new SkyllaChannelInitializer(config.getProtocol());
@@ -83,18 +83,18 @@ public class SimpleSkyllaServer implements SkyllaServer {
 
         try {
             channel = serverBootstrap
-                    .group(this.bossGroup, this.workerGroup)
+                    .group(bossGroup, workerGroup)
                     .channel(serverChannelClazz)
                     .childHandler(channelInitializer)
                     .option(ChannelOption.TCP_NODELAY, true)
                     .option(ChannelOption.SO_BACKLOG, 50)
-                    .bind(this.config.getServerHost(), this.config.getServerPort())
+                    .bind(config.getServerHost(), config.getServerPort())
                     .sync().channel();
 
-            this.logger.info("Server started on {}:{}", this.config.getServerHost(),
-                    this.config.getServerPort());
+            logger.info("Server started on {}:{}", config.getServerHost(),
+                    config.getServerPort());
         } catch (InterruptedException e) {
-            this.logger.error("Server couldnt start, e");
+            logger.error("Server couldnt start, e");
         }
     }
 

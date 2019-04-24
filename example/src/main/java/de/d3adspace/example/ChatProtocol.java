@@ -32,6 +32,6 @@ public class ChatProtocol extends Protocol {
 
     public ChatProtocol() {
 
-        this.registerPacket(ChatPacket.class);
+        registerPacket(ChatPacket.class);
     }
 }

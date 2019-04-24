@@ -57,11 +57,11 @@ public class HandlerContainer {
      * @param method        The method.
      */
     public void registerListenerMethod(PacketHandler packetHandler, Method method) {
-        if (!this.registeredListeners.containsKey(packetHandler)) {
-            this.registeredListeners.put(packetHandler, new ArrayList<>());
+        if (!registeredListeners.containsKey(packetHandler)) {
+            registeredListeners.put(packetHandler, new ArrayList<>());
         }
 
-        this.registeredListeners.get(packetHandler).add(method);
+        registeredListeners.get(packetHandler).add(method);
     }
 
     /**
@@ -70,7 +70,7 @@ public class HandlerContainer {
      * @param packetHandler The handler.
      */
     public void unregisterHandler(PacketHandler packetHandler) {
-        this.registeredListeners.remove(packetHandler);
+        registeredListeners.remove(packetHandler);
     }
 
     /**

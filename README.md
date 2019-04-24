@@ -70,8 +70,8 @@ import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacketMeta;
  * @author Nathalie0hneHerz
  */
 @SkyllaPacketMeta(id = 0)
-public class ChatPacket extends SkyllaPacket {
-	
+public class ChatPacket implements SkyllaPacket {
+
 	private String sender;
 	private String message;
 	

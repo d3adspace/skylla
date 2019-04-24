@@ -63,7 +63,7 @@ class PacketMetaContainer {
      * @return The meta.
      */
     SkyllaPacketMeta getPacketMeta(SkyllaPacket skyllaPacket) {
-        return this.getPacketMeta(skyllaPacket.getClass());
+        return getPacketMeta(skyllaPacket.getClass());
     }
 
     /**
@@ -73,7 +73,7 @@ class PacketMetaContainer {
      * @return The meta.
      */
     SkyllaPacketMeta getPacketMeta(Class<?> packetClazz) {
-        return this.metadata
+        return metadata
                 .computeIfAbsent(packetClazz, k -> packetClazz.getAnnotation(SkyllaPacketMeta.class));
     }
 
@@ -84,6 +84,6 @@ class PacketMetaContainer {
      * @param meta        The meta.
      */
     void registerPacketMeta(Class<?> packetClazz, SkyllaPacketMeta meta) {
-        this.metadata.put(packetClazz, meta);
+        metadata.put(packetClazz, meta);
     }
 }

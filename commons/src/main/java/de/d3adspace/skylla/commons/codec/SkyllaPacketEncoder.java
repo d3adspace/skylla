@@ -53,7 +53,7 @@ public class SkyllaPacketEncoder extends MessageToByteEncoder<SkyllaPacket> {
     protected void encode(ChannelHandlerContext channelHandlerContext, SkyllaPacket packet,
                           ByteBuf byteBuf) throws Exception {
 
-        byte packetId = this.protocol.getPacketId(packet);
+        byte packetId = protocol.getPacketId(packet);
 
         // write packet id
         byteBuf.writeByte(packetId);
