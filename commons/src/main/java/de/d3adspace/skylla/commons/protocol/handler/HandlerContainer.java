@@ -22,6 +22,7 @@
 package de.d3adspace.skylla.commons.protocol.handler;
 
 import de.d3adspace.skylla.commons.connection.SkyllaConnection;
+import de.d3adspace.skylla.commons.protocol.context.SkyllaPacketContext;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
 
 import java.lang.reflect.InvocationTargetException;
@@ -76,13 +77,13 @@ public class HandlerContainer {
     /**
      * Handle an incoming packet.
      *
-     * @param skyllaConnection The connection source.
+     * @param packetContext The packets context.
      * @param packet           The packet.
      */
-    public void handlePacket(SkyllaConnection skyllaConnection, SkyllaPacket packet) {
+    public void handlePacket(SkyllaPacketContext packetContext, SkyllaPacket packet) {
         this.registeredListeners.forEach((handler, methods) -> methods.forEach(method -> {
             try {
-                method.invoke(handler, skyllaConnection, packet);
+                method.invoke(handler, packetContext, packet);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }

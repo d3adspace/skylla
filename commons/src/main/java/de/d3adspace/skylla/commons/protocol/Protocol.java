@@ -22,6 +22,7 @@
 package de.d3adspace.skylla.commons.protocol;
 
 import de.d3adspace.skylla.commons.connection.SkyllaConnection;
+import de.d3adspace.skylla.commons.protocol.context.SkyllaPacketContext;
 import de.d3adspace.skylla.commons.protocol.handler.HandlerContainer;
 import de.d3adspace.skylla.commons.protocol.handler.PacketHandler;
 import de.d3adspace.skylla.commons.protocol.handler.PacketHandlerMethod;
@@ -209,20 +210,16 @@ public class Protocol {
     /**
      * Handle an incoming packet.
      *
-     * @param skyllaConnection The connection.
+     * @param packetContext    The packets context.
      * @param packet           The packet.
      */
-    public void handlePacket(SkyllaConnection skyllaConnection, SkyllaPacket packet) {
-        if (skyllaConnection == null) {
-            throw new IllegalArgumentException("skyllaConnection cannot be null");
-        }
-
+    public void handlePacket(SkyllaPacketContext packetContext, SkyllaPacket packet) {
         if (packet == null) {
             throw new IllegalArgumentException("packet cannot be null");
         }
 
         HandlerContainer handlerContainer = packetHandlers.get(packet.getClass());
-        handlerContainer.handlePacket(skyllaConnection, packet);
+        handlerContainer.handlePacket(packetContext, packet);
     }
 
     /**

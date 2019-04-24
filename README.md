@@ -60,12 +60,6 @@ _Commons:_
 # Example
 
 ```java
-package de.d3adspace.example;
-
-import de.d3adspace.skylla.commons.buffer.SkyllaBuffer;
-import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
-import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacketMeta;
-
 /**
  * @author Nathalie0hneHerz
  */
@@ -120,10 +114,6 @@ public class ChatPacket implements SkyllaPacket {
 	}
 }
 
-package de.d3adspace.example;
-
-import de.d3adspace.skylla.commons.protocol.Protocol;
-
 /**
  * @author Nathalie0hneHerz
  */
@@ -134,16 +124,6 @@ public class ChatProtocol extends Protocol {
 		this.registerPacket(ChatPacket.class);
 	}
 }
-
-package de.d3adspace.example;
-
-import de.d3adspace.skylla.commons.config.SkyllaConfig;
-import de.d3adspace.skylla.commons.config.SkyllaConfigBuilder;
-import de.d3adspace.skylla.commons.protocol.Protocol;
-import de.d3adspace.skylla.commons.protocol.handler.PacketHandler;
-import de.d3adspace.skylla.commons.protocol.handler.PacketHandlerMethod;
-import de.d3adspace.skylla.server.SkyllaServer;
-import de.d3adspace.skylla.server.SkyllaServerFactory;
 
 /**
  * @author Nathalie0hneHerz
@@ -168,24 +148,13 @@ public class SkyllaSeverExample {
 	public static class ServerPacketHandlerExample implements PacketHandler {
 		
 		@PacketHandlerMethod
-		public void onPacketChat(SkyllaConnection skyllaConnection, ChatPacket chatPacket) {
+		public void onPacketChat(SkyllaPacketContext packetContext, ChatPacket chatPacket) {
 			System.out.println("[Server] received: " + chatPacket);
 			
 			skyllaConnection.sendPackets(chatPacket);
 		}
 	}
 }
-
-package de.d3adspace.example;
-
-import de.d3adspace.skylla.client.SimpleSkyllaClient;
-import de.d3adspace.skylla.client.SkyllaClient;
-import de.d3adspace.skylla.client.SkyllaClientFactory;
-import de.d3adspace.skylla.commons.config.SkyllaConfig;
-import de.d3adspace.skylla.commons.config.SkyllaConfigBuilder;
-import de.d3adspace.skylla.commons.protocol.Protocol;
-import de.d3adspace.skylla.commons.protocol.handler.PacketHandler;
-import de.d3adspace.skylla.commons.protocol.handler.PacketHandlerMethod;
 
 /**
  * @author Nathalie0hneHerz
@@ -212,12 +181,10 @@ public class SkyllyClientExample {
 	public static class ClientPacketHandlerExample implements PacketHandler {
 		
 		@PacketHandlerMethod
-		public void onPacketChat(SkyllaConnection skyllaConnection, ChatPacket chatPacket) {
+		public void onPacketChat(SkyllaPacketContext packetContext, ChatPacket chatPacket) {
 			System.out.println("[Client] received: " + chatPacket);
 		}
 	}
 }
-
-
 ```
 
