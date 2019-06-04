@@ -21,10 +21,10 @@
 
 package de.d3adspace.skylla.client;
 
+import de.d3adspace.constrictor.netty.NettyUtils;
 import de.d3adspace.skylla.commons.config.SkyllaConfig;
 import de.d3adspace.skylla.commons.initializer.SkyllaChannelInitializer;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
-import de.d3adspace.skylla.commons.utils.NettyUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
@@ -66,9 +66,9 @@ public class SimpleSkyllaClient implements SkyllaClient {
     @Override
     public void connect() {
 
-        workerGroup = NettyUtils.createEventLoopGroup(4);
+        workerGroup = NettyUtils.createWorkerGroup(4);
 
-        Class<? extends Channel> channelClazz = NettyUtils.getChannel();
+        Class<? extends Channel> channelClazz = NettyUtils.getSocketChannel();
         ChannelHandler channelInitializer = new SkyllaChannelInitializer(config.getProtocol());
 
         Bootstrap bootstrap = new Bootstrap();

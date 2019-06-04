@@ -21,11 +21,15 @@
 
 package de.d3adspace.skylla.server;
 
+import de.d3adspace.constrictor.netty.NettyUtils;
 import de.d3adspace.skylla.commons.config.SkyllaConfig;
 import de.d3adspace.skylla.commons.initializer.SkyllaChannelInitializer;
-import de.d3adspace.skylla.commons.utils.NettyUtils;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.ServerChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,10 +79,10 @@ public class SimpleSkyllaServer implements SkyllaServer {
 
         logger.info("Starting Server.");
 
-        bossGroup = NettyUtils.createEventLoopGroup(1);
-        workerGroup = NettyUtils.createEventLoopGroup(4);
+        bossGroup = NettyUtils.createBossGroup(1);
+        workerGroup = NettyUtils.createWorkerGroup(4);
 
-        Class<? extends ServerChannel> serverChannelClazz = NettyUtils.getServerChannelClass();
+        Class<? extends ServerChannel> serverChannelClazz = NettyUtils.getServerSocketChannel();
         ChannelHandler channelInitializer = new SkyllaChannelInitializer(config.getProtocol());
 
         ServerBootstrap serverBootstrap = new ServerBootstrap();

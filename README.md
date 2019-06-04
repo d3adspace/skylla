@@ -2,6 +2,8 @@
 
 A simple network framework based on packet events. First taken as a PROC we decided to publish this and develop some more features in the future in order to provider a lightweight but powerful framework for little network applications that want to outsource their network handling parts. 
 
+Skylla uses [constrictor](https://github.com/d3adspace/constrictor) networking utils.
+
 # Installation / Usage
 
 - Install [Maven](http://maven.apache.org/download.cgi)

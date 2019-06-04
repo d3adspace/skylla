@@ -64,11 +64,11 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- Netty -->
+        <!-- Constrictor -->
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.35.Final</version>
+            <groupId>de.d3adspace.constrictor</groupId>
+            <artifactId>constrictor-netty</artifactId>
+            <version>2.2</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

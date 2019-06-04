@@ -24,8 +24,9 @@ package de.d3adspace.skylla.commons.connection;
 import de.d3adspace.skylla.commons.protocol.Protocol;
 import de.d3adspace.skylla.commons.protocol.context.SkyllaPacketContext;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
-import de.d3adspace.skylla.commons.utils.NettyUtils;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -76,7 +77,7 @@ public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> 
 		 * Handle IO Exception on disconnect.
 		 */
         if (cause instanceof IOException) {
-            NettyUtils.closeWhenFlushed(channel);
+            channel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
             return;
         }
 

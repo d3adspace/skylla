@@ -21,18 +21,21 @@
 
 package de.d3adspace.skylla.commons.initializer;
 
+import de.d3adspace.constrictor.netty.NettyUtils;
 import de.d3adspace.skylla.commons.codec.SkyllaPacketDecoder;
 import de.d3adspace.skylla.commons.codec.SkyllaPacketEncoder;
 import de.d3adspace.skylla.commons.connection.SkyllaConnection;
 import de.d3adspace.skylla.commons.protocol.Protocol;
-import de.d3adspace.skylla.commons.utils.NettyUtils;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LengthFieldPrepender;
 
 /**
  * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Felix Klauke <info@felix-klauke.de>
  */
 public class SkyllaChannelInitializer extends ChannelInitializer<SocketChannel> {
 
@@ -56,13 +59,13 @@ public class SkyllaChannelInitializer extends ChannelInitializer<SocketChannel> 
 
         ChannelPipeline pipeline = socketChannel.pipeline();
 
-        ChannelHandler lengthFieldBasedFrameDecoder = NettyUtils.createLengthFieldBasedFrameDecoder(32768, 0, 4);
+        ChannelHandler lengthFieldBasedFrameDecoder = new LengthFieldBasedFrameDecoder(32768, 0, 4);
         pipeline.addLast(lengthFieldBasedFrameDecoder);
 
         ChannelHandler packetDecoder = new SkyllaPacketDecoder(protocol);
         pipeline.addLast(packetDecoder);
 
-        ChannelHandler lengthFieldPrepender = NettyUtils.createLengthFieldPrepender(4);
+        ChannelHandler lengthFieldPrepender = new LengthFieldPrepender(4);
         pipeline.addLast(lengthFieldPrepender);
 
         ChannelHandler packetEncoder = new SkyllaPacketEncoder(protocol);
