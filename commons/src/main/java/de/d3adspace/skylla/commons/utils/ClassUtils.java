@@ -24,7 +24,7 @@ package de.d3adspace.skylla.commons.utils;
 import java.lang.reflect.Constructor;
 
 /**
- * @author Felix Klauke <info@felix-klauke.de>
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public class ClassUtils {
 

@@ -36,7 +36,7 @@ import java.util.Arrays;
  * Handling Netty connections.
  *
  * @author Nathalie O'Neill (nathalie@d3adspace.de)
- * @author Felix Klauke <info@felix-klauke.de>
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> {
 

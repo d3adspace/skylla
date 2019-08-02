@@ -45,7 +45,7 @@ import java.util.UUID;
  * endless lines of encoding. To achieve this we wrap around nettys bytebuf.
  *
  * @author Nathalie O'Neill (nathalie@d3adspace.de)
- * @author Felix Klauke <info@felix-klauke.de>
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public class SkyllaBuffer extends ByteBuf {
 

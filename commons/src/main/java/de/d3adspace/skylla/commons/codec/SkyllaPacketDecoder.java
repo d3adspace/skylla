@@ -34,7 +34,7 @@ import java.util.List;
  * new one by that id and send the created packet through the Pipeline.
  *
  * @author Nathalie O'Neill (nathalie@d3adspace.de)
- * @author Felix Klauke <info@felix-klauke.de>
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public class SkyllaPacketDecoder extends ByteToMessageDecoder {
 
