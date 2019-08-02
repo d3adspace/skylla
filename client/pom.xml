@@ -33,7 +33,7 @@
           <target>1.8</target>
         </configuration>
         <groupId>org.apache.maven.plugins</groupId>
-        <version>3.8.0</version>
+        <version>3.8.1</version>
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>

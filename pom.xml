@@ -28,7 +28,14 @@
   <build>
     <plugins>
 
-      <!-- Maven Compiler plugin -->
+      <!-- Maven Surefire -->
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>${maven.plguin.surefire.version}</version>
+      </plugin>
+
+      <!-- Maven Compiler -->
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
@@ -36,7 +43,83 @@
           <target>11</target>
         </configuration>
         <groupId>org.apache.maven.plugins</groupId>
-        <version>3.8.0</version>
+        <version>${maven.plugin.compiler.version}</version>
+      </plugin>
+
+      <!-- Maven release plugin -->
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>${maven.plugin.release.version}</version>
+      </plugin>
+
+      <!-- SonarQube -->
+      <plugin>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <version>${maven.plugin.sonar.version}</version>
+      </plugin>
+
+      <!-- JaCocCo -->
+      <plugin>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <append>true</append>
+          <destFile>${sonar.jacoco.reportPaths}</destFile>
+        </configuration>
+        <executions>
+          <!-- Prepare Agent -->
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <id>jacoco-initialize</id>
+          </execution>
+
+          <!-- Create reports -->
+          <execution>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <id>jacoco-site</id>
+            <phase>package</phase>
+          </execution>
+        </executions>
+
+        <!-- Aggregate the reports in the given sonar repo -->
+        <groupId>org.jacoco</groupId>
+
+        <version>${maven.plugin.jacoco.version}</version>
+      </plugin>
+
+      <!-- Maven Source plugin -->
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <id>attach-sources</id>
+          </execution>
+        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>${maven.plugin.source.version}</version>
+      </plugin>
+
+      <!-- Maven JavaDocs plugin -->
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <id>attach-javadocs</id>
+          </execution>
+        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>${maven.plugin.javadoc.version}</version>
       </plugin>
 
     </plugins>
@@ -81,5 +164,27 @@
   </repositories>
 
   <version>2.0.0</version>
+
+  <properties>
+    <!-- General -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- Sonar -->
+    <junit-jupiter.version>5.4.2</junit-jupiter.version>
+    <maven.plguin.surefire.version>2.22.2</maven.plguin.surefire.version>
+    <maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
+
+    <!-- Maven -->
+    <maven.plugin.jacoco.version>0.8.4</maven.plugin.jacoco.version>
+    <maven.plugin.javadoc.version>3.1.0</maven.plugin.javadoc.version>
+    <maven.plugin.release.version>2.5.3</maven.plugin.release.version>
+    <maven.plugin.sonar.version>3.6.0.1398</maven.plugin.sonar.version>
+    <maven.plugin.source.version>3.1.0</maven.plugin.source.version>
+    <sonar.jacoco.reportPaths>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPaths>
+    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+
+    <!-- Dependencies -->
+    <sonar.language>java</sonar.language>
+  </properties>
 
 </project>
