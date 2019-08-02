@@ -21,7 +21,6 @@
 
 package de.d3adspace.skylla.commons.initializer;
 
-import de.d3adspace.constrictor.netty.NettyUtils;
 import de.d3adspace.skylla.commons.codec.SkyllaPacketDecoder;
 import de.d3adspace.skylla.commons.codec.SkyllaPacketEncoder;
 import de.d3adspace.skylla.commons.connection.SkyllaConnection;
@@ -39,39 +38,39 @@ import io.netty.handler.codec.LengthFieldPrepender;
  */
 public class SkyllaChannelInitializer extends ChannelInitializer<SocketChannel> {
 
-    /**
-     * The protocol for communication.
-     */
-    private final Protocol protocol;
+  /**
+   * The protocol for communication.
+   */
+  private final Protocol protocol;
 
-    /**
-     * Create a new initializer.
-     *
-     * @param protocol The protocol.
-     */
-    public SkyllaChannelInitializer(Protocol protocol) {
+  /**
+   * Create a new initializer.
+   *
+   * @param protocol The protocol.
+   */
+  public SkyllaChannelInitializer(Protocol protocol) {
 
-        this.protocol = protocol;
-    }
+    this.protocol = protocol;
+  }
 
-    @Override
-    protected void initChannel(SocketChannel socketChannel) {
+  @Override
+  protected void initChannel(SocketChannel socketChannel) {
 
-        ChannelPipeline pipeline = socketChannel.pipeline();
+    ChannelPipeline pipeline = socketChannel.pipeline();
 
-        ChannelHandler lengthFieldBasedFrameDecoder = new LengthFieldBasedFrameDecoder(32768, 0, 4);
-        pipeline.addLast(lengthFieldBasedFrameDecoder);
+    ChannelHandler lengthFieldBasedFrameDecoder = new LengthFieldBasedFrameDecoder(32768, 0, 4);
+    pipeline.addLast(lengthFieldBasedFrameDecoder);
 
-        ChannelHandler packetDecoder = new SkyllaPacketDecoder(protocol);
-        pipeline.addLast(packetDecoder);
+    ChannelHandler packetDecoder = new SkyllaPacketDecoder(protocol);
+    pipeline.addLast(packetDecoder);
 
-        ChannelHandler lengthFieldPrepender = new LengthFieldPrepender(4);
-        pipeline.addLast(lengthFieldPrepender);
+    ChannelHandler lengthFieldPrepender = new LengthFieldPrepender(4);
+    pipeline.addLast(lengthFieldPrepender);
 
-        ChannelHandler packetEncoder = new SkyllaPacketEncoder(protocol);
-        pipeline.addLast(packetEncoder);
+    ChannelHandler packetEncoder = new SkyllaPacketEncoder(protocol);
+    pipeline.addLast(packetEncoder);
 
-        ChannelHandler packetHandler = new SkyllaConnection(socketChannel, protocol);
-        pipeline.addLast(packetHandler);
-    }
+    ChannelHandler packetHandler = new SkyllaConnection(socketChannel, protocol);
+    pipeline.addLast(packetHandler);
+  }
 }

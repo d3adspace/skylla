@@ -22,7 +22,6 @@
 package de.d3adspace.example;
 
 import de.d3adspace.skylla.commons.config.SkyllaConfig;
-import de.d3adspace.skylla.commons.connection.SkyllaConnection;
 import de.d3adspace.skylla.commons.protocol.Protocol;
 import de.d3adspace.skylla.commons.protocol.context.SkyllaPacketContext;
 import de.d3adspace.skylla.commons.protocol.handler.PacketHandler;
@@ -35,28 +34,28 @@ import de.d3adspace.skylla.server.SkyllaServerFactory;
  */
 public class SkyllaSeverExample {
 
-    public static void main(String[] args) {
-        Protocol protocol = new Protocol();
-        protocol.registerPacket(ChatPacket.class);
-        protocol.registerListener(new ServerPacketHandlerExample());
+  public static void main(String[] args) {
+    Protocol protocol = new Protocol();
+    protocol.registerPacket(ChatPacket.class);
+    protocol.registerListener(new ServerPacketHandlerExample());
 
-        SkyllaConfig config = SkyllaConfig.newBuilder()
-                .setServerHost("localhost")
-                .setServerPort(1337)
-                .setProtocol(protocol)
-                .createSkyllaConfig();
+    SkyllaConfig config = SkyllaConfig.newBuilder()
+        .setServerHost("localhost")
+        .setServerPort(1337)
+        .setProtocol(protocol)
+        .createSkyllaConfig();
 
-        SkyllaServer skyllaServer = SkyllaServerFactory.createSkyllaServer(config);
-        skyllaServer.start();
+    SkyllaServer skyllaServer = SkyllaServerFactory.createSkyllaServer(config);
+    skyllaServer.start();
+  }
+
+  public static class ServerPacketHandlerExample implements PacketHandler {
+
+    @PacketHandlerMethod
+    public void onPacketChat(SkyllaPacketContext packetContext, ChatPacket chatPacket) {
+      System.out.println("[Server] received: " + chatPacket);
+
+      packetContext.answer(chatPacket);
     }
-
-    public static class ServerPacketHandlerExample implements PacketHandler {
-
-        @PacketHandlerMethod
-        public void onPacketChat(SkyllaPacketContext packetContext, ChatPacket chatPacket) {
-            System.out.println("[Server] received: " + chatPacket);
-
-            packetContext.answer(chatPacket);
-        }
-    }
+  }
 }

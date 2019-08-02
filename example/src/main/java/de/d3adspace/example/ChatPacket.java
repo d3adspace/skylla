@@ -33,93 +33,93 @@ import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacketMeta;
 @SkyllaPacketMeta(id = 0)
 public class ChatPacket implements SkyllaPacket {
 
-    /**
-     * The sender of the message.
-     */
-    private String sender;
+  /**
+   * The sender of the message.
+   */
+  private String sender;
 
-    /**
-     * The message sent by the sender.
-     */
-    private String message;
+  /**
+   * The message sent by the sender.
+   */
+  private String message;
 
-    /**
-     * Create a new packet.
-     *
-     * @param sender  The sender.
-     * @param message The message.
-     */
-    public ChatPacket(String sender, String message) {
+  /**
+   * Create a new packet.
+   *
+   * @param sender The sender.
+   * @param message The message.
+   */
+  public ChatPacket(String sender, String message) {
 
-        this.sender = sender;
-        this.message = message;
-    }
+    this.sender = sender;
+    this.message = message;
+  }
 
-    /**
-     * Packet Constructor.
-     */
-    public ChatPacket() {
-    }
+  /**
+   * Packet Constructor.
+   */
+  public ChatPacket() {
+  }
 
-    @Override
-    public void write(SkyllaBuffer buffer) {
+  @Override
+  public void write(SkyllaBuffer buffer) {
 
-        buffer.writeString(sender);
-        buffer.writeString(message);
-    }
+    buffer.writeString(sender);
+    buffer.writeString(message);
+  }
 
-    @Override
-    public void read(SkyllaBuffer buffer) {
+  @Override
+  public void read(SkyllaBuffer buffer) {
 
-        sender = buffer.readString();
-        message = buffer.readString();
-    }
+    sender = buffer.readString();
+    message = buffer.readString();
+  }
 
-    /**
-     * Get the message by the sender.
-     *
-     * @return The message.
-     */
-    public String getMessage() {
+  /**
+   * Get the message by the sender.
+   *
+   * @return The message.
+   */
+  public String getMessage() {
 
-        return message;
-    }
+    return message;
+  }
 
-    /**
-     * Set the message by the sender.
-     *
-     * @param message The message.
-     */
-    public void setMessage(String message) {
+  /**
+   * Set the message by the sender.
+   *
+   * @param message The message.
+   */
+  public void setMessage(String message) {
 
-        this.message = message;
-    }
+    this.message = message;
+  }
 
-    /**
-     * Get the sender of the message.
-     *
-     * @return The sender.
-     */
-    public String getSender() {
+  /**
+   * Get the sender of the message.
+   *
+   * @return The sender.
+   */
+  public String getSender() {
 
-        return sender;
-    }
+    return sender;
+  }
 
-    /**
-     * Set the sender of the message.
-     *
-     * @param sender The sender.
-     */
-    public void setSender(String sender) {
+  /**
+   * Set the sender of the message.
+   *
+   * @param sender The sender.
+   */
+  public void setSender(String sender) {
 
-        this.sender = sender;
-    }
+    this.sender = sender;
+  }
 
-    @Override
-    public String toString() {
-        return "ChatPacket{" +
-                "sender='" + sender + '\'' +
-                ", message='" + message + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "ChatPacket{" +
+        "sender='" + sender + '\'' +
+        ", message='" + message + '\'' +
+        '}';
+  }
 }

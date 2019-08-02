@@ -23,7 +23,6 @@ package de.d3adspace.skylla.commons.protocol;
 
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacketMeta;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,59 +33,60 @@ import java.util.Map;
  */
 class PacketMetaContainer {
 
-    /**
-     * The underlying Map
-     */
-    private final Map<Class<?>, SkyllaPacketMeta> metadata;
+  /**
+   * The underlying Map
+   */
+  private final Map<Class<?>, SkyllaPacketMeta> metadata;
 
-    /**
-     * Create a new container by a map of known meta data.
-     *
-     * @param metadata The metadata.
-     */
-    private PacketMetaContainer(Map<Class<?>, SkyllaPacketMeta> metadata) {
+  /**
+   * Create a new container by a map of known meta data.
+   *
+   * @param metadata The metadata.
+   */
+  private PacketMetaContainer(Map<Class<?>, SkyllaPacketMeta> metadata) {
 
-        this.metadata = metadata;
-    }
+    this.metadata = metadata;
+  }
 
-    /**
-     * Create an empty container
-     */
-    PacketMetaContainer() {
+  /**
+   * Create an empty container
+   */
+  PacketMetaContainer() {
 
-        this(new HashMap<>());
-    }
+    this(new HashMap<>());
+  }
 
-    /**
-     * Retrieve packet meta by a packet instance.
-     *
-     * @param skyllaPacket The packet.
-     * @return The meta.
-     */
-    SkyllaPacketMeta getPacketMeta(SkyllaPacket skyllaPacket) {
+  /**
+   * Retrieve packet meta by a packet instance.
+   *
+   * @param skyllaPacket The packet.
+   * @return The meta.
+   */
+  SkyllaPacketMeta getPacketMeta(SkyllaPacket skyllaPacket) {
 
-        return getPacketMeta(skyllaPacket.getClass());
-    }
+    return getPacketMeta(skyllaPacket.getClass());
+  }
 
-    /**
-     * Get meta by a packet class.
-     *
-     * @param packetClazz The packet class.
-     * @return The meta.
-     */
-    SkyllaPacketMeta getPacketMeta(Class<?> packetClazz) {
+  /**
+   * Get meta by a packet class.
+   *
+   * @param packetClazz The packet class.
+   * @return The meta.
+   */
+  SkyllaPacketMeta getPacketMeta(Class<?> packetClazz) {
 
-        return metadata.computeIfAbsent(packetClazz, k -> packetClazz.getAnnotation(SkyllaPacketMeta.class));
-    }
+    return metadata
+        .computeIfAbsent(packetClazz, k -> packetClazz.getAnnotation(SkyllaPacketMeta.class));
+  }
 
-    /**
-     * Presave a meta to prevent lazy loading.
-     *
-     * @param packetClazz The packet class.
-     * @param meta        The meta.
-     */
-    void registerPacketMeta(Class<?> packetClazz, SkyllaPacketMeta meta) {
+  /**
+   * Presave a meta to prevent lazy loading.
+   *
+   * @param packetClazz The packet class.
+   * @param meta The meta.
+   */
+  void registerPacketMeta(Class<?> packetClazz, SkyllaPacketMeta meta) {
 
-        metadata.put(packetClazz, meta);
-    }
+    metadata.put(packetClazz, meta);
+  }
 }

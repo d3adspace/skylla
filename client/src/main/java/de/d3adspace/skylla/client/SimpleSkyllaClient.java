@@ -38,65 +38,65 @@ import io.netty.channel.EventLoopGroup;
  */
 public class SimpleSkyllaClient implements SkyllaClient {
 
-    /**
-     * Config providing server adress
-     */
-    private final SkyllaConfig config;
+  /**
+   * Config providing server adress
+   */
+  private final SkyllaConfig config;
 
-    /**
-     * Worker group for netty.
-     */
-    private EventLoopGroup workerGroup;
+  /**
+   * Worker group for netty.
+   */
+  private EventLoopGroup workerGroup;
 
-    /**
-     * Channel to communicate with the server
-     */
-    private Channel channel;
+  /**
+   * Channel to communicate with the server
+   */
+  private Channel channel;
 
-    /**
-     * Create a new client
-     *
-     * @param config The config.
-     */
-    SimpleSkyllaClient(SkyllaConfig config) {
+  /**
+   * Create a new client
+   *
+   * @param config The config.
+   */
+  SimpleSkyllaClient(SkyllaConfig config) {
 
-        this.config = config;
+    this.config = config;
+  }
+
+  @Override
+  public void connect() {
+
+    workerGroup = NettyUtils.createWorkerGroup(4);
+
+    Class<? extends Channel> channelClazz = NettyUtils.getSocketChannel();
+    ChannelHandler channelInitializer = new SkyllaChannelInitializer(config.getProtocol());
+
+    Bootstrap bootstrap = new Bootstrap();
+
+    try {
+      channel = bootstrap
+          .channel(channelClazz)
+          .group(workerGroup)
+          .option(ChannelOption.TCP_NODELAY, true)
+          .option(ChannelOption.SO_BACKLOG, 50)
+          .handler(channelInitializer)
+          .connect(config.getServerHost(), config.getServerPort())
+          .sync().channel();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
+  }
 
-    @Override
-    public void connect() {
+  @Override
+  public void disconnect() {
 
-        workerGroup = NettyUtils.createWorkerGroup(4);
+    channel.close();
+    workerGroup.shutdownGracefully();
+  }
 
-        Class<? extends Channel> channelClazz = NettyUtils.getSocketChannel();
-        ChannelHandler channelInitializer = new SkyllaChannelInitializer(config.getProtocol());
+  @Override
+  public void sendPacket(SkyllaPacket packet) {
 
-        Bootstrap bootstrap = new Bootstrap();
-
-        try {
-            channel = bootstrap
-                    .channel(channelClazz)
-                    .group(workerGroup)
-                    .option(ChannelOption.TCP_NODELAY, true)
-                    .option(ChannelOption.SO_BACKLOG, 50)
-                    .handler(channelInitializer)
-                    .connect(config.getServerHost(), config.getServerPort())
-                    .sync().channel();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void disconnect() {
-
-        channel.close();
-        workerGroup.shutdownGracefully();
-    }
-
-    @Override
-    public void sendPacket(SkyllaPacket packet) {
-
-        channel.writeAndFlush(packet);
-    }
+    channel.writeAndFlush(packet);
+  }
 }

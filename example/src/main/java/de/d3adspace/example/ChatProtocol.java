@@ -30,8 +30,8 @@ import de.d3adspace.skylla.commons.protocol.Protocol;
  */
 public class ChatProtocol extends Protocol {
 
-    public ChatProtocol() {
+  public ChatProtocol() {
 
-        registerPacket(ChatPacket.class);
-    }
+    registerPacket(ChatPacket.class);
+  }
 }

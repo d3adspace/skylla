@@ -28,13 +28,12 @@ import de.d3adspace.skylla.commons.protocol.handler.PacketHandlerMethod;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacketMeta;
 import de.d3adspace.skylla.commons.utils.ClassUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Structuring network communication.
@@ -44,203 +43,202 @@ import java.util.Map;
  */
 public class Protocol {
 
-    /**
-     * Registry for all known packets.
-     */
-    private final Map<Byte, Class<? extends SkyllaPacket>> registeredPackets;
+  /**
+   * Registry for all known packets.
+   */
+  private final Map<Byte, Class<? extends SkyllaPacket>> registeredPackets;
 
-    /**
-     * Registry for all known Handlers.
-     */
-    private final Map<Class<? extends SkyllaPacket>, HandlerContainer> packetHandlers;
+  /**
+   * Registry for all known Handlers.
+   */
+  private final Map<Class<? extends SkyllaPacket>, HandlerContainer> packetHandlers;
 
-    /**
-     * The container for all the packet meta
-     */
-    private final PacketMetaContainer metaContainer;
+  /**
+   * The container for all the packet meta
+   */
+  private final PacketMetaContainer metaContainer;
 
-    /**
-     * Logger for all protocol actions.
-     */
-    private final Logger logger;
+  /**
+   * Logger for all protocol actions.
+   */
+  private final Logger logger;
 
-    /**
-     * Create a new Protocol.
-     */
-    public Protocol() {
+  /**
+   * Create a new Protocol.
+   */
+  public Protocol() {
 
-        this.registeredPackets = new HashMap<>();
-        this.packetHandlers = new HashMap<>();
-        this.metaContainer = new PacketMetaContainer();
-        this.logger = LoggerFactory.getLogger(Protocol.class);
+    this.registeredPackets = new HashMap<>();
+    this.packetHandlers = new HashMap<>();
+    this.metaContainer = new PacketMetaContainer();
+    this.logger = LoggerFactory.getLogger(Protocol.class);
+  }
+
+  /**
+   * Register a new packet.
+   *
+   * @param packetClazz The packet clazz.
+   */
+  public void registerPacket(Class<? extends SkyllaPacket> packetClazz) {
+
+    if (packetClazz == null) {
+      throw new IllegalArgumentException("packetClazz cannot be null");
     }
 
-    /**
-     * Register a new packet.
-     *
-     * @param packetClazz The packet clazz.
-     */
-    public void registerPacket(Class<? extends SkyllaPacket> packetClazz) {
-
-        if (packetClazz == null) {
-            throw new IllegalArgumentException("packetClazz cannot be null");
-        }
-
-        if (!ClassUtils.hasNoArgsConstructor(packetClazz)) {
-            throw new IllegalArgumentException(
-                    packetClazz + " does not have a no args constructor.");
-        }
-
-        SkyllaPacketMeta meta = packetClazz.getAnnotation(SkyllaPacketMeta.class);
-
-        if (meta == null) {
-            throw new IllegalArgumentException(
-                    packetClazz + " does not have @SkyllaPacketMeta Annotation.");
-        }
-
-        if (registeredPackets.containsKey(meta.id())) {
-            throw new IllegalArgumentException("I already know a packet with the id " + meta.id());
-        }
-
-        metaContainer.registerPacketMeta(packetClazz, meta);
-
-        logger.info(
-                "Registering new Packet: " + packetClazz.getSimpleName() + " with id " + meta.id());
-
-        registeredPackets.put(meta.id(), packetClazz);
+    if (!ClassUtils.hasNoArgsConstructor(packetClazz)) {
+      throw new IllegalArgumentException(
+          packetClazz + " does not have a no args constructor.");
     }
 
-    /**
-     * Unregister a new packet.
-     *
-     * @param packetClazz The packet clazz.
-     */
-    public void unregisterPacket(Class<? extends SkyllaPacket> packetClazz) {
+    SkyllaPacketMeta meta = packetClazz.getAnnotation(SkyllaPacketMeta.class);
 
-        if (packetClazz == null) {
-            throw new IllegalArgumentException("packetClazz cannot be null");
-        }
-
-        SkyllaPacketMeta meta = metaContainer.getPacketMeta(packetClazz);
-
-        if (meta == null) {
-            throw new IllegalArgumentException(
-                    packetClazz + " does not have @SkyllaPacketMeta Annotation.");
-        }
-
-        registeredPackets.remove(meta.id());
+    if (meta == null) {
+      throw new IllegalArgumentException(
+          packetClazz + " does not have @SkyllaPacketMeta Annotation.");
     }
 
-    /**
-     * Create a new packet by id.
-     *
-     * @param packetId The id.
-     *
-     * @return The packet.
-     */
-    public SkyllaPacket createPacket(byte packetId) {
-
-        Class<? extends SkyllaPacket> packetClazz = registeredPackets.get(packetId);
-
-        if (packetClazz == null) {
-            throw new IllegalStateException("No packet with id " + packetId);
-        }
-
-        SkyllaPacket packet = null;
-
-        try {
-            packet = packetClazz.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            logger.error("Unable to create packet with id " + packetId, e);
-        }
-
-        return packet;
+    if (registeredPackets.containsKey(meta.id())) {
+      throw new IllegalArgumentException("I already know a packet with the id " + meta.id());
     }
 
-    /**
-     * Register a listener.
-     *
-     * @param packetHandler The handler.
-     */
-    public void registerListener(PacketHandler packetHandler) {
+    metaContainer.registerPacketMeta(packetClazz, meta);
 
-        if (packetHandler == null) {
-            throw new IllegalArgumentException("packetHandler cannot be null");
-        }
+    logger.info(
+        "Registering new Packet: " + packetClazz.getSimpleName() + " with id " + meta.id());
 
-        Method[] declaredMethods = packetHandler.getClass().getDeclaredMethods();
+    registeredPackets.put(meta.id(), packetClazz);
+  }
 
-        Arrays.stream(declaredMethods)
-                .filter(method -> method.isAnnotationPresent(PacketHandlerMethod.class)
-                        && method.getParameterCount() == 2
-                        && SkyllaPacket.class.isAssignableFrom(method.getParameterTypes()[1]))
-                .forEach(method -> {
-                    Class<? extends SkyllaPacket> packetClazz = (Class<? extends SkyllaPacket>) method.getParameterTypes()[1];
+  /**
+   * Unregister a new packet.
+   *
+   * @param packetClazz The packet clazz.
+   */
+  public void unregisterPacket(Class<? extends SkyllaPacket> packetClazz) {
 
-                    if (!packetHandlers.containsKey(packetClazz)) {
-                        packetHandlers.put(packetClazz, new HandlerContainer());
-                    }
-
-                    packetHandlers.get(packetClazz).registerListenerMethod(packetHandler, method);
-                });
+    if (packetClazz == null) {
+      throw new IllegalArgumentException("packetClazz cannot be null");
     }
 
-    /**
-     * Unregister a listener.
-     *
-     * @param packetHandler The handler.
-     */
-    public void unregisterListener(PacketHandler packetHandler) {
+    SkyllaPacketMeta meta = metaContainer.getPacketMeta(packetClazz);
 
-        if (packetHandler == null) {
-            throw new IllegalArgumentException("packetHandler cannot be null");
-        }
+    if (meta == null) {
+      throw new IllegalArgumentException(
+          packetClazz + " does not have @SkyllaPacketMeta Annotation.");
+    }
 
-        Method[] declaredMethods = packetHandler.getClass().getDeclaredMethods();
+    registeredPackets.remove(meta.id());
+  }
 
-        Arrays.stream(declaredMethods).forEach(method -> {
+  /**
+   * Create a new packet by id.
+   *
+   * @param packetId The id.
+   * @return The packet.
+   */
+  public SkyllaPacket createPacket(byte packetId) {
 
-            int parameterCount = method.getParameterCount();
-            Class<?> parameterClazz = method.getParameterTypes()[1];
-            if (method.isAnnotationPresent(PacketHandlerMethod.class)
-                    && parameterCount == 1
-                    && parameterClazz.isAssignableFrom(SkyllaPacket.class)) {
+    Class<? extends SkyllaPacket> packetClazz = registeredPackets.get(packetId);
 
-                packetHandlers.get(parameterClazz)
-                        .unregisterHandler(packetHandler);
-            }
+    if (packetClazz == null) {
+      throw new IllegalStateException("No packet with id " + packetId);
+    }
+
+    SkyllaPacket packet = null;
+
+    try {
+      packet = packetClazz.newInstance();
+    } catch (InstantiationException | IllegalAccessException e) {
+      logger.error("Unable to create packet with id " + packetId, e);
+    }
+
+    return packet;
+  }
+
+  /**
+   * Register a listener.
+   *
+   * @param packetHandler The handler.
+   */
+  public void registerListener(PacketHandler packetHandler) {
+
+    if (packetHandler == null) {
+      throw new IllegalArgumentException("packetHandler cannot be null");
+    }
+
+    Method[] declaredMethods = packetHandler.getClass().getDeclaredMethods();
+
+    Arrays.stream(declaredMethods)
+        .filter(method -> method.isAnnotationPresent(PacketHandlerMethod.class)
+            && method.getParameterCount() == 2
+            && SkyllaPacket.class.isAssignableFrom(method.getParameterTypes()[1]))
+        .forEach(method -> {
+          Class<? extends SkyllaPacket> packetClazz = (Class<? extends SkyllaPacket>) method
+              .getParameterTypes()[1];
+
+          if (!packetHandlers.containsKey(packetClazz)) {
+            packetHandlers.put(packetClazz, new HandlerContainer());
+          }
+
+          packetHandlers.get(packetClazz).registerListenerMethod(packetHandler, method);
         });
+  }
+
+  /**
+   * Unregister a listener.
+   *
+   * @param packetHandler The handler.
+   */
+  public void unregisterListener(PacketHandler packetHandler) {
+
+    if (packetHandler == null) {
+      throw new IllegalArgumentException("packetHandler cannot be null");
     }
 
-    /**
-     * Handle an incoming packet.
-     *
-     * @param packetContext The packets context.
-     * @param packet        The packet.
-     */
-    public void handlePacket(SkyllaPacketContext packetContext, SkyllaPacket packet) {
+    Method[] declaredMethods = packetHandler.getClass().getDeclaredMethods();
 
-        if (packet == null) {
-            throw new IllegalArgumentException("packet cannot be null");
-        }
+    Arrays.stream(declaredMethods).forEach(method -> {
 
-        HandlerContainer handlerContainer = packetHandlers.get(packet.getClass());
-        handlerContainer.handlePacket(packetContext, packet);
+      int parameterCount = method.getParameterCount();
+      Class<?> parameterClazz = method.getParameterTypes()[1];
+      if (method.isAnnotationPresent(PacketHandlerMethod.class)
+          && parameterCount == 1
+          && parameterClazz.isAssignableFrom(SkyllaPacket.class)) {
+
+        packetHandlers.get(parameterClazz)
+            .unregisterHandler(packetHandler);
+      }
+    });
+  }
+
+  /**
+   * Handle an incoming packet.
+   *
+   * @param packetContext The packets context.
+   * @param packet The packet.
+   */
+  public void handlePacket(SkyllaPacketContext packetContext, SkyllaPacket packet) {
+
+    if (packet == null) {
+      throw new IllegalArgumentException("packet cannot be null");
     }
 
-    /**
-     * Get id by packet.
-     *
-     * @param packet The packet.
-     *
-     * @return The id.
-     */
-    public byte getPacketId(SkyllaPacket packet) {
+    HandlerContainer handlerContainer = packetHandlers.get(packet.getClass());
+    handlerContainer.handlePacket(packetContext, packet);
+  }
 
-        if (packet == null) {
-            throw new IllegalArgumentException("packet cannot be null");
-        }
+  /**
+   * Get id by packet.
+   *
+   * @param packet The packet.
+   * @return The id.
+   */
+  public byte getPacketId(SkyllaPacket packet) {
 
-        return metaContainer.getPacketMeta(packet).id();
+    if (packet == null) {
+      throw new IllegalArgumentException("packet cannot be null");
     }
+
+    return metaContainer.getPacketMeta(packet).id();
+  }
 }

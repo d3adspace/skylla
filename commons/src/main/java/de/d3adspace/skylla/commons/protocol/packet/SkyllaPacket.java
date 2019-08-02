@@ -28,17 +28,17 @@ import de.d3adspace.skylla.commons.buffer.SkyllaBuffer;
  */
 public interface SkyllaPacket {
 
-    /**
-     * Write a packet to the given buffer.
-     *
-     * @param buffer The buffer.
-     */
-    void write(SkyllaBuffer buffer);
+  /**
+   * Write a packet to the given buffer.
+   *
+   * @param buffer The buffer.
+   */
+  void write(SkyllaBuffer buffer);
 
-    /**
-     * Read a packet from a buffer.
-     *
-     * @param buffer The buffer.
-     */
-    void read(SkyllaBuffer buffer);
+  /**
+   * Read a packet from a buffer.
+   *
+   * @param buffer The buffer.
+   */
+  void read(SkyllaBuffer buffer);
 }

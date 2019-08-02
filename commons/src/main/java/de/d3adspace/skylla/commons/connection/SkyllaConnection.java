@@ -29,7 +29,6 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -41,66 +40,66 @@ import java.util.Arrays;
  */
 public class SkyllaConnection extends SimpleChannelInboundHandler<SkyllaPacket> {
 
-    /**
-     * The underlying netty channel.
-     */
-    private final Channel channel;
+  /**
+   * The underlying netty channel.
+   */
+  private final Channel channel;
 
-    /**
-     * The protocol for communication.
-     */
-    private final Protocol protocol;
+  /**
+   * The protocol for communication.
+   */
+  private final Protocol protocol;
 
-    /**
-     * Create a new connection wrapper.
-     *
-     * @param channel  The channel.
-     * @param protocol The protocol.
-     */
-    public SkyllaConnection(Channel channel, Protocol protocol) {
+  /**
+   * Create a new connection wrapper.
+   *
+   * @param channel The channel.
+   * @param protocol The protocol.
+   */
+  public SkyllaConnection(Channel channel, Protocol protocol) {
 
-        this.channel = channel;
-        this.protocol = protocol;
+    this.channel = channel;
+    this.protocol = protocol;
+  }
+
+  @Override
+  protected void channelRead0(ChannelHandlerContext channelHandlerContext, SkyllaPacket packet) {
+
+    SkyllaPacketContext packetContext = new SkyllaPacketContext(this);
+    protocol.handlePacket(packetContext, packet);
+  }
+
+  @Override
+  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+
+    /*
+     * Handle IO Exception on disconnect.
+     */
+    if (cause instanceof IOException) {
+      channel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
+      return;
     }
 
-    @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, SkyllaPacket packet) {
-
-        SkyllaPacketContext packetContext = new SkyllaPacketContext(this);
-        protocol.handlePacket(packetContext, packet);
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-
-		/*
-		 * Handle IO Exception on disconnect.
-		 */
-        if (cause instanceof IOException) {
-            channel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
-            return;
-        }
-
-		/*
-		 * Print stacktrace if it isnt an IO Exception
-		 */
-        cause.printStackTrace();
-    }
-
-    /**
-     * Send one or more packets to the server.
-     *
-     * @param packets The packets.
+    /*
+     * Print stacktrace if it isnt an IO Exception
      */
-    public void sendPackets(SkyllaPacket... packets) {
+    cause.printStackTrace();
+  }
 
-        if (packets.length == 1) {
-            channel.writeAndFlush(packets[0]);
-            return;
-        }
+  /**
+   * Send one or more packets to the server.
+   *
+   * @param packets The packets.
+   */
+  public void sendPackets(SkyllaPacket... packets) {
 
-        Arrays.stream(packets).forEach(channel::write);
-
-        channel.flush();
+    if (packets.length == 1) {
+      channel.writeAndFlush(packets[0]);
+      return;
     }
+
+    Arrays.stream(packets).forEach(channel::write);
+
+    channel.flush();
+  }
 }

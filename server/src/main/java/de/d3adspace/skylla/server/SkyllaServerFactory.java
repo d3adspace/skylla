@@ -28,18 +28,18 @@ import de.d3adspace.skylla.commons.config.SkyllaConfig;
  */
 public class SkyllaServerFactory {
 
-    /**
-     * Create a server from the given config.
-     *
-     * @param config The config.
-     * @return The server.
-     */
-    public static SkyllaServer createSkyllaServer(SkyllaConfig config) {
+  /**
+   * Create a server from the given config.
+   *
+   * @param config The config.
+   * @return The server.
+   */
+  public static SkyllaServer createSkyllaServer(SkyllaConfig config) {
 
-        if (config == null) {
-            throw new IllegalArgumentException("config cannot be null");
-        }
-
-        return new SimpleSkyllaServer(config);
+    if (config == null) {
+      throw new IllegalArgumentException("config cannot be null");
     }
+
+    return new SimpleSkyllaServer(config);
+  }
 }
