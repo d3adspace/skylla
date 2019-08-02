@@ -22,6 +22,7 @@
 package de.d3adspace.skylla.client;
 
 import de.d3adspace.skylla.commons.config.SkyllaConfig;
+import java.util.Objects;
 
 /**
  * Factory to create all known cool servers.
@@ -38,9 +39,7 @@ public class SkyllaClientFactory {
    */
   public static SkyllaClient createSkyllaClient(SkyllaConfig config) {
 
-    if (config == null) {
-      throw new IllegalArgumentException("config cannot be null");
-    }
+    Objects.requireNonNull(config, "Config cannot be null");
 
     return new SimpleSkyllaClient(config);
   }

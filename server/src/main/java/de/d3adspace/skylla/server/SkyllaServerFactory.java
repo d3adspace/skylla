@@ -22,6 +22,7 @@
 package de.d3adspace.skylla.server;
 
 import de.d3adspace.skylla.commons.config.SkyllaConfig;
+import java.util.Objects;
 
 /**
  * @author Nathalie O'Neill (nathalie@d3adspace.de)
@@ -36,9 +37,7 @@ public class SkyllaServerFactory {
    */
   public static SkyllaServer createSkyllaServer(SkyllaConfig config) {
 
-    if (config == null) {
-      throw new IllegalArgumentException("config cannot be null");
-    }
+    Objects.requireNonNull(config, "Config cannot be null.");
 
     return new SimpleSkyllaServer(config);
   }
