@@ -24,7 +24,7 @@ package de.d3adspace.skylla.commons.protocol.packet;
 import de.d3adspace.skylla.commons.buffer.SkyllaBuffer;
 
 /**
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 public interface SkyllaPacket {
 

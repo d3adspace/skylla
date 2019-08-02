@@ -26,7 +26,7 @@ import de.d3adspace.skylla.commons.protocol.Protocol;
 /**
  * Basic chat protocol of many many packets.
  *
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 public class ChatProtocol extends Protocol {
 

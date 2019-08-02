@@ -31,7 +31,7 @@ import de.d3adspace.skylla.server.SkyllaServer;
 import de.d3adspace.skylla.server.SkyllaServerFactory;
 
 /**
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 public class SkyllaSeverExample {
 

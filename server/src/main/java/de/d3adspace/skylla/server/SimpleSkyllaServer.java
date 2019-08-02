@@ -34,7 +34,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
+ * @author Felix Klauke (info@felix-klauke.de)
  */
 public class SimpleSkyllaServer implements SkyllaServer {
 

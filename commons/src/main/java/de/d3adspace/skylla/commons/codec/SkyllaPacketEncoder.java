@@ -31,7 +31,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 /**
  * Encoder for all Skyllapackets.
  *
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 public class SkyllaPacketEncoder extends MessageToByteEncoder<SkyllaPacket> {
 

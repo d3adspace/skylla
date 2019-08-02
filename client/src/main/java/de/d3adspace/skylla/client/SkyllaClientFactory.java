@@ -26,7 +26,7 @@ import de.d3adspace.skylla.commons.config.SkyllaConfig;
 /**
  * Factory to create all known cool servers.
  *
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 public class SkyllaClientFactory {
 

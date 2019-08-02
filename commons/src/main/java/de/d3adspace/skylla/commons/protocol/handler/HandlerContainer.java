@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * Container for Handlers.
  *
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 public class HandlerContainer {
 

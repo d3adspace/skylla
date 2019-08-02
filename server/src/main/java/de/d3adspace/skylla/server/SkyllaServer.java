@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 /**
  * Basic interface for all skylla servers.
  *
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 public interface SkyllaServer {
 

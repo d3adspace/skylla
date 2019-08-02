@@ -39,7 +39,7 @@ import java.util.Map;
 /**
  * Structuring network communication.
  *
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  * @author Felix Klauke <info@felix-klauke.de>
  */
 public class Protocol {

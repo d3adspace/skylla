@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
 /**
  * Indicates that the annotated class is the packet skylla should handle.
  *
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

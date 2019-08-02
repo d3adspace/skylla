@@ -34,7 +34,7 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
 
 /**
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  * @author Felix Klauke <info@felix-klauke.de>
  */
 public class SkyllaChannelInitializer extends ChannelInitializer<SocketChannel> {
