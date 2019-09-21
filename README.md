@@ -153,7 +153,7 @@ public class SkyllaSeverExample {
 		public void onPacketChat(SkyllaPacketContext packetContext, ChatPacket chatPacket) {
 			System.out.println("[Server] received: " + chatPacket);
 			
-			skyllaConnection.sendPackets(chatPacket);
+			packetContext.answer(chatPacket);
 		}
 	}
 }
