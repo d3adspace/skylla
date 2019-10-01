@@ -60,7 +60,7 @@
       <artifactId>constrictor-netty</artifactId>
       <groupId>de.d3adspace.constrictor</groupId>
       <scope>compile</scope>
-      <version>2.2</version>
+      <version>2.4.0</version>
     </dependency>
   </dependencies>
   <modelVersion>4.0.0</modelVersion>
