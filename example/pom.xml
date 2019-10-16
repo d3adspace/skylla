@@ -23,11 +23,24 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>skylla-parent</artifactId>
+    <groupId>de.d3adspace.skylla</groupId>
+    <version>2.0.0</version>
+  </parent>
+
   <artifactId>skylla-example</artifactId>
+  <version>2.0.0</version>
+
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.1</version>
         <configuration>
           <createDependencyReducedPom>false</createDependencyReducedPom>
         </configuration>
@@ -39,8 +52,6 @@
             <phase>package</phase>
           </execution>
         </executions>
-        <groupId>org.apache.maven.plugins</groupId>
-        <version>3.2.1</version>
       </plugin>
     </plugins>
   </build>
@@ -49,26 +60,17 @@
 
     <!-- Skylla Client -->
     <dependency>
-      <artifactId>skylla-client</artifactId>
       <groupId>de.d3adspace.skylla</groupId>
+      <artifactId>skylla-client</artifactId>
       <version>2.0.0</version>
     </dependency>
 
     <!-- Skylla Server -->
     <dependency>
-      <artifactId>skylla-server</artifactId>
       <groupId>de.d3adspace.skylla</groupId>
+      <artifactId>skylla-server</artifactId>
       <version>2.0.0</version>
     </dependency>
   </dependencies>
-  <modelVersion>4.0.0</modelVersion>
-
-  <parent>
-    <artifactId>skylla-parent</artifactId>
-    <groupId>de.d3adspace.skylla</groupId>
-    <version>2.0.0</version>
-  </parent>
-
-  <version>2.0.0</version>
 
 </project>
