@@ -4,24 +4,24 @@ import de.d3adspace.skylla.commons.connection.SkyllaConnection;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
 
 /**
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 public class SkyllaPacketContext {
 
-    private final SkyllaConnection connection;
+  private final SkyllaConnection connection;
 
-    public SkyllaPacketContext(SkyllaConnection connection) {
+  public SkyllaPacketContext(SkyllaConnection connection) {
 
-        this.connection = connection;
-    }
+    this.connection = connection;
+  }
 
-    /**
-     * Send a packet as an answer.
-     *
-     * @param skyllaPacket The packet.
-     */
-    public void answer(SkyllaPacket skyllaPacket) {
+  /**
+   * Send a packet as an answer.
+   *
+   * @param skyllaPacket The packet.
+   */
+  public void answer(SkyllaPacket skyllaPacket) {
 
-        connection.sendPackets(skyllaPacket);
-    }
+    connection.sendPackets(skyllaPacket);
+  }
 }

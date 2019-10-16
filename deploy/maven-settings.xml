@@ -1,20 +1,21 @@
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
-    <servers>
+<settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <servers>
 
-        <!-- Releases -->
-        <server>
-            <id>klauke-enterprises-maven-releases</id>
-            <username>${env.NEXUS_USERNAME}</username>
-            <password>${env.NEXUS_PASSWORD}</password>
-        </server>
+    <!-- Releases -->
+    <server>
+      <id>klauke-enterprises-maven-releases</id>
+      <password>${env.NEXUS_PASSWORD}</password>
+      <username>${env.NEXUS_USERNAME}</username>
+    </server>
 
-        <!-- Snapshot -->
-        <server>
-            <id>klauke-enterprises-maven-snapshots</id>
-            <username>${env.NEXUS_USERNAME}</username>
-            <password>${env.NEXUS_PASSWORD}</password>
-        </server>
+    <!-- Snapshot -->
+    <server>
+      <id>klauke-enterprises-maven-snapshots</id>
+      <password>${env.NEXUS_PASSWORD}</password>
+      <username>${env.NEXUS_USERNAME}</username>
+    </server>
 
-    </servers>
+  </servers>
 </settings>

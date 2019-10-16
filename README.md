@@ -2,6 +2,8 @@
 
 A simple network framework based on packet events. First taken as a PROC we decided to publish this and develop some more features in the future in order to provider a lightweight but powerful framework for little network applications that want to outsource their network handling parts. 
 
+Skylla uses [constrictor](https://github.com/d3adspace/constrictor) networking utils.
+
 # Installation / Usage
 
 - Install [Maven](http://maven.apache.org/download.cgi)
@@ -33,27 +35,27 @@ _Repositories_:
 _Client:_
 ```xml
 <dependency>
-    <groupId>de.d3adspace</groupId>
+    <groupId>de.d3adspace.skylla</groupId>
     <artifactId>skylla-client</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
 _Server:_
 ```xml
 <dependency>
-    <groupId>de.d3adspace</groupId>
+    <groupId>de.d3adspace.skylla</groupId>
     <artifactId>skylla-server</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
 _Commons:_
 ```xml
 <dependency>
-    <groupId>de.d3adspace</groupId>
+    <groupId>de.d3adspace.skylla</groupId>
     <artifactId>skylla-commons</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
@@ -151,7 +153,7 @@ public class SkyllaSeverExample {
 		public void onPacketChat(SkyllaPacketContext packetContext, ChatPacket chatPacket) {
 			System.out.println("[Server] received: " + chatPacket);
 			
-			skyllaConnection.sendPackets(chatPacket);
+			packetContext.answer(chatPacket);
 		}
 	}
 }

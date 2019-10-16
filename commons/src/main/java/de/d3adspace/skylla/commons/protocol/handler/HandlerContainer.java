@@ -21,10 +21,8 @@
 
 package de.d3adspace.skylla.commons.protocol.handler;
 
-import de.d3adspace.skylla.commons.connection.SkyllaConnection;
 import de.d3adspace.skylla.commons.protocol.context.SkyllaPacketContext;
 import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -35,63 +33,63 @@ import java.util.Map;
 /**
  * Container for Handlers.
  *
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 public class HandlerContainer {
 
-    /**
-     * Registery for all methods to handle.
-     */
-    private final Map<PacketHandler, List<Method>> registeredListeners;
+  /**
+   * Registery for all methods to handle.
+   */
+  private final Map<PacketHandler, List<Method>> registeredListeners;
 
-    /**
-     * Create a new container.
-     */
-    public HandlerContainer() {
+  /**
+   * Create a new container.
+   */
+  public HandlerContainer() {
 
-        this.registeredListeners = new HashMap<>();
+    this.registeredListeners = new HashMap<>();
+  }
+
+  /**
+   * register a new method of a given handler.
+   *
+   * @param packetHandler The handler.
+   * @param method The method.
+   */
+  public void registerListenerMethod(PacketHandler packetHandler, Method method) {
+
+    if (!registeredListeners.containsKey(packetHandler)) {
+      registeredListeners.put(packetHandler, new ArrayList<>());
     }
 
-    /**
-     * register a new method of a given handler.
-     *
-     * @param packetHandler The handler.
-     * @param method        The method.
-     */
-    public void registerListenerMethod(PacketHandler packetHandler, Method method) {
+    List<Method> methods = registeredListeners.get(packetHandler);
+    methods.add(method);
+  }
 
-        if (!registeredListeners.containsKey(packetHandler)) {
-            registeredListeners.put(packetHandler, new ArrayList<>());
-        }
+  /**
+   * Unregister all methods of a given handler.
+   *
+   * @param packetHandler The handler.
+   */
+  public void unregisterHandler(PacketHandler packetHandler) {
 
-        List<Method> methods = registeredListeners.get(packetHandler);
-        methods.add(method);
-    }
+    registeredListeners.remove(packetHandler);
+  }
 
-    /**
-     * Unregister all methods of a given handler.
-     *
-     * @param packetHandler The handler.
-     */
-    public void unregisterHandler(PacketHandler packetHandler) {
+  /**
+   * Handle an incoming packet.
+   *
+   * @param packetContext The packets context.
+   * @param packet The packet.
+   */
+  public void handlePacket(SkyllaPacketContext packetContext, SkyllaPacket packet) {
 
-        registeredListeners.remove(packetHandler);
-    }
-
-    /**
-     * Handle an incoming packet.
-     *
-     * @param packetContext The packets context.
-     * @param packet           The packet.
-     */
-    public void handlePacket(SkyllaPacketContext packetContext, SkyllaPacket packet) {
-
-        this.registeredListeners.forEach((handler, methods) -> methods.forEach(method -> {
-            try {
-                method.invoke(handler, packetContext, packet);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }));
-    }
+    this.registeredListeners.forEach((handler, methods) -> methods.forEach(method -> {
+      try {
+        method.invoke(handler, packetContext, packet);
+      } catch (IllegalAccessException | InvocationTargetException e) {
+        e.printStackTrace();
+      }
+    }));
+  }
 }

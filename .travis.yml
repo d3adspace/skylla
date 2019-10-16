@@ -7,7 +7,7 @@ language: java
 ### JDK ###
 ###########
 jdk:
-  - oraclejdk8
+  - oraclejdk11
 
 #####################
 ### Notifications ###
@@ -15,11 +15,21 @@ jdk:
 notifications:
   email: false
 
+#############
+### Sonar ###
+#############
+addons:
+  sonarcloud:
+    organization: "d3adspace"
+    token:
+      secure: U80HVUPXdK6JNFwES96KlLP/+wU0OU8RQRbwiyyHHf+lxpr6Q7mgcw/Dze1qqK00NVM8xXamTACRlrP5P8dXzUfTgkvJpJsaMYfmJPSthm2sYRahW3hdia9DCMithUOdQlAn8dNXNcHrAii3capthX400eYulPb32wjsscBeYloxuTppyyYgqGzhQMQoW9yjk+sfaMBGe+35H/aHJOIjzDctGrzJahuIRIRGjDCT4WD5urB21FxeGM79spEvGZupfrkz3lmGZYXRIHSft0Gup2s/cpbOgrv3GMTDknuUjWbe/CsYQ1mHu9XppCmgAR/qNFtAk2kYyyMAfaZPGH0IKxB9Jj6IgMRmZxAMP+iNWubA18pUWn2fI4dmHpji9T61T+Dk6BH6qN/T50VPSdD+kZl1LWAo20sXb1vn4hFMqpfxxBjfiZ9xjN08wABUaQiMmGNTkAC2+cYBalA1pQT4LoQvkV6dPVbGRAw0PjBVSE2+yx5k+O934yoxhwSi3aalQzAQjYuRdOcTKA//0wIfnXZj9vu/zmwocEhBCRO5R4bzTn/l4dwN8UfJtpTCKegohfpvxhNQTbCrBK7uRJN3GfGO/wZmi/aVMhUYkywSWKQmFBgDcqXsnC6zupW/1x4SEPwuXZybxCEzg2D3SQ4ljMP/2SS7+vgcOJGXnbGae90=
+
 ####################
 ### Build script ###
 ####################
 script:
-  - mvn clean test compile package install
+  - mvn clean install
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=d3adspace_skylla
 
 ##################
 ### Deployment ###
@@ -36,5 +46,5 @@ deploy:
 ###################
 env:
   global:
-  - secure: IPRPkO5S3/MUEWh1oeTyweSBLwizT1PwNBSDdZv2rFqXQu9xQyCv0PISRexs2AQ3C9NdHr27kTagNsBT69WdDYP/sfMrOEOmeYhHRa9annEciSke8hvNWPhlDluMVb6TGV1jT2zZ1qXVMF2Q1SgGe6b7fSThZbvZlxECbXhXZL0kCL85VpsGBDmyUdEO9FlpwdGaye5Ep/PdEzEVKXsNIkVxXJ66MYjDx9bHYuUQ5z8X3phRawNyLnUiK8yyw8itLMRtBuzocfwPYP50qXXwRijvsj7yZwL7HgsqoNmOJ4226geI6tNv/cAnH7fBqAtZRhBpPwlRy1+o/yCC9SGxSJI3OS+EP5y5trlZstivM4Cw/dEien4RGMhOQSDsmk19ToDdzHqOC8rowtr8T636SukG2mZVOoXdWwBc7l/W0r7/MJPq7JpNXlXDZVUEhLEvP0oG6lXdHf6cBvtDlqXrV7VHaCmE5xSxkzj0KfEITZH4wb4Wk2/bD7if+OWplYsFX3fSBI+erxYWvFksmDpIth7DSj2wkIQW+WOFo7PUWdD1r451cU94k7M0EB2KWVlWdW45SWolvfg/hk7an12Nkgaxg+WuP/JaammBuswso30gi/2Ic7ZI7/6EvrfZlgEle1ARTdOAID3uQlSSPhlZCZfdogcIhhpaCqkMpf0Saj4=
-  - secure: HS2Z9Zc7b9vYoMAy2l0t4RSGk03mNKkdF2RK697kGBf00jJ2TrnoWdnRt8OxHEqZDzcDXoO52VJGnXAXo2cFzFcCb5J4VZKL8V8/kXsEMstgUuW0AGeTlK4ebdw9tBg0gM2G/ZB2kk8q1doTgSWKh0ehAMF46Jeq1Fdwjwcn+G/x0nhoc/Ih051k1DFpBBvMkDL0kfR4Ni7Ox/pkozq664+1L/K2HzixmmDpgOpOd6v5UnFJaOkbDQ7zsdzXsAkgmQpuxvr5PuFf15lPF2ANx7KkEFFC8i2zPwqzdbzw8nvK8byZ34H89zNVP2SIj4Y6hXg35uW7KFf2sgEOEl+jpBX9Zy+ub+DreIS+S/VRMr5lcPSLKlFPQlD392SOEfjfe03ARUWweoTMtgzOnOS8lEOiBgOQN2eb/Idt8VVG5joynpmM9+6rSpPEWDYUFZNins/K49Fuw3AVAXuyRpsebyvZEQb1t6m4pYEfmbpaOznYot/h7AJj/1GDkE9hrVcNji96Gq98cwuq1KlMX713EXeA4t79l5bKVGTP2/K3G3XHR5T6JkLd+ctGKUBlUPieskDd55QD5WRfV3w3JUpnZipY6lWGxrNN9BqlcEYYApTo8pbsCrWBsWyREwiZpnfM70zT2JO6Tgun45+AEetFAk7SQ8zJkjDdLpOBTcKUmOM=
+    - secure: IPRPkO5S3/MUEWh1oeTyweSBLwizT1PwNBSDdZv2rFqXQu9xQyCv0PISRexs2AQ3C9NdHr27kTagNsBT69WdDYP/sfMrOEOmeYhHRa9annEciSke8hvNWPhlDluMVb6TGV1jT2zZ1qXVMF2Q1SgGe6b7fSThZbvZlxECbXhXZL0kCL85VpsGBDmyUdEO9FlpwdGaye5Ep/PdEzEVKXsNIkVxXJ66MYjDx9bHYuUQ5z8X3phRawNyLnUiK8yyw8itLMRtBuzocfwPYP50qXXwRijvsj7yZwL7HgsqoNmOJ4226geI6tNv/cAnH7fBqAtZRhBpPwlRy1+o/yCC9SGxSJI3OS+EP5y5trlZstivM4Cw/dEien4RGMhOQSDsmk19ToDdzHqOC8rowtr8T636SukG2mZVOoXdWwBc7l/W0r7/MJPq7JpNXlXDZVUEhLEvP0oG6lXdHf6cBvtDlqXrV7VHaCmE5xSxkzj0KfEITZH4wb4Wk2/bD7if+OWplYsFX3fSBI+erxYWvFksmDpIth7DSj2wkIQW+WOFo7PUWdD1r451cU94k7M0EB2KWVlWdW45SWolvfg/hk7an12Nkgaxg+WuP/JaammBuswso30gi/2Ic7ZI7/6EvrfZlgEle1ARTdOAID3uQlSSPhlZCZfdogcIhhpaCqkMpf0Saj4=
+    - secure: HS2Z9Zc7b9vYoMAy2l0t4RSGk03mNKkdF2RK697kGBf00jJ2TrnoWdnRt8OxHEqZDzcDXoO52VJGnXAXo2cFzFcCb5J4VZKL8V8/kXsEMstgUuW0AGeTlK4ebdw9tBg0gM2G/ZB2kk8q1doTgSWKh0ehAMF46Jeq1Fdwjwcn+G/x0nhoc/Ih051k1DFpBBvMkDL0kfR4Ni7Ox/pkozq664+1L/K2HzixmmDpgOpOd6v5UnFJaOkbDQ7zsdzXsAkgmQpuxvr5PuFf15lPF2ANx7KkEFFC8i2zPwqzdbzw8nvK8byZ34H89zNVP2SIj4Y6hXg35uW7KFf2sgEOEl+jpBX9Zy+ub+DreIS+S/VRMr5lcPSLKlFPQlD392SOEfjfe03ARUWweoTMtgzOnOS8lEOiBgOQN2eb/Idt8VVG5joynpmM9+6rSpPEWDYUFZNins/K49Fuw3AVAXuyRpsebyvZEQb1t6m4pYEfmbpaOznYot/h7AJj/1GDkE9hrVcNji96Gq98cwuq1KlMX713EXeA4t79l5bKVGTP2/K3G3XHR5T6JkLd+ctGKUBlUPieskDd55QD5WRfV3w3JUpnZipY6lWGxrNN9BqlcEYYApTo8pbsCrWBsWyREwiZpnfM70zT2JO6Tgun45+AEetFAk7SQ8zJkjDdLpOBTcKUmOM=

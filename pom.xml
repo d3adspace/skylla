@@ -21,48 +21,168 @@
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <groupId>de.d3adspace.skylla</groupId>
-    <artifactId>skylla-parent</artifactId>
-    <packaging>pom</packaging>
-    <version>2.0.0</version>
+  <modelVersion>4.0.0</modelVersion>
 
-    <modules>
-        <module>client</module>
-        <module>commons</module>
-        <module>server</module>
-        <module>example</module>
-    </modules>
+  <groupId>de.d3adspace.skylla</groupId>
+  <artifactId>skylla-parent</artifactId>
+  <version>2.0.0</version>
+  <packaging>pom</packaging>
 
-    <repositories>
-        <repository>
-            <id>klauke-enterprises-maven-releases</id>
-            <name>Klauke Enterprises Maven Releases</name>
-            <url>https://repository.klauke-enterprises.com/repository/maven-releases/</url>
-        </repository>
+  <modules>
+    <module>client</module>
+    <module>commons</module>
+    <module>server</module>
+    <module>example</module>
+  </modules>
 
-        <repository>
-            <id>klauke-enterprises-maven-snapshots</id>
-            <name>Klauke Enterprises Maven Snapshots</name>
-            <url>https://repository.klauke-enterprises.com/repository/maven-snapshots/</url>
-        </repository>
-    </repositories>
+  <properties>
+    <!-- General -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <distributionManagement>
-        <repository>
-            <id>klauke-enterprises-maven-releases</id>
-            <name>Klauke Enterprises Maven Releases</name>
-            <url>https://repository.klauke-enterprises.com/repository/maven-releases/</url>
-        </repository>
+    <!-- Sonar -->
+    <junit-jupiter.version>5.4.2</junit-jupiter.version>
+    <maven.plguin.surefire.version>2.22.2</maven.plguin.surefire.version>
+    <maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
 
-        <snapshotRepository>
-            <id>klauke-enterprises-maven-snapshots</id>
-            <name>Klauke Enterprises Maven Snapshots</name>
-            <url>https://repository.klauke-enterprises.com/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <!-- Maven -->
+    <maven.plugin.jacoco.version>0.8.4</maven.plugin.jacoco.version>
+    <maven.plugin.javadoc.version>3.1.0</maven.plugin.javadoc.version>
+    <maven.plugin.release.version>2.5.3</maven.plugin.release.version>
+    <maven.plugin.sonar.version>3.6.0.1398</maven.plugin.sonar.version>
+    <maven.plugin.source.version>3.1.0</maven.plugin.source.version>
+    <sonar.jacoco.reportPaths>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPaths>
+    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+
+    <!-- Dependencies -->
+    <sonar.language>java</sonar.language>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>klauke-enterprises-maven-releases</id>
+      <name>Klauke Enterprises Maven Releases</name>
+      <url>https://repository.klauke-enterprises.com/repository/maven-releases/</url>
+    </repository>
+
+    <repository>
+      <id>klauke-enterprises-maven-snapshots</id>
+      <name>Klauke Enterprises Maven Snapshots</name>
+      <url>https://repository.klauke-enterprises.com/repository/maven-snapshots/</url>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>klauke-enterprises-maven-releases</id>
+      <name>Klauke Enterprises Maven Releases</name>
+      <url>https://repository.klauke-enterprises.com/repository/maven-releases/</url>
+    </repository>
+
+    <snapshotRepository>
+      <id>klauke-enterprises-maven-snapshots</id>
+      <name>Klauke Enterprises Maven Snapshots</name>
+      <url>https://repository.klauke-enterprises.com/repository/maven-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <plugins>
+
+      <!-- Maven Surefire -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.plguin.surefire.version}</version>
+      </plugin>
+
+      <!-- Maven Compiler -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.plugin.compiler.version}</version>
+        <configuration>
+          <source>11</source>
+          <target>11</target>
+        </configuration>
+      </plugin>
+
+      <!-- Maven release plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>${maven.plugin.release.version}</version>
+      </plugin>
+
+      <!-- SonarQube -->
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>${maven.plugin.sonar.version}</version>
+      </plugin>
+
+      <!-- JaCocCo -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${maven.plugin.jacoco.version}</version>
+
+        <configuration>
+          <append>true</append>
+          <destFile>${sonar.jacoco.reportPaths}</destFile>
+        </configuration>
+        <executions>
+          <!-- Prepare Agent -->
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <id>jacoco-initialize</id>
+          </execution>
+
+          <!-- Create reports -->
+          <execution>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <id>jacoco-site</id>
+            <phase>package</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Maven Source plugin -->
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <id>attach-sources</id>
+          </execution>
+        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>${maven.plugin.source.version}</version>
+      </plugin>
+
+      <!-- Maven JavaDocs plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven.plugin.javadoc.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <id>attach-javadocs</id>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

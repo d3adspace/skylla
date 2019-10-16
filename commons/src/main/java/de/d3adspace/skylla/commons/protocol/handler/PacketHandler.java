@@ -22,7 +22,7 @@
 package de.d3adspace.skylla.commons.protocol.handler;
 
 /**
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 public interface PacketHandler {
 

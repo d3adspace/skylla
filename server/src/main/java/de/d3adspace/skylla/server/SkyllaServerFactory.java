@@ -22,24 +22,23 @@
 package de.d3adspace.skylla.server;
 
 import de.d3adspace.skylla.commons.config.SkyllaConfig;
+import java.util.Objects;
 
 /**
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 public class SkyllaServerFactory {
 
-    /**
-     * Create a server from the given config.
-     *
-     * @param config The config.
-     * @return The server.
-     */
-    public static SkyllaServer createSkyllaServer(SkyllaConfig config) {
+  /**
+   * Create a server from the given config.
+   *
+   * @param config The config.
+   * @return The server.
+   */
+  public static SkyllaServer createSkyllaServer(SkyllaConfig config) {
 
-        if (config == null) {
-            throw new IllegalArgumentException("config cannot be null");
-        }
+    Objects.requireNonNull(config, "Config cannot be null.");
 
-        return new SimpleSkyllaServer(config);
-    }
+    return new SimpleSkyllaServer(config);
+  }
 }

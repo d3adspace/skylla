@@ -26,24 +26,24 @@ import de.d3adspace.skylla.commons.protocol.packet.SkyllaPacket;
 /**
  * Basic Client interface
  *
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 public interface SkyllaClient {
 
-    /**
-     * Connect to the server.
-     */
-    void connect();
+  /**
+   * Connect to the server.
+   */
+  void connect();
 
-    /**
-     * Disconnect from the server.
-     */
-    void disconnect();
+  /**
+   * Disconnect from the server.
+   */
+  void disconnect();
 
-    /**
-     * Send a packet to the server.
-     *
-     * @param packet The packet.
-     */
-    void sendPacket(SkyllaPacket packet);
+  /**
+   * Send a packet to the server.
+   *
+   * @param packet The packet.
+   */
+  void sendPacket(SkyllaPacket packet);
 }

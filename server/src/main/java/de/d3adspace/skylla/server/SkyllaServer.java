@@ -26,31 +26,31 @@ import org.slf4j.Logger;
 /**
  * Basic interface for all skylla servers.
  *
- * @author Nathalie O'Neill <nathalie@d3adspace.de>
+ * @author Nathalie O'Neill (nathalie@d3adspace.de)
  */
 public interface SkyllaServer {
 
-    /**
-     * Start the server.
-     */
-    void start();
+  /**
+   * Start the server.
+   */
+  void start();
 
-    /**
-     * Stop the server.
-     */
-    void stop();
+  /**
+   * Stop the server.
+   */
+  void stop();
 
-    /**
-     * Check if the server is running
-     *
-     * @return Server state.
-     */
-    boolean isActive();
+  /**
+   * Check if the server is running
+   *
+   * @return Server state.
+   */
+  boolean isActive();
 
-    /**
-     * Get the Logger of the server.
-     *
-     * @return The logger.
-     */
-    Logger getLogger();
+  /**
+   * Get the Logger of the server.
+   *
+   * @return The logger.
+   */
+  Logger getLogger();
 }
