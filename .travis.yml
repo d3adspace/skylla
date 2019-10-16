@@ -15,11 +15,21 @@ jdk:
 notifications:
   email: false
 
+#############
+### Sonar ###
+#############
+addons:
+  sonarcloud:
+    organization: "d3adspace"
+    token:
+      secure: U80HVUPXdK6JNFwES96KlLP/+wU0OU8RQRbwiyyHHf+lxpr6Q7mgcw/Dze1qqK00NVM8xXamTACRlrP5P8dXzUfTgkvJpJsaMYfmJPSthm2sYRahW3hdia9DCMithUOdQlAn8dNXNcHrAii3capthX400eYulPb32wjsscBeYloxuTppyyYgqGzhQMQoW9yjk+sfaMBGe+35H/aHJOIjzDctGrzJahuIRIRGjDCT4WD5urB21FxeGM79spEvGZupfrkz3lmGZYXRIHSft0Gup2s/cpbOgrv3GMTDknuUjWbe/CsYQ1mHu9XppCmgAR/qNFtAk2kYyyMAfaZPGH0IKxB9Jj6IgMRmZxAMP+iNWubA18pUWn2fI4dmHpji9T61T+Dk6BH6qN/T50VPSdD+kZl1LWAo20sXb1vn4hFMqpfxxBjfiZ9xjN08wABUaQiMmGNTkAC2+cYBalA1pQT4LoQvkV6dPVbGRAw0PjBVSE2+yx5k+O934yoxhwSi3aalQzAQjYuRdOcTKA//0wIfnXZj9vu/zmwocEhBCRO5R4bzTn/l4dwN8UfJtpTCKegohfpvxhNQTbCrBK7uRJN3GfGO/wZmi/aVMhUYkywSWKQmFBgDcqXsnC6zupW/1x4SEPwuXZybxCEzg2D3SQ4ljMP/2SS7+vgcOJGXnbGae90=
+
 ####################
 ### Build script ###
 ####################
 script:
   - mvn clean install
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=d3adspace_skylla
 
 ##################
 ### Deployment ###
