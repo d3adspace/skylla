@@ -31,66 +31,120 @@ _Repositories_:
 
 # Example
 
-## Server
+## Server and Client instantiation
 
 ```java
 public class ServerExample {
-
   public static void main(String[] args) {
-
+    
+    // The shared protocol
     Protocol protocol = Protocol.newBuilder()
       .withPacket(ChatPacket.class)
       .build();
-
+    
+    
+    // Server
+    ExampleServerListener exampleServerListener = ExampleServerListener.create();
     SkyllaServer server = NettySkyllaServer.newBuilder()
-      .withHost("localhost")
-      .withPort(8080)
+      .withServerHost("localhost")
+      .withServerPort(8080)
       .withProtocol(protocol)
+      .withListener(exampleServerListener)
       .build();
 
     server.start();
+
+    // Client
+    ExampleClientListener exampleClientListener = ExampleClientListener.create();
+    SkyllaClient client = NettySkyllaClient.newBuilder()
+      .withServerHost("localhost")
+      .withServerPort(8080)
+      .withProtocol(protocol)
+      .withListener(exampleClientListener)
+      .build();
+
+    client.connect();
+      
+    ChatPacket chatPacket = ChatPacket.of("Client", "Hey Server!");
+    client.sendPacket(chatPacket);
+  }
+  
+  public static final class ExampleClientListener {
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  
+    private ExampleClientListener() {
+    }
+
+    private ExampleClientListener create() {
+      return new ExampleClientListener();
+    }   
+
+    @PacketListener
+    public void onChatPacket(PacketContext packetContext, ChatPacket chatPacket) {
+      logger.atInfo().log("%s: %s", chatPacket.getName(), chatPacket.getMessage());
+    }
   }
 
-  @PacketMeta(id = 1)
-  public static final class ChatPacket implements Packet {
-    private String name;
-    private String message;
-
-    public ChatPacket() {
+  public static final class ExampleServerListener {
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  
+    private ExampleServerListener() {
     }
 
-    private ChatPacket(String name, String message) {
-      this.name = name;
-      this.message = message;
-    }
+    private ExampleServerListener create() {
+      return new ExampleServerListener();
+    }   
 
-    public static ChatPacket of(String name, String message) {
-      Preconditions.checkNotNull(name);
-      Preconditions.checkNotNull(message);
-
-      return new ChatPacket(name, message);
-    }
-
-    @Override
-    public void read(SkyllaBuffer buffer) {
-      name = buffer.readString();
-      message = buffer.readString();
-    }
-
-    @Override
-    public void write(SkyllaBuffer buffer) {
-      buffer.writeString(name);
-      buffer.writeString(message);
-    }
-
-    public String getMessage() {
-      return message;
-    }
-
-    public String getName() {
-      return name;
+    @PacketListener
+    public void onChatPacket(PacketContext packetContext, ChatPacket chatPacket) {
+      ChatPacket answer = ChatPacket.of("Server", "Hey Client!");
+      packetContext.resume(answer);
     }
   }
 }
 ```
 
+## Packet definition
+
+```java
+@PacketMeta(id = 1)
+public final class ChatPacket implements Packet {
+  private String name;
+  private String message;
+
+  public ChatPacket() {
+  }
+
+  private ChatPacket(String name, String message) {
+    this.name = name;
+    this.message = message;
+  }
+
+  public static ChatPacket of(String name, String message) {
+    Preconditions.checkNotNull(name);
+    Preconditions.checkNotNull(message);
+
+    return new ChatPacket(name, message);
+  }
+
+  @Override
+  public void read(SkyllaBuffer buffer) {
+    name = buffer.readString();
+    message = buffer.readString();
+  }
+
+  @Override
+  public void write(SkyllaBuffer buffer) {
+    buffer.writeString(name);
+    buffer.writeString(message);
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public String getName() {
+    return name;
+  }
+}
+```
