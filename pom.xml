@@ -31,6 +31,7 @@
   <version>4.0.0</version>
   <modules>
     <module>protocol</module>
+    <module>server</module>
   </modules>
   <packaging>pom</packaging>
 

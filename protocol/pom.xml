@@ -20,15 +20,21 @@
       <version>2.4.0</version>
       <scope>compile</scope>
     </dependency>
+
+    <!-- Flogger -->
     <dependency>
       <groupId>com.google.flogger</groupId>
       <artifactId>flogger</artifactId>
       <version>0.4</version>
+      <scope>compile</scope>
     </dependency>
+
+    <!-- Flogger backend -->
     <dependency>
       <groupId>com.google.flogger</groupId>
       <artifactId>flogger-system-backend</artifactId>
       <version>0.4</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 
