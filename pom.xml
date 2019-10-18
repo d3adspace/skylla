@@ -112,7 +112,7 @@
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
-        <version>${maven.plugin.sonar.version}</version>
+        <version>3.6.1.1688</version>
       </plugin>
 
       <!-- JaCocCo -->
