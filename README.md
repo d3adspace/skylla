@@ -19,14 +19,33 @@ Skylla uses [constrictor](https://github.com/d3adspace/constrictor) networking u
 _Repositories_:
 ```xml
 <repositories>
-
-    <!-- Klauke Enterprises Releases -->
-    <repository>
-        <id>klauke-enterprises-maven-releases</id>
-        <name>Klauke Enterprises Maven Releases</name>
-        <url>https://repository.klauke-enterprises.com/repository/maven-releases/</url>
-    </repository>
+  <!-- Klauke Enterprises Releases -->
+  <repository>
+    <id>klauke-enterprises-maven-releases</id>
+    <name>Klauke Enterprises Maven Releases</name>
+    <url>https://repository.klauke-enterprises.com/repository/maven-releases/</url>
+  </repository>
 </repositories>
+```
+
+_Dependencies_:
+
+```xml
+<dependency>
+  <groupId>de.d3adspace.skylla</groupId>
+  <artifactId>skylla-client</artifactId>
+  <version>4.0.0</version>
+  <scope>compile</scope>
+</dependency>
+```
+
+```xml
+<dependency>
+  <groupId>de.d3adspace.skylla</groupId>
+  <artifactId>skylla-server</artifactId>
+  <version>4.0.0</version>
+  <scope>compile</scope>
+</dependency>
 ```
 
 # Example
