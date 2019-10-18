@@ -28,6 +28,10 @@ public final class Protocol {
     return new Builder(Lists.newArrayList());
   }
 
+  public static Protocol empty() {
+    return newBuilder().build();
+  }
+
   PacketContainer decodePacket(SkyllaBuffer buffer) throws InvalidPacketException {
     Preconditions.checkNotNull(buffer);
     return packetContainerFactory.decode(buffer);

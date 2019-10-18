@@ -31,3 +31,66 @@ _Repositories_:
 
 # Example
 
+## Server
+
+```java
+public class ServerExample {
+
+  public static void main(String[] args) {
+
+    Protocol protocol = Protocol.newBuilder()
+      .withPacket(ChatPacket.class)
+      .build();
+
+    SkyllaServer server = NettySkyllaServer.newBuilder()
+      .withHost("localhost")
+      .withPort(8080)
+      .withProtocol(protocol)
+      .build();
+
+    server.start();
+  }
+
+  @PacketMeta(id = 1)
+  public static final class ChatPacket implements Packet {
+    private String name;
+    private String message;
+
+    public ChatPacket() {
+    }
+
+    private ChatPacket(String name, String message) {
+      this.name = name;
+      this.message = message;
+    }
+
+    public static ChatPacket of(String name, String message) {
+      Preconditions.checkNotNull(name);
+      Preconditions.checkNotNull(message);
+
+      return new ChatPacket(name, message);
+    }
+
+    @Override
+    public void read(SkyllaBuffer buffer) {
+      name = buffer.readString();
+      message = buffer.readString();
+    }
+
+    @Override
+    public void write(SkyllaBuffer buffer) {
+      buffer.writeString(name);
+      buffer.writeString(message);
+    }
+
+    public String getMessage() {
+      return message;
+    }
+
+    public String getName() {
+      return name;
+    }
+  }
+}
+```
+

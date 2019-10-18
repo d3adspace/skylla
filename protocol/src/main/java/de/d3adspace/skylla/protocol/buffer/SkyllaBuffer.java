@@ -3,6 +3,7 @@ package de.d3adspace.skylla.protocol.buffer;
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ByteProcessor;
 import java.io.IOException;
@@ -996,5 +997,19 @@ public final class SkyllaBuffer extends ByteBuf {
   @Override
   public boolean release(int i) {
     return byteBuf.release(i);
+  }
+
+  public String readString() {
+    int stringLength = byteBuf.readInt();
+    byte[] bytes = new byte[stringLength];
+    byteBuf.readBytes(bytes);
+    return new String(bytes);
+  }
+
+  public void writeString(String string) {
+    Preconditions.checkNotNull(string);
+    byte[] bytes = string.getBytes();
+    byteBuf.writeInt(bytes.length);
+    byteBuf.writeBytes(bytes);
   }
 }
