@@ -27,9 +27,17 @@ addons:
 ####################
 ### Build script ###
 ####################
-script:
-  - mvn clean install
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=d3adspace_skylla
+jobs:
+  include:
+    - stage: "Check Style"
+      name: "Check Style"
+      script: mvn checkstyle:check
+    - stage: "Analysis"
+      name: "SonarQube"
+      script: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=d3adspace_skylla
+    - stage: "Build"
+      name: "Build"
+      script: mvn clean install
 
 ##################
 ### Deployment ###
