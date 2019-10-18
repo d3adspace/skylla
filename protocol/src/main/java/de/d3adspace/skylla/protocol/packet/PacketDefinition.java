@@ -13,7 +13,15 @@ public final class PacketDefinition {
     this.id = id;
   }
 
-  public static PacketDefinition fromClass(Class<? extends Packet> packetClass) throws InvalidPacketException {
+  /**
+   * Generate a packet definition from its packet class.
+   *
+   * @param packetClass The packet class.
+   * @return The packet definition.
+   * @throws InvalidPacketException If the given class is not a valid packet definition.
+   */
+  public static PacketDefinition fromClass(Class<? extends Packet> packetClass)
+      throws InvalidPacketException {
     Preconditions.checkNotNull(packetClass);
 
     boolean annotationPresent = packetClass.isAnnotationPresent(PacketMeta.class);

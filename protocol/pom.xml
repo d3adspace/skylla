@@ -11,6 +11,8 @@
 
   <artifactId>skylla-protocol</artifactId>
 
+  <name>Skylla Protocol</name>
+
   <dependencies>
 
     <!-- Constrictor Netty -->

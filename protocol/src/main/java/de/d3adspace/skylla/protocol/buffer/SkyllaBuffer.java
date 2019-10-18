@@ -5,7 +5,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ByteProcessor;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,6 +23,12 @@ public final class SkyllaBuffer extends ByteBuf {
     this.byteBuf = byteBuf;
   }
 
+  /**
+   * Wrap the given netty byte buf into a skylla buffer.
+   *
+   * @param byteBuf The byte buf.
+   * @return The skylla buffer instance.
+   */
   public static SkyllaBuffer withBuffer(ByteBuf byteBuf) {
     Preconditions.checkNotNull(byteBuf);
 
@@ -463,7 +468,8 @@ public final class SkyllaBuffer extends ByteBuf {
   }
 
   @Override
-  public int setBytes(int i, ScatteringByteChannel scatteringByteChannel, int i1) throws IOException {
+  public int setBytes(int i, ScatteringByteChannel scatteringByteChannel, int i1)
+      throws IOException {
     return byteBuf.setBytes(i, scatteringByteChannel, i1);
   }
 
@@ -593,11 +599,6 @@ public final class SkyllaBuffer extends ByteBuf {
   }
 
   @Override
-  public ByteBuf readBytes(int i) {
-    return byteBuf.readBytes(i);
-  }
-
-  @Override
   public ByteBuf readSlice(int i) {
     return byteBuf.readSlice(i);
   }
@@ -605,6 +606,11 @@ public final class SkyllaBuffer extends ByteBuf {
   @Override
   public ByteBuf readRetainedSlice(int i) {
     return byteBuf.readRetainedSlice(i);
+  }
+
+  @Override
+  public ByteBuf readBytes(int i) {
+    return byteBuf.readBytes(i);
   }
 
   @Override
@@ -648,13 +654,13 @@ public final class SkyllaBuffer extends ByteBuf {
   }
 
   @Override
-  public CharSequence readCharSequence(int i, Charset charset) {
-    return byteBuf.readCharSequence(i, charset);
+  public int readBytes(FileChannel fileChannel, long l, int i) throws IOException {
+    return byteBuf.readBytes(fileChannel, l, i);
   }
 
   @Override
-  public int readBytes(FileChannel fileChannel, long l, int i) throws IOException {
-    return byteBuf.readBytes(fileChannel, l, i);
+  public CharSequence readCharSequence(int i, Charset charset) {
+    return byteBuf.readCharSequence(i, charset);
   }
 
   @Override
@@ -843,23 +849,23 @@ public final class SkyllaBuffer extends ByteBuf {
   }
 
   @Override
-  public ByteBuf slice() {
-    return byteBuf.slice();
-  }
-
-  @Override
   public ByteBuf retainedSlice() {
     return byteBuf.retainedSlice();
   }
 
   @Override
-  public ByteBuf slice(int i, int i1) {
-    return byteBuf.slice(i, i1);
+  public ByteBuf retainedSlice(int i, int i1) {
+    return byteBuf.retainedSlice(i, i1);
   }
 
   @Override
-  public ByteBuf retainedSlice(int i, int i1) {
-    return byteBuf.retainedSlice(i, i1);
+  public ByteBuf slice() {
+    return byteBuf.slice();
+  }
+
+  @Override
+  public ByteBuf slice(int i, int i1) {
+    return byteBuf.slice(i, i1);
   }
 
   @Override
@@ -928,6 +934,11 @@ public final class SkyllaBuffer extends ByteBuf {
   }
 
   @Override
+  public String toString() {
+    return byteBuf.toString();
+  }
+
+  @Override
   public String toString(Charset charset) {
     return byteBuf.toString(charset);
   }
@@ -950,11 +961,6 @@ public final class SkyllaBuffer extends ByteBuf {
   @Override
   public int compareTo(ByteBuf byteBuf) {
     return this.byteBuf.compareTo(byteBuf);
-  }
-
-  @Override
-  public String toString() {
-    return byteBuf.toString();
   }
 
   @Override

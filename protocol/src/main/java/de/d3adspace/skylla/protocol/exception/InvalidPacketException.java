@@ -12,12 +12,25 @@ public final class InvalidPacketException extends ProtocolException {
     super(message, cause);
   }
 
+  /**
+   * Create an exception instance with the given message.
+   *
+   * @param message The message.
+   * @return The exception.
+   */
   public static InvalidPacketException withMessage(String message) {
     Preconditions.checkNotNull(message);
 
     return new InvalidPacketException(message);
   }
 
+  /**
+   * Create an exception instance with the given message that is caused by the given cause.
+   *
+   * @param message The message.
+   * @param cause The cause.
+   * @return The exception.
+   */
   public static InvalidPacketException withMessageAndCause(String message, Throwable cause) {
     Preconditions.checkNotNull(message);
     Preconditions.checkNotNull(cause);

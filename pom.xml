@@ -35,26 +35,11 @@
   </modules>
   <packaging>pom</packaging>
 
+  <name>Skylla Parent</name>
+
   <properties>
-    <!-- General -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <!-- Sonar -->
-    <junit-jupiter.version>5.4.2</junit-jupiter.version>
-    <maven.plguin.surefire.version>2.22.2</maven.plguin.surefire.version>
-    <maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
-
-    <!-- Maven -->
-    <maven.plugin.jacoco.version>0.8.4</maven.plugin.jacoco.version>
-    <maven.plugin.javadoc.version>3.1.0</maven.plugin.javadoc.version>
-    <maven.plugin.release.version>2.5.3</maven.plugin.release.version>
-    <maven.plugin.sonar.version>3.6.0.1398</maven.plugin.sonar.version>
-    <maven.plugin.source.version>3.1.0</maven.plugin.source.version>
     <sonar.jacoco.reportPaths>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPaths>
-    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-
-    <!-- Dependencies -->
-    <sonar.language>java</sonar.language>
   </properties>
 
   <repositories>

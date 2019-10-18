@@ -1,7 +1,6 @@
 package de.d3adspace.skylla.protocol.packet;
 
 import de.d3adspace.skylla.protocol.buffer.SkyllaBuffer;
-import io.netty.buffer.ByteBuf;
 
 public final class PacketContainer {
   private final PacketDefinition definition;
@@ -16,8 +15,13 @@ public final class PacketContainer {
     return definition.id();
   }
 
-  public SkyllaBuffer encode(ByteBuf byteBuf) {
-    SkyllaBuffer buffer = SkyllaBuffer.withBuffer(byteBuf);
+  /**
+   * Encode the packet into the given buffer.
+   *
+   * @param buffer The skylla buffer.
+   * @return The skylla buffer.
+   */
+  SkyllaBuffer encode(SkyllaBuffer buffer) {
     int id = definition.id();
 
     buffer.writeInt(id);
@@ -26,7 +30,7 @@ public final class PacketContainer {
     return buffer;
   }
 
-  public void decode(SkyllaBuffer buffer) {
+  void decode(SkyllaBuffer buffer) {
     packet.read(buffer);
   }
 }
