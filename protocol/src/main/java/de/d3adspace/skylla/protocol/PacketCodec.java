@@ -1,7 +1,6 @@
-package de.d3adspace.skylla.protocol.codec;
+package de.d3adspace.skylla.protocol;
 
 import com.google.common.base.Preconditions;
-import de.d3adspace.skylla.protocol.Protocol;
 import de.d3adspace.skylla.protocol.buffer.SkyllaBuffer;
 import de.d3adspace.skylla.protocol.packet.PacketContainer;
 import io.netty.buffer.ByteBuf;
@@ -10,7 +9,7 @@ import io.netty.handler.codec.ByteToMessageCodec;
 
 import java.util.List;
 
-public class PacketCodec extends ByteToMessageCodec<PacketContainer> {
+public final class PacketCodec extends ByteToMessageCodec<PacketContainer> {
 
   private final Protocol protocol;
 

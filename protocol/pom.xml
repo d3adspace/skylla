@@ -12,11 +12,23 @@
   <artifactId>skylla-protocol</artifactId>
 
   <dependencies>
+
+    <!-- Constrictor Netty -->
     <dependency>
       <groupId>de.d3adspace.constrictor</groupId>
       <artifactId>constrictor-netty</artifactId>
       <version>2.4.0</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.flogger</groupId>
+      <artifactId>flogger</artifactId>
+      <version>0.4</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.flogger</groupId>
+      <artifactId>flogger-system-backend</artifactId>
+      <version>0.4</version>
     </dependency>
   </dependencies>
 

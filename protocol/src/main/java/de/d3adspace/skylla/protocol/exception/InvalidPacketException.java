@@ -2,7 +2,7 @@ package de.d3adspace.skylla.protocol.exception;
 
 import com.google.common.base.Preconditions;
 
-public class InvalidPacketException extends ProtocolException {
+public final class InvalidPacketException extends ProtocolException {
 
   private InvalidPacketException(String message) {
     super(message);

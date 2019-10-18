@@ -11,8 +11,14 @@ public final class PacketContainerFactory {
 
   private final PacketDefinitionRegistry definitionRegistry;
 
-  PacketContainerFactory(PacketDefinitionRegistry definitionRegistry) {
+  private PacketContainerFactory(PacketDefinitionRegistry definitionRegistry) {
     this.definitionRegistry = definitionRegistry;
+  }
+
+  public static PacketContainerFactory withDefinitionRegistry(PacketDefinitionRegistry packetDefinitionRegistry) {
+    Preconditions.checkNotNull(packetDefinitionRegistry);
+
+    return new PacketContainerFactory(packetDefinitionRegistry);
   }
 
   public PacketContainer decode(SkyllaBuffer buffer) throws InvalidPacketException {

@@ -16,7 +16,7 @@ import java.nio.channels.GatheringByteChannel;
 import java.nio.channels.ScatteringByteChannel;
 import java.nio.charset.Charset;
 
-public class SkyllaBuffer extends ByteBuf {
+public final class SkyllaBuffer extends ByteBuf {
 
   private final ByteBuf byteBuf;
 
