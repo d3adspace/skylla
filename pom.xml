@@ -147,7 +147,9 @@
 
       <!-- Maven Source plugin -->
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <goals>
@@ -156,15 +158,13 @@
             <id>attach-sources</id>
           </execution>
         </executions>
-        <groupId>org.apache.maven.plugins</groupId>
-        <version>${maven.plugin.source.version}</version>
       </plugin>
 
       <!-- Maven JavaDocs plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven.plugin.javadoc.version}</version>
+        <version>3.1.1</version>
         <executions>
           <execution>
             <goals>
