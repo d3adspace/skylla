@@ -1,8 +1,13 @@
 package de.d3adspace.skylla.server;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import de.d3adspace.constrictor.netty.NettyUtils;
+import de.d3adspace.skylla.commons.listener.CompositePacketListenerContainer;
+import de.d3adspace.skylla.commons.listener.PacketListenerContainer;
+import de.d3adspace.skylla.commons.listener.PacketListenerContainerFactory;
+import de.d3adspace.skylla.commons.netty.NettyPacketInboundHandler;
 import de.d3adspace.skylla.protocol.PacketCodec;
 import de.d3adspace.skylla.protocol.Protocol;
 import io.netty.bootstrap.ServerBootstrap;
@@ -15,23 +20,29 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.socket.ServerSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public final class NettySkyllaServer implements SkyllaServer {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private final PacketListenerContainer packetListenerContainer;
   private final String host;
   private final int port;
   private final Protocol protocol;
 
   private Channel channel;
 
-  private NettySkyllaServer(String host, int port, Protocol protocol) {
+  private NettySkyllaServer(
+    PacketListenerContainer packetListenerContainer,
+    String host, int port, Protocol protocol) {
+    this.packetListenerContainer = packetListenerContainer;
     this.host = host;
     this.port = port;
     this.protocol = protocol;
   }
 
   public static Builder newBuilder() {
-    return new Builder("localhost", 8080, Protocol.empty());
+    return new Builder("localhost", 8080, Protocol.empty(), Lists.newArrayList());
   }
 
   @Override
@@ -40,7 +51,7 @@ public final class NettySkyllaServer implements SkyllaServer {
     EventLoopGroup workerGroup = NettyUtils.createWorkerGroup();
 
     ChannelInitializer<ServerSocketChannel> channelInitializer = ServerChannelInitializer
-      .forProtocol(protocol);
+      .forProtocol(protocol, packetListenerContainer);
 
     Class<? extends ServerSocketChannel> serverSocketChannel = NettyUtils.getServerSocketChannel();
     ServerBootstrap serverBootstrap = new ServerBootstrap()
@@ -83,14 +94,18 @@ public final class NettySkyllaServer implements SkyllaServer {
    */
   private static class ServerChannelInitializer extends ChannelInitializer<ServerSocketChannel> {
     private final Protocol protocol;
+    private final PacketListenerContainer packetListenerContainer;
 
-    private ServerChannelInitializer(Protocol protocol) {
+    private ServerChannelInitializer(Protocol protocol,
+      PacketListenerContainer packetListenerContainer) {
       this.protocol = protocol;
+      this.packetListenerContainer = packetListenerContainer;
     }
 
-    private static ChannelInitializer<ServerSocketChannel> forProtocol(Protocol protocol) {
+    private static ChannelInitializer<ServerSocketChannel> forProtocol(Protocol protocol, PacketListenerContainer packetListenerContainer) {
       Preconditions.checkNotNull(protocol);
-      return new ServerChannelInitializer(protocol);
+      Preconditions.checkNotNull(packetListenerContainer);
+      return new ServerChannelInitializer(protocol, packetListenerContainer);
     }
 
     @Override
@@ -102,28 +117,35 @@ public final class NettySkyllaServer implements SkyllaServer {
       pipeline.addLast(new LengthFieldBasedFrameDecoder(32768, 4, 4));
       pipeline.addLast(packetCodec);
       pipeline.addLast(new LengthFieldPrepender(4));
+
+      NettyPacketInboundHandler inboundHandler = NettyPacketInboundHandler
+        .withListenerContainer(packetListenerContainer);
+      pipeline.addLast(inboundHandler);
     }
   }
 
   public static class Builder {
-    private String host;
-    private int port;
+    private String serverHost;
+    private int serverPort;
     private Protocol protocol;
+    private final List<Object> packetListenerInstances;
 
-    private Builder(String host, int port, Protocol protocol) {
-      this.host = host;
-      this.port = port;
+    private Builder(String serverHost, int serverPort, Protocol protocol,
+      List<Object> packetListenerInstances) {
+      this.serverHost = serverHost;
+      this.serverPort = serverPort;
       this.protocol = protocol;
+      this.packetListenerInstances = packetListenerInstances;
     }
 
-    public Builder withHost(String host) {
-      Preconditions.checkNotNull(host);
-      this.host = host;
+    public Builder withServerHost(String serverHost) {
+      Preconditions.checkNotNull(serverHost);
+      this.serverHost = serverHost;
       return this;
     }
 
-    public Builder withPort(int port) {
-      this.port = port;
+    public Builder withServerPort(int serverPort) {
+      this.serverPort = serverPort;
       return this;
     }
 
@@ -133,8 +155,20 @@ public final class NettySkyllaServer implements SkyllaServer {
       return this;
     }
 
+    public Builder withListener(Object listenerInstance) {
+      packetListenerInstances.add(listenerInstance);
+      return this;
+    }
+
     public NettySkyllaServer build() {
-      return new NettySkyllaServer(host, port, protocol);
+      PacketListenerContainerFactory packetListenerContainerFactory = PacketListenerContainerFactory
+        .create();
+      List<PacketListenerContainer> packetListenerContainers = packetListenerInstances.stream()
+        .map(packetListenerContainerFactory::fromListenerInstance).collect(
+          Collectors.toList());
+
+      PacketListenerContainer packetListenerContainer = CompositePacketListenerContainer.withListeners(packetListenerContainers);
+      return new NettySkyllaServer(packetListenerContainer, serverHost, serverPort, protocol);
     }
   }
 }
