@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public final class PacketListenerContainerFactory {
+
   private PacketListenerContainerFactory() {
   }
 
@@ -18,7 +19,16 @@ public final class PacketListenerContainerFactory {
     return new PacketListenerContainerFactory();
   }
 
-  public ReflectionPacketListenerContainer fromListenerInstance(Object listenerInstance) {
+  /**
+   * Create container by the instance of an object that contains listener methods. This will scan
+   * all methods for the {@link PacketListener} annotation with the signature of:
+   *
+   * <code>void onPacket({@link PacketContext}, {@link Packet})</code>
+   *
+   * @param listenerInstance The listener instance.
+   * @return The container able of receiving events.
+   */
+  public PacketListenerContainer fromListenerInstance(Object listenerInstance) {
     Preconditions.checkNotNull(listenerInstance);
 
     Class<?> instanceClass = listenerInstance.getClass();
@@ -41,13 +51,14 @@ public final class PacketListenerContainerFactory {
       Class<?> firstParameterType = parameterTypes[0];
       Class<?> secondParameterType = parameterTypes[1];
       if (!PacketContext.class.isAssignableFrom(firstParameterType) || !Packet.class
-        .isAssignableFrom(secondParameterType)) {
+          .isAssignableFrom(secondParameterType)) {
         return;
       }
 
       // Add packet listener method
       Class<? extends Packet> packetClass = (Class<? extends Packet>) secondParameterType;
-      List<Method> methods = listenerMethods.computeIfAbsent(packetClass, k -> Lists.newArrayList());
+      List<Method> methods = listenerMethods.computeIfAbsent(packetClass, k ->
+          Lists.newArrayList());
 
       methods.add(method);
     });

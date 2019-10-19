@@ -14,7 +14,8 @@ public final class CompositePacketListenerContainer implements PacketListenerCon
     this.packetListenerContainers = packetListenerContainers;
   }
 
-  public static CompositePacketListenerContainer withListeners(List<PacketListenerContainer> packetListenerContainers) {
+  public static CompositePacketListenerContainer withListeners(
+      List<PacketListenerContainer> packetListenerContainers) {
     Preconditions.checkNotNull(packetListenerContainers);
     return new CompositePacketListenerContainer(packetListenerContainers);
   }
@@ -23,11 +24,17 @@ public final class CompositePacketListenerContainer implements PacketListenerCon
     return new CompositePacketListenerContainer(Lists.newArrayList());
   }
 
+  /**
+   * Call the event of a received packet.
+   *
+   * @param packetContext The packet context.
+   * @param packet The packet.
+   */
   public void callEvent(PacketContext packetContext, Packet packet) {
     Preconditions.checkNotNull(packetContext);
     Preconditions.checkNotNull(packet);
 
     packetListenerContainers.forEach(packetListenerContainer ->
-      packetListenerContainer.callEvent(packetContext, packet));
+        packetListenerContainer.callEvent(packetContext, packet));
   }
 }

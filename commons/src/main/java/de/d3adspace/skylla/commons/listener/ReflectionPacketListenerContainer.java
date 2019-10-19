@@ -15,7 +15,7 @@ public final class ReflectionPacketListenerContainer implements PacketListenerCo
   private final Map<Class<? extends Packet>, List<Method>> listenerMethods;
 
   ReflectionPacketListenerContainer(Object listenerHandle,
-    Map<Class<? extends Packet>, List<Method>> listenerMethods) {
+      Map<Class<? extends Packet>, List<Method>> listenerMethods) {
     this.listenerHandle = listenerHandle;
     this.listenerMethods = listenerMethods;
   }

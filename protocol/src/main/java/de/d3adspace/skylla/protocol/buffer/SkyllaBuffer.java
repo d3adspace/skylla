@@ -999,6 +999,12 @@ public final class SkyllaBuffer extends ByteBuf {
     return byteBuf.release(i);
   }
 
+  /**
+   * Read a string from the buffer. This will first read the strings length and
+   * will then read the right amount of bytes.
+   *
+   * @return The string.
+   */
   public String readString() {
     int stringLength = byteBuf.readInt();
     byte[] bytes = new byte[stringLength];
@@ -1006,6 +1012,12 @@ public final class SkyllaBuffer extends ByteBuf {
     return new String(bytes);
   }
 
+  /**
+   * Write a string to the buffer. This will first write the strings length and
+   * will then write all bytes of the string.
+   *
+   * @param string The string.
+   */
   public void writeString(String string) {
     Preconditions.checkNotNull(string);
     byte[] bytes = string.getBytes();
