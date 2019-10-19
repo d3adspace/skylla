@@ -28,49 +28,29 @@
 
   <groupId>de.d3adspace.skylla</groupId>
   <artifactId>skylla-parent</artifactId>
-  <version>2.0.0</version>
-  <packaging>pom</packaging>
-
+  <version>4.0.0</version>
   <modules>
+    <module>protocol</module>
+    <module>server</module>
     <module>client</module>
     <module>commons</module>
-    <module>server</module>
-    <module>example</module>
   </modules>
+  <packaging>pom</packaging>
+
+  <name>Skylla Parent</name>
 
   <properties>
-    <!-- General -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <!-- Sonar -->
-    <junit-jupiter.version>5.4.2</junit-jupiter.version>
-    <maven.plguin.surefire.version>2.22.2</maven.plguin.surefire.version>
-    <maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
-
-    <!-- Maven -->
-    <maven.plugin.jacoco.version>0.8.4</maven.plugin.jacoco.version>
-    <maven.plugin.javadoc.version>3.1.0</maven.plugin.javadoc.version>
-    <maven.plugin.release.version>2.5.3</maven.plugin.release.version>
-    <maven.plugin.sonar.version>3.6.0.1398</maven.plugin.sonar.version>
-    <maven.plugin.source.version>3.1.0</maven.plugin.source.version>
     <sonar.jacoco.reportPaths>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPaths>
-    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-
-    <!-- Dependencies -->
-    <sonar.language>java</sonar.language>
   </properties>
 
   <repositories>
+
+    <!-- Klauke Enterprises Maven Releases -->
     <repository>
       <id>klauke-enterprises-maven-releases</id>
       <name>Klauke Enterprises Maven Releases</name>
       <url>https://repository.klauke-enterprises.com/repository/maven-releases/</url>
-    </repository>
-
-    <repository>
-      <id>klauke-enterprises-maven-snapshots</id>
-      <name>Klauke Enterprises Maven Snapshots</name>
-      <url>https://repository.klauke-enterprises.com/repository/maven-snapshots/</url>
     </repository>
   </repositories>
 
@@ -95,14 +75,14 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven.plguin.surefire.version}</version>
+        <version>3.0.0-M3</version>
       </plugin>
 
       <!-- Maven Compiler -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven.plugin.compiler.version}</version>
+        <version>3.8.1</version>
         <configuration>
           <source>11</source>
           <target>11</target>
@@ -113,21 +93,43 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>${maven.plugin.release.version}</version>
+        <version>2.5.3</version>
       </plugin>
 
       <!-- SonarQube -->
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
-        <version>${maven.plugin.sonar.version}</version>
+        <version>3.6.1.1688</version>
+      </plugin>
+
+      <!-- Maven Checkstyle Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <configLocation>google_checks.xml</configLocation>
+          <logViolationsToConsole>true</logViolationsToConsole>
+          <failOnViolation>true</failOnViolation>
+          <failsOnError>true</failsOnError>
+          <violationSeverity>warning</violationSeverity>
+          <linkXRef>false</linkXRef>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- JaCocCo -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${maven.plugin.jacoco.version}</version>
+        <version>0.8.3</version>
 
         <configuration>
           <append>true</append>
@@ -155,7 +157,9 @@
 
       <!-- Maven Source plugin -->
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <goals>
@@ -164,15 +168,13 @@
             <id>attach-sources</id>
           </execution>
         </executions>
-        <groupId>org.apache.maven.plugins</groupId>
-        <version>${maven.plugin.source.version}</version>
       </plugin>
 
       <!-- Maven JavaDocs plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven.plugin.javadoc.version}</version>
+        <version>3.1.1</version>
         <executions>
           <execution>
             <goals>

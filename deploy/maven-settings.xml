@@ -10,7 +10,7 @@
       <username>${env.NEXUS_USERNAME}</username>
     </server>
 
-    <!-- Snapshot -->
+    <!-- Snapshots -->
     <server>
       <id>klauke-enterprises-maven-snapshots</id>
       <password>${env.NEXUS_PASSWORD}</password>

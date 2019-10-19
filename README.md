@@ -6,187 +6,164 @@ Skylla uses [constrictor](https://github.com/d3adspace/constrictor) networking u
 
 # Installation / Usage
 
+## Build from Source
+
 - Install [Maven](http://maven.apache.org/download.cgi)
 - Clone this repo
 - Instal: ```mvn clean install```
+
+## Maven Repository
 
 **Maven dependencies**
 
 _Repositories_:
 ```xml
 <repositories>
-
-    <!-- Klauke Enterprises Releases -->
-    <repository>
-        <id>klauke-enterprises-maven-releases</id>
-        <name>Klauke Enterprises Maven Releases</name>
-        <url>https://repository.klauke-enterprises.com/repository/maven-releases/</url>
-    </repository>
-	
-    <!-- Klauke Enterprises Snapshots -->
-    <repository>
-        <id>klauke-enterprises-maven-snapshots</id>
-        <name>Klauke Enterprises Maven Snapshots</name>
-        <url>https://repository.klauke-enterprises.com/repository/maven-snapshots/</url>
-    </repository>
+  <!-- Klauke Enterprises Releases -->
+  <repository>
+    <id>klauke-enterprises-maven-releases</id>
+    <name>Klauke Enterprises Maven Releases</name>
+    <url>https://repository.klauke-enterprises.com/repository/maven-releases/</url>
+  </repository>
 </repositories>
 ```
 
-_Client:_
+_Dependencies_:
+
 ```xml
 <dependency>
-    <groupId>de.d3adspace.skylla</groupId>
-    <artifactId>skylla-client</artifactId>
-    <version>2.0.0</version>
+  <groupId>de.d3adspace.skylla</groupId>
+  <artifactId>skylla-client</artifactId>
+  <version>4.0.0</version>
+  <scope>compile</scope>
 </dependency>
 ```
 
-_Server:_
 ```xml
 <dependency>
-    <groupId>de.d3adspace.skylla</groupId>
-    <artifactId>skylla-server</artifactId>
-    <version>2.0.0</version>
-</dependency>
-```
-
-_Commons:_
-```xml
-<dependency>
-    <groupId>de.d3adspace.skylla</groupId>
-    <artifactId>skylla-commons</artifactId>
-    <version>2.0.0</version>
+  <groupId>de.d3adspace.skylla</groupId>
+  <artifactId>skylla-server</artifactId>
+  <version>4.0.0</version>
+  <scope>compile</scope>
 </dependency>
 ```
 
 # Example
 
+## Server and Client instantiation
+
 ```java
-/**
- * @author Nathalie0hneHerz
- */
-@SkyllaPacketMeta(id = 0)
-public class ChatPacket implements SkyllaPacket {
+public class ServerExample {
+  public static void main(String[] args) {
+    
+    // The shared protocol
+    Protocol protocol = Protocol.newBuilder()
+      .withPacket(ChatPacket.class)
+      .build();
+    
+    
+    // Server
+    ExampleServerListener exampleServerListener = ExampleServerListener.create();
+    SkyllaServer server = NettySkyllaServer.newBuilder()
+      .withServerHost("localhost")
+      .withServerPort(8080)
+      .withProtocol(protocol)
+      .withListener(exampleServerListener)
+      .build();
 
-	private String sender;
-	private String message;
-	
-	public ChatPacket(String sender, String message) {
-		this.sender = sender;
-		this.message = message;
-	}
-	
-	public ChatPacket() {
-	}
-	
-	@Override
-	public void write(SkyllaBuffer buffer) {
-		buffer.writeString(sender);
-		buffer.writeString(message);
-	}
-	
-	@Override
-	public void read(SkyllaBuffer buffer) {
-		sender = buffer.readString();
-		message = buffer.readString();
-	}
-	
-	public String getMessage() {
-		return message;
-	}
-	
-	public String getSender() {
-		return sender;
-	}
-	
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	
-	public void setSender(String sender) {
-		this.sender = sender;
-	}
-	
-	@Override
-	public String toString() {
-		return "ChatPacket{" +
-			"sender='" + sender + '\'' +
-			", message='" + message + '\'' +
-			'}';
-	}
-}
+    server.start();
 
-/**
- * @author Nathalie0hneHerz
- */
-public class ChatProtocol extends Protocol {
-	
-	public ChatProtocol() {
-		
-		this.registerPacket(ChatPacket.class);
-	}
-}
+    // Client
+    ExampleClientListener exampleClientListener = ExampleClientListener.create();
+    SkyllaClient client = NettySkyllaClient.newBuilder()
+      .withServerHost("localhost")
+      .withServerPort(8080)
+      .withProtocol(protocol)
+      .withListener(exampleClientListener)
+      .build();
 
-/**
- * @author Nathalie0hneHerz
- */
-public class SkyllaSeverExample {
-	
-	public static void main(String[] args) {
-		Protocol protocol = new Protocol();
-		protocol.registerPacket(ChatPacket.class);
-		protocol.registerListener(new ServerPacketHandlerExample());
-		
-		SkyllaConfig config = SkyllaConfig.newBuilder()
-			.setServerHost("localhost")
-			.setServerPort(1337)
-			.setProtocol(protocol)
-			.createSkyllaConfig();
-		
-		SkyllaServer skyllaServer = SkyllaServerFactory.createSkyllaServer(config);
-		skyllaServer.start();
-	}
-	
-	public static class ServerPacketHandlerExample implements PacketHandler {
-		
-		@PacketHandlerMethod
-		public void onPacketChat(SkyllaPacketContext packetContext, ChatPacket chatPacket) {
-			System.out.println("[Server] received: " + chatPacket);
-			
-			packetContext.answer(chatPacket);
-		}
-	}
-}
+    client.connect();
+      
+    ChatPacket chatPacket = ChatPacket.of("Client", "Hey Server!");
+    client.sendPacket(chatPacket);
+  }
+  
+  public static final class ExampleClientListener {
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  
+    private ExampleClientListener() {
+    }
 
-/**
- * @author Nathalie0hneHerz
- */
-public class SkyllyClientExample {
-	
-	public static void main(String[] args) {
-		Protocol protocol = new Protocol();
-		protocol.registerPacket(ChatPacket.class);
-		protocol.registerListener(new ClientPacketHandlerExample());
-		
-		SkyllaConfig config = SkyllaConfig.newBuilder()
-			.setServerHost("localhost")
-			.setServerPort(1337)
-			.setProtocol(protocol)
-			.createSkyllaConfig();
-		
-		SkyllaClient skyllaClient = SkyllaClientFactory.createSkyllaClient(config);
-		skyllaClient.connect();
-		
-		skyllaClient.sendPacket(new ChatPacket("[Sender #1]", "Hallo Welt!"));
-	}
-	
-	public static class ClientPacketHandlerExample implements PacketHandler {
-		
-		@PacketHandlerMethod
-		public void onPacketChat(SkyllaPacketContext packetContext, ChatPacket chatPacket) {
-			System.out.println("[Client] received: " + chatPacket);
-		}
-	}
+    private ExampleClientListener create() {
+      return new ExampleClientListener();
+    }   
+
+    @PacketListener
+    public void onChatPacket(PacketContext packetContext, ChatPacket chatPacket) {
+      logger.atInfo().log("%s: %s", chatPacket.getName(), chatPacket.getMessage());
+    }
+  }
+
+  public static final class ExampleServerListener {
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  
+    private ExampleServerListener() {
+    }
+
+    private ExampleServerListener create() {
+      return new ExampleServerListener();
+    }   
+
+    @PacketListener
+    public void onChatPacket(PacketContext packetContext, ChatPacket chatPacket) {
+      ChatPacket answer = ChatPacket.of("Server", "Hey Client!");
+      packetContext.resume(answer);
+    }
+  }
 }
 ```
 
+## Packet definition
+
+```java
+@PacketMeta(id = 1)
+public final class ChatPacket implements Packet {
+  private String name;
+  private String message;
+
+  public ChatPacket() {
+  }
+
+  private ChatPacket(String name, String message) {
+    this.name = name;
+    this.message = message;
+  }
+
+  public static ChatPacket of(String name, String message) {
+    Preconditions.checkNotNull(name);
+    Preconditions.checkNotNull(message);
+
+    return new ChatPacket(name, message);
+  }
+
+  @Override
+  public void read(SkyllaBuffer buffer) {
+    name = buffer.readString();
+    message = buffer.readString();
+  }
+
+  @Override
+  public void write(SkyllaBuffer buffer) {
+    buffer.writeString(name);
+    buffer.writeString(message);
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public String getName() {
+    return name;
+  }
+}
+```

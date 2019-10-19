@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>skylla-parent</artifactId>
     <groupId>de.d3adspace.skylla</groupId>
@@ -9,13 +9,33 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>skylla-commons</artifactId>
+  <artifactId>skylla-protocol</artifactId>
+
+  <name>Skylla Protocol</name>
 
   <dependencies>
+
+    <!-- Constrictor Netty -->
     <dependency>
-      <groupId>de.d3adspace.skylla</groupId>
-      <artifactId>skylla-protocol</artifactId>
-      <version>4.0.0</version>
+      <groupId>de.d3adspace.constrictor</groupId>
+      <artifactId>constrictor-netty</artifactId>
+      <version>2.4.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Flogger -->
+    <dependency>
+      <groupId>com.google.flogger</groupId>
+      <artifactId>flogger</artifactId>
+      <version>0.4</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Flogger backend -->
+    <dependency>
+      <groupId>com.google.flogger</groupId>
+      <artifactId>flogger-system-backend</artifactId>
+      <version>0.4</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
@@ -42,4 +62,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>
