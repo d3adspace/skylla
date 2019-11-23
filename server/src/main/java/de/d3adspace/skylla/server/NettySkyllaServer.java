@@ -12,11 +12,8 @@ import de.d3adspace.skylla.protocol.PacketCodec;
 import de.d3adspace.skylla.protocol.Protocol;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
 import io.netty.channel.socket.ServerSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
@@ -35,7 +32,10 @@ public final class NettySkyllaServer implements SkyllaServer {
 
   private NettySkyllaServer(
       PacketListenerContainer packetListenerContainer,
-      String host, int port, Protocol protocol) {
+      String host,
+      int port,
+      Protocol protocol
+  ) {
     this.packetListenerContainer = packetListenerContainer;
     this.host = host;
     this.port = port;
@@ -48,19 +48,19 @@ public final class NettySkyllaServer implements SkyllaServer {
 
   @Override
   public void start() {
-    EventLoopGroup bossGroup = NettyUtils.createBossGroup();
-    EventLoopGroup workerGroup = NettyUtils.createWorkerGroup();
+    var bossGroup = NettyUtils.createBossGroup();
+    var workerGroup = NettyUtils.createWorkerGroup();
 
-    ChannelInitializer<ServerSocketChannel> channelInitializer = ServerChannelInitializer
+    var channelInitializer = ServerChannelInitializer
         .forProtocol(protocol, packetListenerContainer);
 
-    Class<? extends ServerSocketChannel> serverSocketChannel = NettyUtils.getServerSocketChannel();
-    ServerBootstrap serverBootstrap = new ServerBootstrap()
+    var serverSocketChannel = NettyUtils.getServerSocketChannel();
+    var serverBootstrap = new ServerBootstrap()
         .group(bossGroup, workerGroup)
         .channel(serverSocketChannel)
         .childHandler(channelInitializer);
 
-    ChannelFuture channelFuture = serverBootstrap.bind(host, port).syncUninterruptibly();
+    var channelFuture = serverBootstrap.bind(host, port).syncUninterruptibly();
     channelFuture.addListener((ChannelFutureListener) future -> {
       boolean success = future.isSuccess();
       if (success) {
@@ -98,14 +98,18 @@ public final class NettySkyllaServer implements SkyllaServer {
     private final Protocol protocol;
     private final PacketListenerContainer packetListenerContainer;
 
-    private ServerChannelInitializer(Protocol protocol,
-        PacketListenerContainer packetListenerContainer) {
+    private ServerChannelInitializer(
+        Protocol protocol,
+        PacketListenerContainer packetListenerContainer
+    ) {
       this.protocol = protocol;
       this.packetListenerContainer = packetListenerContainer;
     }
 
-    private static ChannelInitializer<ServerSocketChannel> forProtocol(Protocol protocol,
-        PacketListenerContainer packetListenerContainer) {
+    private static ChannelInitializer<ServerSocketChannel> forProtocol(
+        Protocol protocol,
+        PacketListenerContainer packetListenerContainer
+    ) {
       Preconditions.checkNotNull(protocol);
       Preconditions.checkNotNull(packetListenerContainer);
       return new ServerChannelInitializer(protocol, packetListenerContainer);
@@ -113,16 +117,15 @@ public final class NettySkyllaServer implements SkyllaServer {
 
     @Override
     protected void initChannel(ServerSocketChannel serverSocketChannel) throws Exception {
-      ChannelPipeline pipeline = serverSocketChannel.pipeline();
+      var pipeline = serverSocketChannel.pipeline();
 
-      PacketCodec packetCodec = PacketCodec.forProtocol(protocol);
+      var packetCodec = PacketCodec.forProtocol(protocol);
 
       pipeline.addLast(new LengthFieldBasedFrameDecoder(32768, 4, 4));
       pipeline.addLast(packetCodec);
       pipeline.addLast(new LengthFieldPrepender(4));
 
-      NettyPacketInboundHandler inboundHandler = NettyPacketInboundHandler
-          .withListenerContainer(packetListenerContainer);
+      var inboundHandler = NettyPacketInboundHandler.withListenerContainer(packetListenerContainer);
       pipeline.addLast(inboundHandler);
     }
   }
@@ -189,19 +192,18 @@ public final class NettySkyllaServer implements SkyllaServer {
     }
 
     /**
-     * Build the server instance. This will first scan the given listener instances for
-     * appropriate listener methods.
+     * Build the server instance. This will first scan the given listener instances for appropriate
+     * listener methods.
      *
      * @return The server instance.
      */
     public NettySkyllaServer build() {
-      PacketListenerContainerFactory packetListenerContainerFactory = PacketListenerContainerFactory
-          .create();
-      List<PacketListenerContainer> packetListenerContainers = packetListenerInstances.stream()
+      var packetListenerContainerFactory = PacketListenerContainerFactory.create();
+      var packetListenerContainers = packetListenerInstances.stream()
           .map(packetListenerContainerFactory::fromListenerInstance).collect(
               Collectors.toList());
 
-      PacketListenerContainer packetListenerContainer = CompositePacketListenerContainer
+      var packetListenerContainer = CompositePacketListenerContainer
           .withListeners(packetListenerContainers);
       return new NettySkyllaServer(packetListenerContainer, serverHost, serverPort, protocol);
     }

@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import de.d3adspace.skylla.protocol.buffer.SkyllaBuffer;
 import de.d3adspace.skylla.protocol.exception.InvalidPacketException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Optional;
 
 public final class PacketContainerFactory {
 
@@ -21,9 +20,9 @@ public final class PacketContainerFactory {
    * @return The container factory.
    */
   public static PacketContainerFactory withDefinitionRegistry(
-      PacketDefinitionRegistry packetDefinitionRegistry) {
+      PacketDefinitionRegistry packetDefinitionRegistry
+  ) {
     Preconditions.checkNotNull(packetDefinitionRegistry);
-
     return new PacketContainerFactory(packetDefinitionRegistry);
   }
 
@@ -38,8 +37,8 @@ public final class PacketContainerFactory {
   public PacketContainer decode(SkyllaBuffer buffer) throws InvalidPacketException {
     Preconditions.checkNotNull(buffer);
 
-    int packetId = buffer.readInt();
-    PacketContainer packetContainer = createPacketContainer(packetId);
+    var packetId = buffer.readInt();
+    var packetContainer = createPacketContainer(packetId);
 
     packetContainer.decode(buffer);
 
@@ -47,10 +46,10 @@ public final class PacketContainerFactory {
   }
 
   private PacketContainer createPacketContainer(int id) throws InvalidPacketException {
-    Optional<PacketDefinition> packetDefinitionOptional = definitionRegistry.findByPacketId(id);
-    PacketDefinition packetDefinition = packetDefinitionOptional.orElseThrow();
+    var packetDefinitionOptional = definitionRegistry.findByPacketId(id);
+    var packetDefinition = packetDefinitionOptional.orElseThrow();
 
-    Class<? extends Packet> packetClass = packetDefinition.packetClass();
+    var packetClass = packetDefinition.packetClass();
 
     Packet packet;
 
@@ -69,10 +68,10 @@ public final class PacketContainerFactory {
   private PacketContainer createPacketContainer(Packet packet) {
     Preconditions.checkNotNull(packet);
 
-    Class<? extends Packet> packetClass = packet.getClass();
-    Optional<PacketDefinition> packetDefinitionOptional =
+    var packetClass = packet.getClass();
+    var packetDefinitionOptional =
         definitionRegistry.findByPacketClass(packetClass);
-    PacketDefinition packetDefinition = packetDefinitionOptional.orElseThrow();
+    var packetDefinition = packetDefinitionOptional.orElseThrow();
 
     return new PacketContainer(packetDefinition, packet);
   }
@@ -88,7 +87,7 @@ public final class PacketContainerFactory {
     Preconditions.checkNotNull(packet);
     Preconditions.checkNotNull(buffer);
 
-    PacketContainer packetContainer = createPacketContainer(packet);
+    var packetContainer = createPacketContainer(packet);
     packetContainer.encode(buffer);
     return packetContainer;
   }

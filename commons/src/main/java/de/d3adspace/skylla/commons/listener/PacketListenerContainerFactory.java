@@ -31,8 +31,8 @@ public final class PacketListenerContainerFactory {
   public PacketListenerContainer fromListenerInstance(Object listenerInstance) {
     Preconditions.checkNotNull(listenerInstance);
 
-    Class<?> instanceClass = listenerInstance.getClass();
-    Method[] declaredMethods = instanceClass.getDeclaredMethods();
+    var instanceClass = listenerInstance.getClass();
+    var declaredMethods = instanceClass.getDeclaredMethods();
 
     Map<Class<? extends Packet>, List<Method>> listenerMethods = Maps.newConcurrentMap();
 

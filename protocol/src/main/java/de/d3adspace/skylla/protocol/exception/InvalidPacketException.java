@@ -28,7 +28,7 @@ public final class InvalidPacketException extends ProtocolException {
    * Create an exception instance with the given message that is caused by the given cause.
    *
    * @param message The message.
-   * @param cause The cause.
+   * @param cause   The cause.
    * @return The exception.
    */
   public static InvalidPacketException withMessageAndCause(String message, Throwable cause) {

@@ -6,6 +6,7 @@ import de.d3adspace.skylla.protocol.packet.Packet;
 import io.netty.channel.Channel;
 
 public final class NettyPacketContext implements PacketContext {
+
   private final Channel channel;
 
   private NettyPacketContext(Channel channel) {

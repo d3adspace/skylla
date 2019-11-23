@@ -3,6 +3,7 @@ package de.d3adspace.skylla.protocol.packet;
 import de.d3adspace.skylla.protocol.buffer.SkyllaBuffer;
 
 public final class PacketContainer {
+
   private final PacketDefinition definition;
   private final Packet packet;
 
@@ -22,7 +23,7 @@ public final class PacketContainer {
    * @return The skylla buffer.
    */
   SkyllaBuffer encode(SkyllaBuffer buffer) {
-    int id = definition.id();
+    var id = definition.id();
 
     buffer.writeInt(id);
     packet.write(buffer);
