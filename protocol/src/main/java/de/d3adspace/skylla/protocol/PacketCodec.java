@@ -23,17 +23,20 @@ public final class PacketCodec extends ByteToMessageCodec<Packet> {
   }
 
   @Override
-  protected void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf)
-      throws Exception {
-
+  protected void encode(
+      ChannelHandlerContext channelHandlerContext,
+      Packet packet, ByteBuf byteBuf
+  ) throws Exception {
     SkyllaBuffer buffer = SkyllaBuffer.withBuffer(byteBuf);
     protocol.encodePacket(packet, buffer);
   }
 
   @Override
   protected void decode(
-      ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list)
-      throws Exception {
+      ChannelHandlerContext channelHandlerContext,
+      ByteBuf byteBuf,
+      List<Object> list
+  ) throws Exception {
     SkyllaBuffer buffer = SkyllaBuffer.withBuffer(byteBuf);
     PacketContainer packetContainer = protocol.decodePacket(buffer);
     list.add(packetContainer);

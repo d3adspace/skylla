@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public final class ReflectionPacketListenerContainer implements PacketListenerContainer {
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private final Object listenerHandle;
   private final Map<Class<? extends Packet>, List<Method>> listenerMethods;
@@ -37,8 +38,8 @@ public final class ReflectionPacketListenerContainer implements PacketListenerCo
         method.invoke(listenerHandle, packetContext, packet);
       } catch (IllegalAccessException | InvocationTargetException e) {
         logger.atSevere()
-          .withCause(e)
-          .log("Couldn't call callback method");
+            .withCause(e)
+            .log("Couldn't call callback method");
       }
     });
   }

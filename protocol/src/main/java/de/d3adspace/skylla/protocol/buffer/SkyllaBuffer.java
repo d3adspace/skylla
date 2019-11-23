@@ -3,7 +3,6 @@ package de.d3adspace.skylla.protocol.buffer;
 import com.google.common.base.Preconditions;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ByteProcessor;
 import java.io.IOException;
@@ -1000,8 +999,8 @@ public final class SkyllaBuffer extends ByteBuf {
   }
 
   /**
-   * Read a string from the buffer. This will first read the strings length and
-   * will then read the right amount of bytes.
+   * Read a string from the buffer. This will first read the strings length and will then read the
+   * right amount of bytes.
    *
    * @return The string.
    */
@@ -1013,8 +1012,8 @@ public final class SkyllaBuffer extends ByteBuf {
   }
 
   /**
-   * Write a string to the buffer. This will first write the strings length and
-   * will then write all bytes of the string.
+   * Write a string to the buffer. This will first write the strings length and will then write all
+   * bytes of the string.
    *
    * @param string The string.
    */

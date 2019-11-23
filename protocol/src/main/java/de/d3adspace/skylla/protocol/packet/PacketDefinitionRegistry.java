@@ -12,7 +12,9 @@ public final class PacketDefinitionRegistry {
   private final Map<Class<? extends Packet>, PacketDefinition> packetDefinitions;
 
   private PacketDefinitionRegistry(
-      Map<Class<? extends Packet>, PacketDefinition> packetDefinitions) {
+      Map<Class<? extends Packet>,
+          PacketDefinition> packetDefinitions
+  ) {
     this.packetDefinitions = packetDefinitions;
   }
 

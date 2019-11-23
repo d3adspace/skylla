@@ -7,6 +7,7 @@ import de.d3adspace.skylla.protocol.packet.Packet;
 import java.util.List;
 
 public final class CompositePacketListenerContainer implements PacketListenerContainer {
+
   private final List<PacketListenerContainer> packetListenerContainers;
 
   private CompositePacketListenerContainer(List<PacketListenerContainer> packetListenerContainers) {
@@ -15,7 +16,8 @@ public final class CompositePacketListenerContainer implements PacketListenerCon
   }
 
   public static CompositePacketListenerContainer withListeners(
-      List<PacketListenerContainer> packetListenerContainers) {
+      List<PacketListenerContainer> packetListenerContainers
+  ) {
     Preconditions.checkNotNull(packetListenerContainers);
     return new CompositePacketListenerContainer(packetListenerContainers);
   }
@@ -28,7 +30,7 @@ public final class CompositePacketListenerContainer implements PacketListenerCon
    * Call the event of a received packet.
    *
    * @param packetContext The packet context.
-   * @param packet The packet.
+   * @param packet        The packet.
    */
   public void callEvent(PacketContext packetContext, Packet packet) {
     Preconditions.checkNotNull(packetContext);

@@ -10,9 +10,7 @@ import de.d3adspace.skylla.protocol.packet.PacketContainer;
 import de.d3adspace.skylla.protocol.packet.PacketContainerFactory;
 import de.d3adspace.skylla.protocol.packet.PacketDefinition;
 import de.d3adspace.skylla.protocol.packet.PacketDefinitionRegistry;
-import io.netty.buffer.ByteBuf;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public final class Protocol {
@@ -44,6 +42,7 @@ public final class Protocol {
   }
 
   public static class Builder {
+
     private final List<Class<? extends Packet>> packetClasses;
 
     private Builder(List<Class<? extends Packet>> packetClasses) {
@@ -68,25 +67,26 @@ public final class Protocol {
      * @return The protocol instance.
      */
     public Protocol build() {
-      Set<PacketDefinition> packetDefinitions =
+      var packetDefinitions =
           packetClasses.stream()
-              .map(
-                  packetClass -> {
-                    try {
-                      return PacketDefinition.fromClass(packetClass);
-                    } catch (InvalidPacketException e) {
-                      logger.atWarning().withCause(e).log(
-                          "Invalid packet {0}. Ignoring packet", packetClass);
-                      return null;
-                    }
-                  })
+              .map(this::definePacket)
               .collect(Collectors.toSet());
 
-      PacketDefinitionRegistry packetDefinitionRegistry =
-          PacketDefinitionRegistry.withDefinitions(packetDefinitions);
-      PacketContainerFactory packetContainerFactory =
-          PacketContainerFactory.withDefinitionRegistry(packetDefinitionRegistry);
+      var packetDefinitionRegistry = PacketDefinitionRegistry.withDefinitions(packetDefinitions);
+      var packetContainerFactory = PacketContainerFactory
+          .withDefinitionRegistry(packetDefinitionRegistry);
       return new Protocol(packetContainerFactory);
+    }
+
+    private PacketDefinition definePacket(Class<? extends Packet> packetClass) {
+      try {
+        return PacketDefinition.fromClass(packetClass);
+      } catch (InvalidPacketException e) {
+        logger.atWarning()
+            .withCause(e)
+            .log("Invalid packet {0}. Ignoring packet", packetClass);
+        return null;
+      }
     }
   }
 }
