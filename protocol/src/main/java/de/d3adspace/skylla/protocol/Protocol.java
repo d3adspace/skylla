@@ -62,7 +62,7 @@ public final class Protocol {
     }
 
     /**
-     * Construct he protocol instance.
+     * Construct the protocol instance.
      *
      * @return The protocol instance.
      */
