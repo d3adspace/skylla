@@ -27,7 +27,7 @@
     <dependency>
       <groupId>com.google.flogger</groupId>
       <artifactId>flogger</artifactId>
-      <version>0.5.1</version>
+      <version>0.6</version>
       <scope>compile</scope>
     </dependency>
 
